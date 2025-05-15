@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Planos - RSisTec</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #002855, #003f88);
+      color: white;
+    }
+
+    header {
+      text-align: center;
+      padding: 40px 20px 20px;
+    }
+
+    header h1 {
+      font-size: 2.5em;
+      margin: 0;
+    }
+
+    header p {
+      font-size: 1.2em;
+      margin-top: 10px;
+    }
+
+    .logo {
+      font-size: 2em;
+      font-weight: bold;
+      color: white;
+      background: red;
+      display: inline-block;
+      padding: 10px 20px;
+      border-radius: 40px;
+      margin-top: 20px;
+    }
+
+    .plans-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      padding: 40px 20px;
+    }
+
+    .plan {
+      background-color: #ffffff10;
+      border: 2px solid #ffffff20;
+      border-radius: 15px;
+      width: 280px;
+      padding: 25px;
+      text-align: center;
+      backdrop-filter: blur(8px);
+    }
+
+    .plan h2 {
+      color: #00bfff;
+    }
+
+    .price {
+      font-size: 24px;
+      color: #00ff88;
+      margin: 15px 0;
+    }
+
+    .features {
+      list-style: none;
+      padding: 0;
+      text-align: left;
+      line-height: 1.8;
+    }
+
+    .features li::before {
+      content: "✅ ";
+    }
+
+    .button {
+      background-color: #00bfff;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 25px;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 20px;
+      font-weight: bold;
+      transition: background 0.3s;
+    }
+
+    .button:hover {
+      background-color: #0099cc;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+      background-color: #001f3f;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">RSisTec 🌍</div>
+  <h1>Conheça nossos planos</h1>
+  <p>Soluções inteligentes com chatbots que vendem, atendem e encantam</p>
+</header>
+
+<section class="plans-container">
+  <div class="plan">
+    <h2>Plano Iniciante</h2>
+    <p class="price">R$ 49,90/mês</p>
+    <ul class="features">
+      <li>1 atendente</li>
+      <li>2.000 mensagens/mês</li>
+      <li>Respostas automáticas</li>
+      <li>Suporte por e-mail</li>
+    </ul>
+    <a href="#" class="button">Assinar</a>
+  </div>
+
+  <div class="plan">
+    <h2>Plano Profissional</h2>
+    <p class="price">R$ 99,90/mês</p>
+    <ul class="features">
+      <li>3 atendentes</li>
+      <li>8.000 mensagens/mês</li>
+      <li>Fila de atendimento</li>
+      <li>Suporte via WhatsApp</li>
+    </ul>
+    <a href="#" class="button">Assinar</a>
+  </div>
+
+  <div class="plan">
+    <h2>Plano Empresarial</h2>
+    <p class="price">R$ 199,90/mês</p>
+    <ul class="features">
+      <li>Atendentes ilimitados</li>
+      <li>Mensagens ilimitadas</li>
+      <li>Integração com CRM</li>
+      <li>Suporte prioritário</li>
+    </ul>
+    <a href="#" class="button">Assinar</a>
+  </div>
+</section>
+
+<footer>
+  &copy; 2025 RSisTec - Todos os direitos reservados
+</footer>
+
+</body>
+</html>
