@@ -313,7 +313,7 @@
         whatsapp: form.whatsapp.value
       };
 
-      fetch('https://sua-api.com/endpoint', {
+      fetch('https://webhook.rsistec.com.br/webhook/site/recebecontato', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(dados)
