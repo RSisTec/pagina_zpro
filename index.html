@@ -12,21 +12,26 @@
       color: white;
       text-align: center;
     }
+
     header {
       padding: 2rem 1rem;
     }
+
     header img {
       max-width: 240px;
       margin-bottom: 1rem;
     }
+
     h1 {
       font-size: 2rem;
       margin: 0;
     }
+
     p.subtitulo {
       font-size: 1.1rem;
       margin-top: 0.5rem;
     }
+
     .planos {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -35,6 +40,7 @@
       max-width: 1200px;
       margin: auto;
     }
+
     .plano {
       background: #00264d;
       border-radius: 12px;
@@ -42,50 +48,72 @@
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
       transition: transform 0.3s ease;
     }
+
     .plano:hover {
       transform: scale(1.05);
     }
+
     .plano h2 {
       margin-bottom: 0.5rem;
     }
+
     .preco {
       font-size: 1.5rem;
       margin: 0.5rem 0;
     }
+
     ul {
       list-style: none;
       padding: 0;
     }
+
     li {
       margin: 0.5rem 0;
     }
+
     .recursos-comuns {
-      background: #001a33;
-      padding: 2rem 1rem;
-      margin-top: 2rem;
+      background: linear-gradient(135deg, #003366, #004080);
+      padding: 3rem 1rem;
+      color: #fff;
     }
+
     .recursos-comuns h2 {
-      margin-bottom: 1rem;
+      font-size: 1.8rem;
+      margin-bottom: 2rem;
+      color: #ffffff;
     }
-    .recursos-comuns ul {
-      columns: 2;
-      max-width: 800px;
+
+    .recursos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      max-width: 1000px;
       margin: auto;
+    }
+
+    .recursos-grid .item {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 1rem;
+      border-radius: 8px;
       text-align: left;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     }
-    .recursos-comuns li {
-      margin-bottom: 0.5rem;
-    }
+
     footer {
       margin-top: 2rem;
       font-size: 0.9rem;
       color: #ccc;
       padding: 1rem;
     }
+
     @media (max-width: 600px) {
       h1 { font-size: 1.5rem; }
-      .recursos-comuns ul {
-        columns: 1;
+      .recursos-comuns h2 {
+        font-size: 1.4rem;
       }
     }
   </style>
@@ -140,27 +168,27 @@
   </section>
 
   <section class="recursos-comuns">
-    <h2>Recursos incluídos em todos os planos</h2>
-    <ul>
-      <li>Canais</li>
-      <li>Painel de Atendimentos</li>
-      <li>Relatórios</li>
-      <li>Usuários</li>
-      <li>Filas</li>
-      <li>Equipes</li>
-      <li>Mensagens Rápidas</li>
-      <li>ChatBot</li>
-      <li>Agendamentos</li>
-      <li>Aniversários</li>
-      <li>Fechamentos</li>
-      <li>Etiquetas</li>
-      <li>Notas</li>
-      <li>Wavoip</li>
-      <li>Protocolos</li>
-      <li>Avaliações</li>
-      <li>Horário de Atendimento</li>
-      <li>Campanha</li>
-    </ul>
+    <h2>Todos os planos incluem</h2>
+    <div class="recursos-grid">
+      <div class="item">✅ Canais</div>
+      <div class="item">✅ Painel de Atendimentos</div>
+      <div class="item">✅ Relatórios</div>
+      <div class="item">✅ Usuários</div>
+      <div class="item">✅ Filas</div>
+      <div class="item">✅ Equipes</div>
+      <div class="item">✅ Mensagens Rápidas</div>
+      <div class="item">✅ ChatBot</div>
+      <div class="item">✅ Agendamentos</div>
+      <div class="item">✅ Aniversários</div>
+      <div class="item">✅ Fechamentos</div>
+      <div class="item">✅ Etiquetas</div>
+      <div class="item">✅ Notas</div>
+      <div class="item">✅ Wavoip</div>
+      <div class="item">✅ Protocolos</div>
+      <div class="item">✅ Avaliações</div>
+      <div class="item">✅ Horário de Atendimento</div>
+      <div class="item">✅ Campanha</div>
+    </div>
   </section>
 
   <footer>
