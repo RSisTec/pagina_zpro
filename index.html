@@ -59,6 +59,23 @@
     li {
       margin: 0.5rem 0;
     }
+    .recursos-comuns {
+      background: #001a33;
+      padding: 2rem 1rem;
+      margin-top: 2rem;
+    }
+    .recursos-comuns h2 {
+      margin-bottom: 1rem;
+    }
+    .recursos-comuns ul {
+      columns: 2;
+      max-width: 800px;
+      margin: auto;
+      text-align: left;
+    }
+    .recursos-comuns li {
+      margin-bottom: 0.5rem;
+    }
     footer {
       margin-top: 2rem;
       font-size: 0.9rem;
@@ -67,6 +84,9 @@
     }
     @media (max-width: 600px) {
       h1 { font-size: 1.5rem; }
+      .recursos-comuns ul {
+        columns: 1;
+      }
     }
   </style>
 </head>
@@ -80,47 +100,67 @@
   <section class="planos">
     <div class="plano">
       <h2>Plano Start</h2>
-      <p class="preco">R$ 49/mês</p>
+      <p class="preco">R$ 299/mês</p>
       <ul>
-        <li>1000 mensagens por mês</li>
-        <li>1 atendente</li>
-        <li>Relatórios básicos</li>
-        <li>Suporte por e-mail</li>
+        <li>1 conexão WhatsApp</li>
+        <li>3 usuários</li>
+        <li>Todos os recursos incluídos</li>
+      </ul>
+    </div>
+
+    <div class="plano">
+      <h2>Plano Smart</h2>
+      <p class="preco">R$ 499/mês</p>
+      <ul>
+        <li>3 conexões WhatsApp</li>
+        <li>10 usuários</li>
+        <li>Todos os recursos incluídos</li>
       </ul>
     </div>
 
     <div class="plano">
       <h2>Plano Pro</h2>
-      <p class="preco">R$ 129/mês</p>
+      <p class="preco">R$ 699/mês</p>
       <ul>
-        <li>10.000 mensagens</li>
-        <li>Até 5 atendentes</li>
-        <li>Relatórios avançados</li>
-        <li>Integração WhatsApp</li>
+        <li>5 conexões WhatsApp</li>
+        <li>20 usuários</li>
+        <li>Todos os recursos incluídos</li>
       </ul>
     </div>
 
     <div class="plano">
-      <h2>Plano Turbo</h2>
-      <p class="preco">R$ 249/mês</p>
-      <ul>
-        <li>Mensagens ilimitadas</li>
-        <li>Atendimento em equipe</li>
-        <li>Integração com CRMs</li>
-        <li>Suporte prioritário</li>
-      </ul>
-    </div>
-
-    <div class="plano">
-      <h2>Plano Empresarial</h2>
+      <h2>Plano Corporativo</h2>
       <p class="preco">Sob consulta</p>
       <ul>
-        <li>Volume sob demanda</li>
-        <li>Treinamento personalizado</li>
-        <li>APIs exclusivas</li>
-        <li>Consultoria estratégica</li>
+        <li>10 conexões WhatsApp</li>
+        <li>50 usuários</li>
+        <li>Todos os recursos incluídos</li>
       </ul>
     </div>
+  </section>
+
+  <section class="recursos-comuns">
+    <h2>Recursos incluídos em todos os planos</h2>
+    <ul>
+      <li>Canais</li>
+      <li>Painel de Atendimentos</li>
+      <li>Relatórios</li>
+      <li>Usuários</li>
+      <li>Filas</li>
+      <li>Equipes</li>
+      <li>Mensagens Rápidas</li>
+      <li>ChatBot</li>
+      <li>Agendamentos</li>
+      <li>Aniversários</li>
+      <li>Fechamentos</li>
+      <li>Etiquetas</li>
+      <li>Notas</li>
+      <li>Wavoip</li>
+      <li>Protocolos</li>
+      <li>Avaliações</li>
+      <li>Horário de Atendimento</li>
+      <li>Campanha</li>
+    </ul>
   </section>
 
   <footer>
