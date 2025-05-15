@@ -212,6 +212,20 @@
                 margin-top: 1rem;
             }
         }
+
+        .grid-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            /* Duas colunas iguais */
+            gap: 1rem;
+            /* Espaçamento entre os campos */
+        }
+
+        .grid-form input {
+            width: 100%;
+            padding: 0.75rem;
+            box-sizing: border-box;
+        }
     </style>
 </head>
 
@@ -332,14 +346,32 @@
     <section class="contato" id="contato">
         <h2>Entre em Contato</h2>
         <form id="contatoForm">
-            <input type="text" name="nome" placeholder="Seu nome" required />
-            <input type="email" name="email" placeholder="Seu e-mail" required />
-            <input type="tel" name="telefone" placeholder="Telefone" />
-            <input type="text" name="whatsapp" placeholder="WhatsApp" required />
-            <button type="submit">Enviar</button>
+            <div class="grid-form">
+                <input type="text" name="nome" placeholder="Seu nome" required />
+                <input type="email" name="email" placeholder="Seu e-mail" required />
+                <input type="tel" name="telefone" placeholder="Telefone" />
+                <input type="text" name="whatsapp" placeholder="WhatsApp" required />
+            </div>
+
+            <div style="margin-top: 1rem;">
+                <label>
+                    <input type="checkbox" name="novidades_email" id="novidades_email" checked />
+                    Aceito receber novidades e atualizações por <strong>e-mail</strong>
+                </label>
+                <br />
+                <label>
+                    <input type="checkbox" name="novidades_whatsapp" id="novidades_whatsapp" checked />
+                    Aceito receber novidades e atualizações por <strong>WhatsApp</strong>
+                </label>
+            </div>
+
+            <button type="submit" style="margin-top: 1rem;">Enviar</button>
         </form>
         <p id="respostaContato" style="margin-top: 1rem;"></p>
     </section>
+
+
+
 
     <footer>
         &copy; 2025 RSisTec. Todos os direitos reservados.
@@ -354,7 +386,9 @@
                 nome: form.nome.value,
                 email: form.email.value,
                 telefone: form.telefone.value,
-                whatsapp: form.whatsapp.value
+                whatsapp: form.whatsapp.value,
+                novidades_email: form.novidades_email.checked,      // true ou false
+                novidades_whatsapp: form.novidades_whatsapp.checked // true ou false
             };
 
             fetch('https://webhook.rsistec.com.br/webhook/site/recebecontato', {
@@ -362,20 +396,26 @@
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(dados)
             })
-                .then(res => {
-                    if (!res.ok) throw new Error('Erro na requisição');
-                    return res.json();
-                })
-                .then(res => {
+                .then(async res => {
+                    const data = await res.json();
+
+                    if (!res.ok) {
+                        const erro = data.message || 'Erro desconhecido ao enviar';
+                        throw new Error(erro);
+                    }
+
                     document.getElementById('respostaContato').textContent = "Mensagem enviada com sucesso!";
                     form.reset();
                 })
                 .catch(err => {
                     console.error(err);
-                    document.getElementById('respostaContato').textContent = "Erro ao enviar. Tente novamente.";
+                    document.getElementById('respostaContato').textContent = err.message || "Erro ao enviar. Tente novamente.";
                 });
         });
     </script>
+
+
+
 </body>
 
 </html>
