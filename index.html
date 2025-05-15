@@ -12,6 +12,34 @@
       color: white;
       text-align: center;
     }
+    nav {
+      background: #001a33;
+      padding: 1rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    nav ul li {
+      display: inline;
+    }
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+    nav ul li a:hover {
+      color: #00bfff;
+    }
     header {
       padding: 2rem 1rem;
     }
@@ -67,7 +95,6 @@
     .recursos-comuns h2 {
       font-size: 1.8rem;
       margin-bottom: 2rem;
-      color: #ffffff;
     }
     .recursos-grid {
       display: grid;
@@ -151,20 +178,27 @@
     }
     @media (max-width: 600px) {
       h1 { font-size: 1.5rem; }
-      .recursos-comuns h2,
-      .conexoes h2,
-      .user-roles h2 { font-size: 1.4rem; }
+      nav ul { gap: 1rem; }
     }
   </style>
 </head>
 <body>
+  <nav>
+    <ul>
+      <li><a href="#planos">Planos</a></li>
+      <li><a href="#recursos">Recursos</a></li>
+      <li><a href="#conexoes">Conexões</a></li>
+      <li><a href="https://wa.me/5599999999999" target="_blank">Entrar em contato</a></li>
+    </ul>
+  </nav>
+
   <header>
-    <img src="./Conhe%C3%A7a%20a%20RSisTec%20e%20suas%20solu%C3%A7%C3%B5es.png" alt="Logo RSisTec">
+    <img src="./Conheça%20a%20RSisTec%20e%20suas%20soluções.png" alt="Logo RSisTec">
     <h1>Conheça nossos planos</h1>
     <p class="subtitulo">Soluções com chatbots que vendem, atendem e encantam</p>
   </header>
 
-  <section class="planos">
+  <section class="planos" id="planos">
     <div class="plano">
       <h2>Plano Start</h2>
       <p class="preco">R$ 299/mês</p>
@@ -203,7 +237,7 @@
     </div>
   </section>
 
-  <section class="recursos-comuns">
+  <section class="recursos-comuns" id="recursos">
     <h2>Todos os planos incluem</h2>
     <div class="recursos-grid">
       <div class="item">✅ Canais</div>
@@ -227,7 +261,7 @@
     </div>
   </section>
 
-  <section class="conexoes">
+  <section class="conexoes" id="conexoes">
     <h2>Conexões Disponíveis</h2>
     <div class="conexoes-grid">
       <div class="conexao-item">
