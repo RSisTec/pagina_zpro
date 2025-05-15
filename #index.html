@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,6 +13,7 @@
       color: white;
       text-align: center;
     }
+
     nav {
       background: #001a33;
       padding: 1rem;
@@ -19,15 +21,16 @@
       top: 0;
       z-index: 1000;
     }
+
     nav .nav-container {
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
       max-width: 1200px;
       margin: auto;
       flex-wrap: wrap;
-      gap: 1rem;
     }
+
     nav ul {
       list-style: none;
       margin: 0;
@@ -36,14 +39,18 @@
       gap: 2rem;
       flex-wrap: wrap;
     }
+
     nav ul li a {
       color: #fff;
       text-decoration: none;
       font-weight: bold;
     }
-    nav ul li a:hover, nav .acessar a:hover {
+
+    nav ul li a:hover,
+    nav .acessar a:hover {
       color: #00bfff;
     }
+
     nav .acessar a {
       color: #fff;
       text-decoration: none;
@@ -52,16 +59,16 @@
       border: 1px solid #00bfff;
       border-radius: 5px;
     }
-    nav .acessar {
-      margin-left: auto;
-    }
+
     header {
       padding: 2rem 1rem;
     }
+
     header img {
       max-width: 240px;
       margin-bottom: 1rem;
     }
+
     .planos {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -70,20 +77,24 @@
       max-width: 1200px;
       margin: auto;
     }
+
     .plano {
       background: #00264d;
       border-radius: 12px;
       padding: 1.5rem;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
+
     .preco {
       font-size: 1.5rem;
       margin: 0.5rem 0;
     }
+
     .recursos-comuns {
       background: linear-gradient(135deg, #003366, #004080);
       padding: 3rem 1rem;
     }
+
     .recursos-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -91,32 +102,38 @@
       max-width: 1000px;
       margin: auto;
     }
+
     .item {
       background: rgba(255, 255, 255, 0.1);
       padding: 1rem;
       border-radius: 8px;
       text-align: left;
     }
+
     .conexoes {
       background: #00264d;
       padding: 2rem 1rem;
     }
+
     .conexoes-grid {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 1rem;
     }
+
     .conexao-item {
       background: #003366;
       border-radius: 8px;
       padding: 1rem;
       width: 160px;
     }
+
     .user-roles {
       background: linear-gradient(135deg, #001a33, #00264d);
       padding: 3rem 1rem;
     }
+
     .roles-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -124,11 +141,13 @@
       max-width: 1000px;
       margin: auto;
     }
+
     .role-item {
-      background: rgba(255,255,255,0.1);
+      background: rgba(255, 255, 255, 0.1);
       padding: 1rem;
       border-radius: 8px;
     }
+
     footer {
       margin-top: 2rem;
       font-size: 0.9rem;
@@ -142,9 +161,11 @@
       padding: 2rem 1rem;
       color: white;
     }
+
     .contato h2 {
       margin-bottom: 1rem;
     }
+
     #contatoForm {
       display: flex;
       flex-direction: column;
@@ -152,16 +173,20 @@
       max-width: 400px;
       margin: auto;
     }
-    #contatoForm input, #contatoForm button {
+
+    #contatoForm input,
+    #contatoForm button {
       padding: 0.8rem;
       border-radius: 5px;
       border: none;
       font-size: 1rem;
     }
+
     #contatoForm input {
       background: #fff;
       color: #000;
     }
+
     #contatoForm button {
       background: #00bfff;
       color: white;
@@ -169,34 +194,28 @@
       cursor: pointer;
       transition: background-color 0.3s ease;
     }
+
     #contatoForm button:hover {
       background: #0099cc;
     }
-
-    @media (max-width: 768px) {
-      nav .acessar {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        margin-top: 1rem;
-      }
-    }
   </style>
 </head>
+
 <body>
-  <nav>
-    <div class="nav-container">
+  <div class="nav-container">
+    <div class="nav-links">
       <ul>
         <li><a href="#planos">Planos</a></li>
         <li><a href="#recursos">Recursos</a></li>
         <li><a href="#conexoes">Conexões</a></li>
         <li><a href="#contato">Entrar em contato</a></li>
       </ul>
-      <div class="acessar">
-        <a href="https://app.rsistec.com.br" target="_blank">Acessar</a>
-      </div>
     </div>
-  </nav>
+    <div class="acessar">
+      <a href="https://app.rsistec.com.br" target="_blank">Acessar</a>
+    </div>
+  </div>
+
 
   <header>
     <img src="logo2.png" alt="Logo RSisTec">
@@ -297,6 +316,7 @@
     <p>Em cada plano, você pode dividir seus usuários entre esses perfis conforme sua necessidade.</p>
   </section>
 
+  <!-- Seção Entre em Contato -->
   <section class="contato" id="contato">
     <h2>Entre em Contato</h2>
     <form id="contatoForm">
@@ -314,7 +334,7 @@
   </footer>
 
   <script>
-    document.getElementById('contatoForm').addEventListener('submit', function(e) {
+    document.getElementById('contatoForm').addEventListener('submit', function (e) {
       e.preventDefault();
 
       const form = e.target;
@@ -330,19 +350,20 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(dados)
       })
-      .then(res => {
-        if (!res.ok) throw new Error('Erro na requisição');
-        return res.json();
-      })
-      .then(res => {
-        document.getElementById('respostaContato').textContent = "Mensagem enviada com sucesso!";
-        form.reset();
-      })
-      .catch(err => {
-        console.error(err);
-        document.getElementById('respostaContato').textContent = "Erro ao enviar. Tente novamente.";
-      });
+        .then(res => {
+          if (!res.ok) throw new Error('Erro na requisição');
+          return res.json();
+        })
+        .then(res => {
+          document.getElementById('respostaContato').textContent = "Mensagem enviada com sucesso!";
+          form.reset();
+        })
+        .catch(err => {
+          console.error(err);
+          document.getElementById('respostaContato').textContent = "Erro ao enviar. Tente novamente.";
+        });
     });
   </script>
 </body>
+
 </html>
