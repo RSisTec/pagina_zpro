@@ -1,156 +1,130 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Planos - RSisTec</title>
   <style>
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom, #002855, #003f88);
+      background: linear-gradient(to bottom, #001f4d, #003366);
       color: white;
-    }
-
-    header {
       text-align: center;
-      padding: 40px 20px 20px;
     }
-
-    header h1 {
-      font-size: 2.5em;
+    header {
+      padding: 2rem 1rem;
+    }
+    header img {
+      max-width: 240px;
+      margin-bottom: 1rem;
+    }
+    h1 {
+      font-size: 2rem;
       margin: 0;
     }
-
-    header p {
-      font-size: 1.2em;
-      margin-top: 10px;
+    p.subtitulo {
+      font-size: 1.1rem;
+      margin-top: 0.5rem;
     }
-
-    .logo {
-      font-size: 2em;
-      font-weight: bold;
-      color: white;
-      background: red;
-      display: inline-block;
-      padding: 10px 20px;
-      border-radius: 40px;
-      margin-top: 20px;
+    .planos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      padding: 2rem;
+      max-width: 1200px;
+      margin: auto;
     }
-
-    .plans-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 30px;
-      padding: 40px 20px;
+    .plano {
+      background: #00264d;
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease;
     }
-
-    .plan {
-      background-color: #ffffff10;
-      border: 2px solid #ffffff20;
-      border-radius: 15px;
-      width: 280px;
-      padding: 25px;
-      text-align: center;
-      backdrop-filter: blur(8px);
+    .plano:hover {
+      transform: scale(1.05);
     }
-
-    .plan h2 {
-      color: #00bfff;
+    .plano h2 {
+      margin-bottom: 0.5rem;
     }
-
-    .price {
-      font-size: 24px;
-      color: #00ff88;
-      margin: 15px 0;
+    .preco {
+      font-size: 1.5rem;
+      margin: 0.5rem 0;
     }
-
-    .features {
+    ul {
       list-style: none;
       padding: 0;
-      text-align: left;
-      line-height: 1.8;
     }
-
-    .features li::before {
-      content: "✅ ";
+    li {
+      margin: 0.5rem 0;
     }
-
-    .button {
-      background-color: #00bfff;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 25px;
-      text-decoration: none;
-      display: inline-block;
-      margin-top: 20px;
-      font-weight: bold;
-      transition: background 0.3s;
-    }
-
-    .button:hover {
-      background-color: #0099cc;
-    }
-
     footer {
-      text-align: center;
-      padding: 20px;
-      font-size: 14px;
-      background-color: #001f3f;
+      margin-top: 2rem;
+      font-size: 0.9rem;
+      color: #ccc;
+      padding: 1rem;
+    }
+    @media (max-width: 600px) {
+      h1 { font-size: 1.5rem; }
     }
   </style>
 </head>
 <body>
+  <header>
+    <img src="./Conhe%C3%A7a%20a%20RSisTec%20e%20suas%20solu%C3%A7%C3%B5es.png" alt="Logo RSisTec">
+    <h1>Conheça nossos planos</h1>
+    <p class="subtitulo">Soluções com chatbots que vendem, atendem e encantam</p>
+  </header>
 
-<header>
-  <div class="logo">RSisTec 🌍</div>
-  <h1>Conheça nossos planos</h1>
-  <p>Soluções inteligentes com chatbots que vendem, atendem e encantam</p>
-</header>
+  <section class="planos">
+    <div class="plano">
+      <h2>Plano Start</h2>
+      <p class="preco">R$ 49/mês</p>
+      <ul>
+        <li>1000 mensagens por mês</li>
+        <li>1 atendente</li>
+        <li>Relatórios básicos</li>
+        <li>Suporte por e-mail</li>
+      </ul>
+    </div>
 
-<section class="plans-container">
-  <div class="plan">
-    <h2>Plano Iniciante</h2>
-    <p class="price">R$ 49,90/mês</p>
-    <ul class="features">
-      <li>1 atendente</li>
-      <li>2.000 mensagens/mês</li>
-      <li>Respostas automáticas</li>
-      <li>Suporte por e-mail</li>
-    </ul>
-    <a href="#" class="button">Assinar</a>
-  </div>
+    <div class="plano">
+      <h2>Plano Pro</h2>
+      <p class="preco">R$ 129/mês</p>
+      <ul>
+        <li>10.000 mensagens</li>
+        <li>Até 5 atendentes</li>
+        <li>Relatórios avançados</li>
+        <li>Integração WhatsApp</li>
+      </ul>
+    </div>
 
-  <div class="plan">
-    <h2>Plano Profissional</h2>
-    <p class="price">R$ 99,90/mês</p>
-    <ul class="features">
-      <li>3 atendentes</li>
-      <li>8.000 mensagens/mês</li>
-      <li>Fila de atendimento</li>
-      <li>Suporte via WhatsApp</li>
-    </ul>
-    <a href="#" class="button">Assinar</a>
-  </div>
+    <div class="plano">
+      <h2>Plano Turbo</h2>
+      <p class="preco">R$ 249/mês</p>
+      <ul>
+        <li>Mensagens ilimitadas</li>
+        <li>Atendimento em equipe</li>
+        <li>Integração com CRMs</li>
+        <li>Suporte prioritário</li>
+      </ul>
+    </div>
 
-  <div class="plan">
-    <h2>Plano Empresarial</h2>
-    <p class="price">R$ 199,90/mês</p>
-    <ul class="features">
-      <li>Atendentes ilimitados</li>
-      <li>Mensagens ilimitadas</li>
-      <li>Integração com CRM</li>
-      <li>Suporte prioritário</li>
-    </ul>
-    <a href="#" class="button">Assinar</a>
-  </div>
-</section>
+    <div class="plano">
+      <h2>Plano Empresarial</h2>
+      <p class="preco">Sob consulta</p>
+      <ul>
+        <li>Volume sob demanda</li>
+        <li>Treinamento personalizado</li>
+        <li>APIs exclusivas</li>
+        <li>Consultoria estratégica</li>
+      </ul>
+    </div>
+  </section>
 
-<footer>
-  &copy; 2025 RSisTec - Todos os direitos reservados
-</footer>
-
+  <footer>
+    &copy; 2025 RSisTec. Todos os direitos reservados.
+  </footer>
 </body>
 </html>
