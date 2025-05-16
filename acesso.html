@@ -23,7 +23,7 @@
         border-radius: 10px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
         width: 90%;
-        max-width: 400px;
+        max-width: 800px;
       }
 
       h1 {
@@ -31,11 +31,29 @@
         font-size: 1.8rem;
       }
 
+      .cards {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .card {
+        flex: 1;
+        background-color: rgba(255, 255, 255, 0.1);
+        padding: 1.5rem;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        transition: transform 0.2s ease;
+      }
+
+      .card:hover {
+        transform: scale(1.02);
+      }
+
       .button {
-        display: block;
-        width: 100%;
-        padding: 1rem;
-        margin: 0.5rem 0;
+        display: inline-block;
+        padding: 0.8rem 1rem;
+        margin-top: 1rem;
         font-size: 1rem;
         font-weight: bold;
         border: none;
@@ -51,6 +69,12 @@
         background-color: #0099cc;
       }
 
+      @media (min-width: 600px) {
+        .cards {
+          flex-direction: row;
+        }
+      }
+
       @media (max-width: 480px) {
         h1 {
           font-size: 1.5rem;
@@ -58,7 +82,7 @@
 
         .button {
           font-size: 0.95rem;
-          padding: 0.9rem;
+          padding: 0.9rem 1rem;
         }
       }
     </style>
@@ -66,12 +90,22 @@
   <body>
     <div class="container">
       <h1>Bem-vindo ao RSisTec</h1>
-      <a href="https://rsistec.com.br" class="button" target="_blank"
-        >Ir ao site</a
-      >
-      <a href="https://wa.me/5511940149105" class="button" target="_blank"
-        >Falar com o desenvolvedor</a
-      >
+      <div class="cards">
+        <div class="card">
+          <h2>Ir ao Site</h2>
+          <p>Acesse nosso site oficial e conheça mais sobre nossos serviços.</p>
+          <a href="https://rsistec.com.br" class="button" target="_blank"
+            >Acessar</a
+          >
+        </div>
+        <div class="card">
+          <h2>Falar com o Desenvolvedor</h2>
+          <p>Tire dúvidas ou solicite ajuda diretamente pelo WhatsApp.</p>
+          <a href="https://wa.me/5511940149105" class="button" target="_blank"
+            >Conversar</a
+          >
+        </div>
+      </div>
     </div>
   </body>
 </html>
