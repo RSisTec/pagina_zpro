@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Página de Acesso - RSisTec</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #003366, #00509e);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        color: white;
+        text-align: center;
+      }
+
+      .container {
+        background: rgba(0, 0, 0, 0.6);
+        padding: 2rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        width: 90%;
+        max-width: 400px;
+      }
+
+      h1 {
+        margin-bottom: 2rem;
+        font-size: 1.8rem;
+      }
+
+      .button {
+        display: block;
+        width: 100%;
+        padding: 1rem;
+        margin: 0.5rem 0;
+        font-size: 1rem;
+        font-weight: bold;
+        border: none;
+        border-radius: 5px;
+        background-color: #00bfff;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+      }
+
+      .button:hover {
+        background-color: #0099cc;
+      }
+
+      @media (max-width: 480px) {
+        h1 {
+          font-size: 1.5rem;
+        }
+
+        .button {
+          font-size: 0.95rem;
+          padding: 0.9rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Bem-vindo ao RSisTec</h1>
+      <a href="https://rsistec.com.br" class="button" target="_blank"
+        >Ir ao site</a
+      >
+      <a href="https://wa.me/5511940149105" class="button" target="_blank"
+        >Falar com o desenvolvedor</a
+      >
+    </div>
+  </body>
+</html>
