@@ -175,7 +175,7 @@ nav ul li a.active::after {
 
 .cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(4, 1fr);
     gap: 30px;
 }
 
@@ -409,7 +409,101 @@ footer {
     }
 }
 
+/* Recursos Inclusos */
+.recursos-inclusos {
+    margin-top: 80px;
+    background-color: #f8f9ff;
+    padding: 40px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+.recursos-title {
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    color: var(--dark-color);
+}
+
+.recursos-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.recurso-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    transition: var(--transition);
+}
+
+.recurso-item:hover {
+    background-color: rgba(74, 107, 255, 0.05);
+    border-radius: var(--border-radius);
+}
+
+.recurso-item i {
+    color: var(--success-color);
+    margin-right: 10px;
+    font-size: 1.2rem;
+}
+
+/* Valores Avulsos */
+.valores-avulsos {
+    margin-top: 80px;
+    background-color: white;
+    padding: 40px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+.valores-title {
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    color: var(--dark-color);
+}
+
+.tabela-valores {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.tabela-valores th,
+.tabela-valores td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.tabela-valores th {
+    background-color: #f8f9ff;
+    font-weight: 600;
+    color: var(--dark-color);
+}
+
+.tabela-valores tr:hover {
+    background-color: rgba(74, 107, 255, 0.05);
+}
+
+.tabela-valores td:nth-child(2) {
+    font-weight: 600;
+    color: var(--secondary-color);
+}
+
 /* Responsividade */
+@media (max-width: 1024px) {
+    .cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .recursos-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 @media (max-width: 768px) {
     header .container {
         flex-direction: column;
@@ -443,9 +537,22 @@ footer {
     .social-media a {
         margin: 0 10px;
     }
+    
+    .tabela-valores {
+        display: block;
+        overflow-x: auto;
+    }
 }
 
 @media (max-width: 576px) {
+    .cards {
+        grid-template-columns: 1fr;
+    }
+    
+    .recursos-grid {
+        grid-template-columns: 1fr;
+    }
+    
     nav ul {
         flex-wrap: wrap;
         justify-content: center;
