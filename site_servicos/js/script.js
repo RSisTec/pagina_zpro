@@ -53,26 +53,69 @@ document.addEventListener('DOMContentLoaded', function() {
     // Verifica ao rolar a página
     window.addEventListener('scroll', checkScroll);
     
-    // Validação simples do formulário
-    const form = document.querySelector('.contato-form');
+    // Envio do formulário via API
+    const form = document.querySelector('#formulario-contato');
     
     if (form) {
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Simulação de envio de formulário
+            // Preparação para envio
             const submitButton = this.querySelector('button[type="submit"]');
             const originalText = submitButton.textContent;
+            const statusMensagem = document.getElementById('status-mensagem');
             
+            // Desabilita o botão durante o envio
             submitButton.textContent = 'Enviando...';
             submitButton.disabled = true;
             
-            setTimeout(() => {
-                alert('Mensagem enviada com sucesso! Entraremos em contato em breve.');
+            // Coleta os dados do formulário
+            const formData = {
+                nome: document.getElementById('nome').value,
+                email: document.getElementById('email').value,
+                telefone: document.getElementById('telefone').value,
+                servico: document.getElementById('servico').value,
+                mensagem: document.getElementById('mensagem').value
+            };
+            
+            // Endpoint da API local para testes
+            const apiUrl = 'http://localhost:3000/contato';
+            
+            // Configuração da requisição
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => {
+                // Verifica se a resposta foi bem-sucedida
+                if (!response.ok) {
+                    throw new Error('Erro ao enviar mensagem. Por favor, tente novamente.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Exibe mensagem de sucesso
+                statusMensagem.innerHTML = '<div class="alert-success">Mensagem enviada com sucesso! Entraremos em contato em breve.</div>';
                 form.reset();
+            })
+            .catch(error => {
+                // Exibe mensagem de erro
+                statusMensagem.innerHTML = `<div class="alert-error">${error.message}</div>`;
+                console.error('Erro:', error);
+            })
+            .finally(() => {
+                // Restaura o botão
                 submitButton.textContent = originalText;
                 submitButton.disabled = false;
-            }, 1500);
+                
+                // Remove a mensagem de status após 5 segundos
+                setTimeout(() => {
+                    statusMensagem.innerHTML = '';
+                }, 5000);
+            });
         });
     }
     
