@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Redirecionando...</title>
+    <script>
+      window.onload = function () {
+        // Chama o endpoint
+        fetch("https://seu-endpoint-aqui.com/api", {
+          method: "GET", // ou 'POST'
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .catch((error) => {
+            // Se der erro, apenas exibe no console
+            console.error("Erro ao chamar o endpoint:", error);
+          })
+          .finally(() => {
+            // Redireciona de qualquer forma, com ou sem erro
+            window.location.href = "https://rsistec.com.br";
+          });
+      };
+    </script>
+  </head>
+  <body>
+    <p>Redirecionando, aguarde...</p>
+  </body>
+</html>
