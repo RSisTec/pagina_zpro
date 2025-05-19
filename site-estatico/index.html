@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beauty Studio</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <img src="img/logo.png" alt="Beauty Studio Logo" class="logo">
+                <h1>Beauty Studio</h1>
+                <p class="subtitle">Realce sua beleza natural com nossos serviços especializados</p>
+            </div>
+        </header>
+        
+        <main>
+            <h2>Nossos Serviços</h2>
+            <div class="services-grid" id="services-grid">
+                <!-- Cards serão inseridos via JavaScript -->
+            </div>
+        </main>
+        
+        <footer>
+            <p>© 2024 Beauty Studio. Todos os direitos reservados.</p>
+            <p>Entre em contato para mais informações e agendamentos.</p>
+        </footer>
+    </div>
+
+    <!-- Modal para agendamento -->
+    <div id="date-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Agendar Serviço</h2>
+                <span class="close-button">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="date-selection">
+                    <h3>Selecione uma data:</h3>
+                    <div id="dates-container" class="dates-grid"></div>
+                </div>
+                
+                <div class="time-selection" id="time-selection">
+                    <h3>Selecione um horário:</h3>
+                    <div id="times-container" class="times-grid"></div>
+                </div>
+                
+                <button id="confirm-button" class="confirm-button disabled">Confirmar Agendamento</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
