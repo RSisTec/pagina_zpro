@@ -1,0 +1,375 @@
+/* Estilos para o site Daya Estética */
+
+/* Variáveis de cores */
+:root {
+  --cor-primaria: #ffb6c1; /* Rosa claro */
+  --cor-secundaria: #ff69b4; /* Rosa mais escuro para detalhes */
+  --cor-texto: #333333;
+  --cor-fundo: #fff9fb; /* Fundo levemente rosado */
+  --cor-destaque: #ff1493; /* Rosa vibrante para botões e destaques */
+  --cor-borda: #ffc0cb;
+  --sombra-suave: 0 4px 6px rgba(255, 182, 193, 0.2);
+}
+
+/* Reset e estilos gerais */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', 'Roboto', sans-serif;
+}
+
+body {
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+  line-height: 1.6;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Cabeçalho */
+header {
+  background-color: white;
+  box-shadow: var(--sombra-suave);
+  padding: 15px 0;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo img {
+  height: 60px;
+  margin-right: 10px;
+}
+
+.logo-text {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--cor-secundaria);
+}
+
+/* Navegação */
+nav ul {
+  display: flex;
+  list-style: none;
+}
+
+nav ul li {
+  margin-left: 30px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: var(--cor-texto);
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+  color: var(--cor-destaque);
+}
+
+/* Seção principal */
+.hero {
+  background: linear-gradient(to right, var(--cor-primaria), white);
+  padding: 150px 0 80px;
+  text-align: center;
+}
+
+.hero h1 {
+  font-size: 42px;
+  margin-bottom: 20px;
+  color: white;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.hero p {
+  font-size: 18px;
+  max-width: 700px;
+  margin: 0 auto 30px;
+  color: var(--cor-texto);
+}
+
+/* Seções de conteúdo */
+section {
+  padding: 80px 0;
+}
+
+section h2 {
+  text-align: center;
+  font-size: 32px;
+  margin-bottom: 40px;
+  color: var(--cor-secundaria);
+}
+
+.servicos {
+  background-color: white;
+}
+
+.servicos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.servico-card {
+  background-color: var(--cor-fundo);
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: var(--sombra-suave);
+  transition: transform 0.3s ease;
+}
+
+.servico-card:hover {
+  transform: translateY(-5px);
+}
+
+.servico-card h3 {
+  font-size: 22px;
+  margin-bottom: 15px;
+  color: var(--cor-secundaria);
+}
+
+.servico-card p {
+  margin-bottom: 20px;
+}
+
+/* Formulário */
+.formulario {
+  background-color: var(--cor-fundo);
+}
+
+.form-container {
+  max-width: 700px;
+  margin: 0 auto;
+  background-color: white;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: var(--sombra-suave);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--cor-borda);
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.form-group textarea {
+  height: 120px;
+  resize: vertical;
+}
+
+.btn {
+  display: inline-block;
+  background-color: var(--cor-destaque);
+  color: white;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: var(--cor-secundaria);
+}
+
+/* Contato */
+.contato {
+  background-color: white;
+}
+
+.contato-info {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 30px;
+}
+
+.contato-item {
+  flex: 1;
+  min-width: 250px;
+  text-align: center;
+  padding: 30px;
+  background-color: var(--cor-fundo);
+  border-radius: 10px;
+  box-shadow: var(--sombra-suave);
+}
+
+.contato-item i {
+  font-size: 36px;
+  color: var(--cor-secundaria);
+  margin-bottom: 15px;
+}
+
+.contato-item h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.contato-item p {
+  font-size: 16px;
+}
+
+.contato-item a {
+  color: var(--cor-destaque);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.contato-item a:hover {
+  text-decoration: underline;
+}
+
+/* Rodapé */
+footer {
+  background-color: var(--cor-secundaria);
+  color: white;
+  padding: 40px 0;
+  text-align: center;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.social-links {
+  margin: 20px 0;
+}
+
+.social-links a {
+  color: white;
+  font-size: 24px;
+  margin: 0 10px;
+  transition: opacity 0.3s ease;
+}
+
+.social-links a:hover {
+  opacity: 0.8;
+}
+
+.copyright {
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+/* Botão WhatsApp flutuante */
+.whatsapp-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background-color: #25d366;
+  color: white;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+  z-index: 999;
+}
+
+.whatsapp-btn:hover {
+  transform: scale(1.1);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+  }
+  
+  nav ul {
+    margin-top: 20px;
+  }
+  
+  nav ul li {
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+  
+  .hero {
+    padding: 180px 0 60px;
+  }
+  
+  .hero h1 {
+    font-size: 32px;
+  }
+  
+  .servicos-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-container {
+    padding: 30px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  nav ul {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  nav ul li {
+    margin: 5px 10px;
+  }
+  
+  .hero h1 {
+    font-size: 28px;
+  }
+  
+  .hero p {
+    font-size: 16px;
+  }
+  
+  section h2 {
+    font-size: 26px;
+  }
+  
+  .whatsapp-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    bottom: 20px;
+    right: 20px;
+  }
+}
