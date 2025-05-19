@@ -39,6 +39,33 @@ header {
     margin-bottom: 10px;
 }
 
+.check-appointment-btn {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #EC4899;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(236, 72, 153, 0.2);
+}
+
+.check-appointment-btn:hover {
+    background-color: #DB2777;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(236, 72, 153, 0.3);
+}
+
+.check-appointment-btn svg {
+    margin-right: 8px;
+}
+
 h1 {
     font-size: 2rem;
     color: #EC4899;
@@ -286,6 +313,141 @@ footer p {
     margin-bottom: 5px;
 }
 
+/* Formulário de consulta de agendamento */
+.form-group {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.phone-input {
+    flex: 1;
+    padding: 10px 15px;
+    border: 1px solid #D1D5DB;
+    border-radius: 4px 0 0 4px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+}
+
+.phone-input:focus {
+    outline: none;
+    border-color: #F472B6;
+}
+
+.search-button {
+    padding: 10px 15px;
+    background-color: #EC4899;
+    color: white;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+.search-button:hover {
+    background-color: #DB2777;
+}
+
+.search-button svg {
+    margin-right: 5px;
+}
+
+/* Resultados de agendamento */
+.results-container {
+    display: none;
+    margin-top: 20px;
+}
+
+.appointments-list {
+    margin-top: 10px;
+}
+
+.appointment-item {
+    background-color: #FCE7F3;
+    border-radius: 6px;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-left: 4px solid #EC4899;
+}
+
+.appointment-service {
+    font-weight: 600;
+    color: #BE185D;
+    margin-bottom: 5px;
+}
+
+.appointment-datetime {
+    display: flex;
+    align-items: center;
+    color: #9D174D;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+}
+
+.appointment-datetime svg {
+    margin-right: 5px;
+}
+
+.appointment-status {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-top: 5px;
+}
+
+.status-confirmed {
+    background-color: #D1FAE5;
+    color: #065F46;
+}
+
+.status-pending {
+    background-color: #FEF3C7;
+    color: #92400E;
+}
+
+.status-cancelled {
+    background-color: #FEE2E2;
+    color: #991B1B;
+}
+
+/* Loading e erro */
+.loading-container {
+    display: none;
+    text-align: center;
+    padding: 20px 0;
+}
+
+.loading-spinner {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(236, 72, 153, 0.3);
+    border-radius: 50%;
+    border-top-color: #EC4899;
+    animation: spin 1s ease-in-out infinite;
+    margin-bottom: 10px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.error-container {
+    display: none;
+    text-align: center;
+    padding: 20px 0;
+    color: #BE185D;
+}
+
+.error-container svg {
+    margin-bottom: 10px;
+    color: #BE185D;
+}
+
 /* Responsividade */
 @media (max-width: 768px) {
     .services-grid {
@@ -294,6 +456,19 @@ footer p {
     
     .times-grid {
         grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .form-group {
+        flex-direction: column;
+    }
+    
+    .phone-input {
+        border-radius: 4px;
+        margin-bottom: 10px;
+    }
+    
+    .search-button {
+        border-radius: 4px;
     }
 }
 

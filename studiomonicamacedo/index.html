@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Studio Monica Macedo</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div class="header-content">
+          <img
+            src="img/0717-1683460516483-formatada.webp"
+            alt="Beauty Studio Logo"
+            class="logo"
+          />
+          <h1>Studio Monica Macedo</h1>
+          <p class="subtitle">
+            Realce sua beleza natural com nossos serviços especializados
+          </p>
+          <button id="check-appointment-btn" class="check-appointment-btn">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"
+              ></path>
+              <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+              <path d="M9 14l2 2 4-4"></path>
+            </svg>
+            Consulte seu agendamento
+          </button>
+        </div>
+      </header>
+
+      <main>
+        <h2>Nossos Serviços</h2>
+        <div class="services-grid" id="services-grid">
+          <!-- Cards serão inseridos via JavaScript -->
+        </div>
+      </main>
+
+      <footer>
+        <p>© 2024 Studio Monica Macedo. Todos os direitos reservados.</p>
+        <p>Entre em contato para mais informações e agendamentos.</p>
+      </footer>
+    </div>
+
+    <!-- Modal para agendamento -->
+    <div id="date-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 id="modal-title">Agendar Serviço</h2>
+          <span class="close-button">&times;</span>
+        </div>
+        <div class="modal-body">
+          <div class="date-selection">
+            <h3>Selecione uma data:</h3>
+            <div id="dates-container" class="dates-grid"></div>
+          </div>
+
+          <div class="time-selection" id="time-selection">
+            <h3>Selecione um horário:</h3>
+            <div id="times-container" class="times-grid"></div>
+          </div>
+
+          <button id="confirm-button" class="confirm-button disabled">
+            Confirmar Agendamento
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal para consulta de agendamento -->
+    <div id="check-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Consultar Agendamento</h2>
+          <span class="close-button" id="check-close-button">&times;</span>
+        </div>
+        <div class="modal-body">
+          <div id="phone-form">
+            <h3>Digite seu telefone para consultar:</h3>
+            <div class="form-group">
+              <input
+                type="tel"
+                id="phone-input"
+                class="phone-input"
+                placeholder="(00) 00000-0000"
+                maxlength="15"
+              />
+              <button id="search-button" class="search-button">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                Buscar
+              </button>
+            </div>
+          </div>
+
+          <div id="results-container" class="results-container">
+            <h3>Seus agendamentos:</h3>
+            <div id="appointments-list" class="appointments-list">
+              <!-- Resultados serão inseridos aqui via JavaScript -->
+            </div>
+          </div>
+
+          <div id="loading-container" class="loading-container">
+            <div class="loading-spinner"></div>
+            <p>Buscando seus agendamentos...</p>
+          </div>
+
+          <div id="error-container" class="error-container">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <p id="error-message">
+              Não foi possível encontrar agendamentos para este telefone.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/script.js"></script>
+  </body>
+</html>

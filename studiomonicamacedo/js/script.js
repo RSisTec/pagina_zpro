@@ -238,6 +238,186 @@ function confirmSchedule() {
     }
 }
 
+// Elementos do DOM para consulta de agendamento
+const checkAppointmentBtn = document.getElementById('check-appointment-btn');
+const checkModal = document.getElementById('check-modal');
+const checkCloseButton = document.getElementById('check-close-button');
+const phoneInput = document.getElementById('phone-input');
+const searchButton = document.getElementById('search-button');
+const phoneForm = document.getElementById('phone-form');
+const resultsContainer = document.getElementById('results-container');
+const appointmentsList = document.getElementById('appointments-list');
+const loadingContainer = document.getElementById('loading-container');
+const errorContainer = document.getElementById('error-container');
+const errorMessage = document.getElementById('error-message');
+
+// Formatar número de telefone
+function formatPhoneNumber(value) {
+    if (!value) return value;
+    
+    const phoneNumber = value.replace(/[^\d]/g, '');
+    const phoneNumberLength = phoneNumber.length;
+    
+    if (phoneNumberLength < 3) return phoneNumber;
+    if (phoneNumberLength < 7) {
+        return `(${phoneNumber.slice(0, 2)}) ${phoneNumber.slice(2)}`;
+    }
+    
+    return `(${phoneNumber.slice(0, 2)}) ${phoneNumber.slice(2, 7)}-${phoneNumber.slice(7, 11)}`;
+}
+
+// Abrir modal de consulta
+function openCheckModal() {
+    // Resetar estado do modal
+    phoneInput.value = '';
+    resultsContainer.style.display = 'none';
+    loadingContainer.style.display = 'none';
+    errorContainer.style.display = 'none';
+    phoneForm.style.display = 'block';
+    
+    // Mostrar modal
+    checkModal.style.display = 'block';
+}
+
+// Fechar modal de consulta
+function closeCheckModal() {
+    checkModal.style.display = 'none';
+}
+
+// Buscar agendamentos
+async function searchAppointments(phone) {
+    // Mostrar loading
+    phoneForm.style.display = 'block';
+    loadingContainer.style.display = 'block';
+    resultsContainer.style.display = 'none';
+    errorContainer.style.display = 'none';
+    
+    try {
+        // Simular chamada à API (substitua pelo endpoint real)
+        // const response = await fetch(`https://api.seudominio.com/appointments?phone=${phone}`);
+        // const data = await response.json();
+        
+        // Simulação de resposta da API para demonstração
+        // Em produção, descomente o código acima e remova esta simulação
+        await new Promise(resolve => setTimeout(resolve, 1500)); // Simular delay de rede
+        
+        const data = simulateApiResponse(phone);
+        
+        // Esconder loading
+        loadingContainer.style.display = 'none';
+        
+        if (data.appointments && data.appointments.length > 0) {
+            // Renderizar resultados
+            renderAppointments(data.appointments);
+            resultsContainer.style.display = 'block';
+        } else {
+            // Mostrar mensagem de erro
+            errorMessage.textContent = 'Não encontramos agendamentos para este telefone.';
+            errorContainer.style.display = 'block';
+        }
+    } catch (error) {
+        // Esconder loading e mostrar erro
+        loadingContainer.style.display = 'none';
+        errorMessage.textContent = 'Ocorreu um erro ao buscar seus agendamentos. Tente novamente.';
+        errorContainer.style.display = 'block';
+        console.error('Erro ao buscar agendamentos:', error);
+    }
+}
+
+// Função para simular resposta da API (remova em produção)
+function simulateApiResponse(phone) {
+    // Remova esta função em produção e use a chamada real à API
+    
+    // Simular diferentes respostas baseadas no telefone para demonstração
+    if (phone.includes('99999')) {
+        return {
+            success: true,
+            appointments: [
+                {
+                    id: 1,
+                    service: 'MICRO DE SOBRANCELHA',
+                    date: '25/05/2025',
+                    time: '14:00',
+                    status: 'confirmed'
+                },
+                {
+                    id: 2,
+                    service: 'DESIGN COM HENNA',
+                    date: '10/06/2025',
+                    time: '10:30',
+                    status: 'pending'
+                }
+            ]
+        };
+    } else if (phone.includes('88888')) {
+        return {
+            success: true,
+            appointments: [
+                {
+                    id: 3,
+                    service: 'MICRO LABIAL',
+                    date: '22/05/2025',
+                    time: '15:30',
+                    status: 'cancelled'
+                }
+            ]
+        };
+    } else {
+        return {
+            success: true,
+            appointments: []
+        };
+    }
+}
+
+// Renderizar agendamentos
+function renderAppointments(appointments) {
+    appointmentsList.innerHTML = '';
+    
+    appointments.forEach(appointment => {
+        const item = document.createElement('div');
+        item.className = 'appointment-item';
+        
+        // Determinar classe de status
+        let statusClass = '';
+        let statusText = '';
+        
+        switch (appointment.status) {
+            case 'confirmed':
+                statusClass = 'status-confirmed';
+                statusText = 'Confirmado';
+                break;
+            case 'pending':
+                statusClass = 'status-pending';
+                statusText = 'Pendente';
+                break;
+            case 'cancelled':
+                statusClass = 'status-cancelled';
+                statusText = 'Cancelado';
+                break;
+            default:
+                statusClass = 'status-pending';
+                statusText = 'Pendente';
+        }
+        
+        item.innerHTML = `
+            <div class="appointment-service">${appointment.service}</div>
+            <div class="appointment-datetime">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                ${appointment.date} às ${appointment.time}
+            </div>
+            <span class="appointment-status ${statusClass}">${statusText}</span>
+        `;
+        
+        appointmentsList.appendChild(item);
+    });
+}
+
 // Event listeners
 document.addEventListener('DOMContentLoaded', () => {
     // Renderizar cards de serviços
@@ -265,6 +445,44 @@ document.addEventListener('DOMContentLoaded', () => {
     confirmButton.addEventListener('click', () => {
         if (!confirmButton.classList.contains('disabled')) {
             confirmSchedule();
+        }
+    });
+    
+    // Abrir modal de consulta de agendamento
+    checkAppointmentBtn.addEventListener('click', openCheckModal);
+    
+    // Fechar modal de consulta
+    checkCloseButton.addEventListener('click', closeCheckModal);
+    
+    // Fechar modal de consulta ao clicar fora do conteúdo
+    window.addEventListener('click', (event) => {
+        if (event.target === checkModal) {
+            closeCheckModal();
+        }
+    });
+    
+    // Formatar telefone durante digitação
+    phoneInput.addEventListener('input', (e) => {
+        const formattedInput = formatPhoneNumber(e.target.value);
+        e.target.value = formattedInput;
+    });
+    
+    // Buscar agendamentos
+    searchButton.addEventListener('click', () => {
+        const phone = phoneInput.value.trim();
+        if (phone.length >= 14) { // Verificar se o telefone tem pelo menos (XX) XXXXX-XXXX
+            searchAppointments(phone);
+        } else {
+            errorMessage.textContent = 'Por favor, digite um número de telefone válido.';
+            errorContainer.style.display = 'block';
+            resultsContainer.style.display = 'none';
+        }
+    });
+    
+    // Permitir busca ao pressionar Enter no campo de telefone
+    phoneInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            searchButton.click();
         }
     });
 });
