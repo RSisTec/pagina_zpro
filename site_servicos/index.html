@@ -1,282 +1,388 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Serviços Premium</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistema de Atendimento WhatsApp</title>
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Sistema de Atendimento WhatsApp" />
+    <meta
+      property="og:description"
+      content="Plataforma completa para atendimento via WhatsApp com múltiplos usuários e integrações."
+    />
+    <meta
+      property="og:image"
+      content="https://www.seusite.com.br/imagens/capa.jpg"
+    />
+    <meta property="og:url" content="https://www.seusite.com.br" />
+    <meta property="og:type" content="website" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Sistema de Atendimento WhatsApp" />
+    <meta
+      name="twitter:description"
+      content="Plataforma completa para atendimento via WhatsApp com múltiplos usuários e integrações."
+    />
+    <meta
+      name="twitter:image"
+      content="https://www.seusite.com.br/imagens/capa.jpg"
+    />
+
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+
+      .cards {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+      }
+
+      .card {
+        border: 1px solid #ccc;
+        padding: 20px;
+        border-radius: 10px;
+        width: 250px;
+        text-align: center;
+      }
+
+      .price {
+        font-size: 20px;
+        font-weight: bold;
+        margin: 10px 0;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background: #007bff;
+        color: white;
+        border-radius: 5px;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .btn:hover {
+        background: #0056b3;
+      }
+
+      .contato-form-container {
+        max-width: 600px;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="top"></div>
+
     <header>
-        <div class="container">
-            <div class="logo">
-                <h1>ServiçosPro</h1>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="#" class="active">Início</a></li>
-                    <li><a href="#servicos">Serviços</a></li>
-                    <li><a href="#sobre">Sobre</a></li>
-                    <li><a href="#contato">Contato</a></li>
-                </ul>
-            </nav>
+      <div class="container">
+        <div class="logo">
+          <h1>Atendimento WhatsApp</h1>
         </div>
+        <nav>
+          <ul>
+            <li><a href="#top" class="active">Início</a></li>
+            <li><a href="#planos">Serviços</a></li>
+            <li><a href="#recursos">Recursos</a></li>
+            <li><a href="#avulsos">Avulsos</a></li>
+            <li><a href="#sobre">Sobre</a></li>
+            <li><a href="#contato">Contato</a></li>
+          </ul>
+        </nav>
+      </div>
     </header>
 
     <section class="hero">
-        <div class="container">
-            <h2>Soluções profissionais para o seu negócio</h2>
-            <p>Oferecemos serviços de alta qualidade para impulsionar o seu sucesso</p>
-            <a href="#servicos" class="btn">Conheça nossos serviços</a>
-        </div>
+      <div class="container" style="text-align: center">
+        <h2>A melhor solução para atendimento via WhatsApp da sua empresa!</h2>
+        <p>
+          Simplifique a comunicação com seus clientes e escale seu atendimento
+          com nossa plataforma completa.
+        </p>
+        <a href="#planos" class="btn">Ver Planos</a>
+      </div>
     </section>
 
-    <section id="servicos" class="servicos">
-        <div class="container">
-            <h2 class="section-title">Nossos Serviços</h2>
-            <div class="cards">
-                <div class="card">
-                    <div class="icon">
-                        <i class="fas fa-laptop-code"></i>
-                    </div>
-                    <h3>Desenvolvimento Web</h3>
-                    <p>Criamos sites modernos, responsivos e otimizados para buscadores, ajudando sua empresa a ter presença digital efetiva.</p>
-                    <div class="price">A partir de R$ 2.500</div>
-                    <a href="#contato" class="btn">Solicitar orçamento</a>
-                </div>
-                
-                <div class="card">
-                    <div class="icon">
-                        <i class="fas fa-bullhorn"></i>
-                    </div>
-                    <h3>Marketing Digital</h3>
-                    <p>Estratégias completas de marketing online para aumentar sua visibilidade, atrair clientes e impulsionar suas vendas.</p>
-                    <div class="price">A partir de R$ 1.800</div>
-                    <a href="#contato" class="btn">Solicitar orçamento</a>
-                </div>
-                
-                <div class="card">
-                    <div class="icon">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <h3>Aplicativos Mobile</h3>
-                    <p>Desenvolvimento de aplicativos nativos e híbridos para iOS e Android, com foco em usabilidade e performance.</p>
-                    <div class="price">A partir de R$ 5.000</div>
-                    <a href="#contato" class="btn">Solicitar orçamento</a>
-                </div>
-                
-                <div class="card">
-                    <div class="icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h3>Consultoria Empresarial</h3>
-                    <p>Análise e otimização de processos, planejamento estratégico e soluções personalizadas para o crescimento do seu negócio.</p>
-                    <div class="price">A partir de R$ 3.200</div>
-                    <a href="#contato" class="btn">Solicitar orçamento</a>
-                </div>
-            </div>
-            
-            <div class="recursos-inclusos">
-                <h3 class="recursos-title">Recursos Inclusos em Todos os Planos</h3>
-                <div class="recursos-grid">
-                    <div class="recurso-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Canais</span>
-                    </div>
-                    <div class="recurso-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Painel de Atendimentos</span>
-                    </div>
-                    <div class="recurso-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Relatórios</span>
-                    </div>
-                    <div class="recurso-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Usuários</span>
-                    </div>
-                    <div class="recurso-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Filas e Equipes</span>
-                    </div>
-                    <div class="recurso-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Mensagens Rápidas</span>
-                    </div>
-                    <div class="recurso-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>ChatBot</span>
-                    </div>
-                    <div class="recurso-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Agendamentos</span>
-                    </div>
-                    <div class="recurso-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Aniversários</span>
-                    </div>
-                    <div class="recurso-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Fechamentos</span>
-                    </div>
-                    <div class="recurso-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Etiquetas</span>
-                    </div>
-                    <div class="recurso-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Notas</span>
-                    </div>
-                    <div class="recurso-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>WAVoIP (chamadas por WhatsApp)</span>
-                    </div>
-                    <div class="recurso-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Protocolos</span>
-                    </div>
-                    <div class="recurso-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Avaliações</span>
-                    </div>
-                    <div class="recurso-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Horário de Atendimento</span>
-                    </div>
-                    <div class="recurso-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Campanhas de Mensagem</span>
-                    </div>
-                    <div class="recurso-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Suporte via WhatsApp</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="valores-avulsos">
-                <h3 class="valores-title">Valores Avulsos</h3>
-                <table class="tabela-valores">
-                    <thead>
-                        <tr>
-                            <th>Recurso Avulso</th>
-                            <th>Valor</th>
-                            <th>Observações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Conexão adicional</td>
-                            <td>R$ 70,00 / mês</td>
-                            <td>WhatsApp Business API ou Cloud API</td>
-                        </tr>
-                        <tr>
-                            <td>Usuário adicional</td>
-                            <td>R$ 25,00 / mês</td>
-                            <td>Até o limite técnico permitido</td>
-                        </tr>
-                        <tr>
-                            <td>Configuração inicial</td>
-                            <td>R$ 199,00 (único)</td>
-                            <td>Ativação, integrações, onboarding</td>
-                        </tr>
-                        <tr>
-                            <td>Treinamento personalizado</td>
-                            <td>R$ 249,00 (único)</td>
-                            <td>Via vídeo ou ao vivo (até 1h)</td>
-                        </tr>
-                        <tr>
-                            <td>Integração externa</td>
-                            <td>Sob consulta</td>
-                            <td>CRM, ERP, automações específicas</td>
-                        </tr>
-                        <tr>
-                            <td>Integração com Typebot</td>
-                            <td>Sob consulta</td>
-                            <td>Inclui mapeamento e fluxos custom</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+    <section id="planos" class="servicos">
+      <div class="container">
+        <h2 class="section-title">Planos Disponíveis</h2>
+        <div class="cards">
+          <div class="card">
+            <h3>Plano Start</h3>
+            <p class="price">R$ 299/mês</p>
+            <p>
+              1 conexão WhatsApp<br />3 usuários<br />Todos os recursos
+              incluídos
+            </p>
+            <a
+              href="#contato"
+              class="btn"
+              onclick="preencherPlano('Plano Start')"
+              >Solicitar orçamento</a
+            >
+          </div>
+          <div class="card">
+            <h3>Plano Smart</h3>
+            <p class="price">R$ 499/mês</p>
+            <p>
+              3 conexões WhatsApp<br />10 usuários<br />Todos os recursos
+              incluídos
+            </p>
+            <a
+              href="#contato"
+              class="btn"
+              onclick="preencherPlano('Plano Smart')"
+              >Solicitar orçamento</a
+            >
+          </div>
+          <div class="card">
+            <h3>Plano Pro</h3>
+            <p class="price">R$ 699/mês</p>
+            <p>
+              5 conexões WhatsApp<br />20 usuários<br />Todos os recursos
+              incluídos
+            </p>
+            <a href="#contato" class="btn" onclick="preencherPlano('Plano Pro')"
+              >Solicitar orçamento</a
+            >
+          </div>
+          <div class="card">
+            <h3>Plano Corporativo</h3>
+            <p class="price">R$ 899/mês</p>
+            <p>
+              10 conexões WhatsApp<br />50 usuários<br />Todos os recursos
+              incluídos
+            </p>
+            <a
+              href="#contato"
+              class="btn"
+              onclick="preencherPlano('Plano Corporativo')"
+              >Solicitar orçamento</a
+            >
+          </div>
         </div>
+      </div>
+    </section>
+
+    <section id="recursos" class="recursos">
+      <div class="container">
+        <h3 class="recursos-title">Recursos Inclusos em Todos os Planos</h3>
+        <div class="recursos-grid">
+          <div class="recurso-item">
+            <i class="fas fa-check-circle"></i><span>Canais</span>
+          </div>
+          <div class="recurso-item">
+            <i class="fas fa-check-circle"></i
+            ><span>Painel de Atendimentos</span>
+          </div>
+          <div class="recurso-item">
+            <i class="fas fa-check-circle"></i><span>Relatórios</span>
+          </div>
+          <div class="recurso-item">
+            <i class="fas fa-check-circle"></i><span>Usuários</span>
+          </div>
+          <div class="recurso-item">
+            <i class="fas fa-check-circle"></i><span>Filas e Equipes</span>
+          </div>
+          <div class="recurso-item">
+            <i class="fas fa-check-circle"></i><span>Mensagens Rápidas</span>
+          </div>
+          <div class="recurso-item">
+            <i class="fas fa-check-circle"></i><span>ChatBot</span>
+          </div>
+          <div class="recurso-item">
+            <i class="fas fa-check-circle"></i><span>Agendamentos</span>
+          </div>
+          <div class="recurso-item">
+            <i class="fas fa-check-circle"></i><span>Aniversários</span>
+          </div>
+          <div class="recurso-item">
+            <i class="fas fa-check-circle"></i><span>Fechamentos</span>
+          </div>
+          <div class="recurso-item">
+            <i class="fas fa-check-circle"></i><span>Etiquetas</span>
+          </div>
+          <div class="recurso-item">
+            <i class="fas fa-check-circle"></i><span>Notas</span>
+          </div>
+          <div class="recurso-item">
+            <i class="fas fa-check-circle"></i
+            ><span>WAVoIP (chamadas por WhatsApp)</span>
+          </div>
+          <div class="recurso-item">
+            <i class="fas fa-check-circle"></i><span>Protocolos</span>
+          </div>
+          <div class="recurso-item">
+            <i class="fas fa-check-circle"></i><span>Avaliações</span>
+          </div>
+          <div class="recurso-item">
+            <i class="fas fa-check-circle"></i
+            ><span>Horário de Atendimento</span>
+          </div>
+          <div class="recurso-item">
+            <i class="fas fa-check-circle"></i
+            ><span>Campanhas de Mensagem</span>
+          </div>
+          <div class="recurso-item">
+            <i class="fas fa-check-circle"></i><span>Suporte via WhatsApp</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="avulsos" class="recursos">
+      <div class="container">
+        <h3 class="valores-title">Valores Avulsos</h3>
+        <table class="tabela-valores">
+          <thead>
+            <tr>
+              <th>Recurso Avulso</th>
+              <th>Valor</th>
+              <th>Observações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Conexão adicional</td>
+              <td>R$ 70,00 / mês</td>
+              <td>WhatsApp Business API ou Cloud API</td>
+            </tr>
+            <tr>
+              <td>Usuário adicional</td>
+              <td>R$ 25,00 / mês</td>
+              <td>Até o limite técnico permitido</td>
+            </tr>
+            <tr>
+              <td>Configuração inicial</td>
+              <td>R$ 199,00 (único)</td>
+              <td>Ativação, integrações, onboarding</td>
+            </tr>
+            <tr>
+              <td>Treinamento personalizado</td>
+              <td>R$ 249,00 (único)</td>
+              <td>Via vídeo ou ao vivo (até 1h)</td>
+            </tr>
+            <tr>
+              <td>Integração externa</td>
+              <td>Sob consulta</td>
+              <td>CRM, ERP, automações específicas</td>
+            </tr>
+            <tr>
+              <td>Integração com Typebot</td>
+              <td>Sob consulta</td>
+              <td>Inclui mapeamento e fluxos custom</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </section>
 
     <section id="sobre" class="sobre">
-        <div class="container">
-            <h2 class="section-title">Sobre Nós</h2>
-            <p>Somos uma empresa especializada em soluções digitais e consultoria empresarial, com mais de 10 anos de experiência no mercado. Nossa equipe é formada por profissionais altamente qualificados e comprometidos com a excelência.</p>
-            <p>Nosso objetivo é oferecer serviços de alta qualidade que realmente façam diferença para o seu negócio, ajudando-o a alcançar resultados concretos e sustentáveis.</p>
-        </div>
+      <div class="container">
+        <h2 class="section-title">Sobre Nós</h2>
+        <p>
+          Somos uma empresa especializada em soluções digitais e consultoria
+          empresarial, com mais de 10 anos de experiência no mercado.
+        </p>
+        <p>
+          Nosso objetivo é oferecer serviços de alta qualidade que realmente
+          façam diferença para o seu negócio.
+        </p>
+      </div>
     </section>
 
     <section id="contato" class="contato">
-        <div class="container">
-            <h2 class="section-title">Entre em Contato</h2>
-            <div class="contato-container">
-                <div class="contato-info">
-                    <div class="info-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <p>Av. Paulista, 1000 - São Paulo, SP</p>
-                    </div>
-                    <div class="info-item">
-                        <i class="fas fa-phone"></i>
-                        <p>(11) 99999-9999</p>
-                    </div>
-                    <div class="info-item">
-                        <i class="fas fa-envelope"></i>
-                        <p>contato@servicospro.com.br</p>
-                    </div>
-                </div>
-                <form class="contato-form" id="formulario-contato">
-                    <div class="form-group">
-                        <input type="text" name="nome" id="nome" placeholder="Nome completo" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="email" name="email" id="email" placeholder="E-mail" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="tel" name="telefone" id="telefone" placeholder="Telefone">
-                    </div>
-                    <div class="form-group">
-                        <select name="servico" id="servico" required>
-                            <option value="" disabled selected>Selecione o serviço</option>
-                            <option value="web">Desenvolvimento Web</option>
-                            <option value="marketing">Marketing Digital</option>
-                            <option value="app">Aplicativos Mobile</option>
-                            <option value="consultoria">Consultoria Empresarial</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <textarea name="mensagem" id="mensagem" placeholder="Sua mensagem" rows="5" required></textarea>
-                    </div>
-                    <div id="status-mensagem" class="status-mensagem"></div>
-                    <button type="submit" class="btn btn-full">Enviar mensagem</button>
-                </form>
+      <div class="container">
+        <h2 class="section-title">Entre em Contato</h2>
+        <div class="contato-form-container">
+          <form class="contato-form" id="formulario-contato">
+            <div class="form-group">
+              <input
+                type="text"
+                name="nome"
+                id="nome"
+                placeholder="Nome completo"
+                required
+              />
             </div>
+            <div class="form-group">
+              <input
+                type="email"
+                name="email"
+                id="email"
+                placeholder="E-mail"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <input
+                type="tel"
+                name="telefone"
+                id="telefone"
+                placeholder="Telefone"
+              />
+            </div>
+            <div class="form-group">
+              <select name="servico" id="servico" required>
+                <option value="" disabled selected>Selecione o serviço</option>
+                <option value="Plano Start">Plano Start</option>
+                <option value="Plano Smart">Plano Smart</option>
+                <option value="Plano Pro">Plano Pro</option>
+                <option value="Plano Corporativo">Plano Corporativo</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <textarea
+                name="mensagem"
+                id="mensagem"
+                placeholder="Sua mensagem"
+                rows="5"
+                required
+              ></textarea>
+            </div>
+            <div id="status-mensagem" class="status-mensagem"></div>
+            <button type="submit" class="btn btn-full">Enviar mensagem</button>
+          </form>
         </div>
+        <div style="margin-top: 20px">
+          <p><i class="fas fa-phone"></i> (11) 99999-9999</p>
+          <p><i class="fas fa-envelope"></i> contato@empresa.com.br</p>
+        </div>
+      </div>
     </section>
 
     <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <h3>ServiçosPro</h3>
-                    <p>Soluções profissionais para o seu negócio</p>
-                </div>
-                <div class="social-media">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                </div>
-            </div>
-            <div class="copyright">
-                <p>&copy; 2025 ServiçosPro. Todos os direitos reservados.</p>
-            </div>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-logo">
+            <h3>Atendimento WhatsApp</h3>
+            <p>Simplifique seu atendimento com nossa solução completa.</p>
+          </div>
+          <div class="social-media">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+          </div>
         </div>
+        <div class="copyright">
+          <p>&copy; 2025 Atendimento WhatsApp. Todos os direitos reservados.</p>
+        </div>
+      </div>
     </footer>
 
     <script src="js/script.js"></script>
-</body>
+  </body>
 </html>
