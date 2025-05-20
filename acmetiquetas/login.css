@@ -1,0 +1,133 @@
+/* Estilos específicos para a página de login */
+.login-page {
+    background-color: var(--background-color);
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 200px);
+    padding: 2rem 1rem;
+}
+
+.login-card {
+    background-color: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-lg);
+    width: 100%;
+    max-width: 450px;
+    padding: 2.5rem;
+    text-align: center;
+}
+
+.login-card h2 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+    font-size: 1.8rem;
+}
+
+.login-subtitle {
+    color: var(--text-light);
+    margin-bottom: 2rem;
+}
+
+.login-form {
+    text-align: left;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.input-with-icon {
+    position: relative;
+}
+
+.input-with-icon i {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-light);
+}
+
+.input-with-icon input {
+    width: 100%;
+    padding: 0.8rem 1rem 0.8rem 2.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+.input-with-icon input:focus {
+    border-color: var(--primary-light);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+    outline: none;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+}
+
+.remember-me input {
+    margin-right: 0.5rem;
+}
+
+.remember-me label {
+    margin-bottom: 0;
+    cursor: pointer;
+}
+
+.btn-login {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-top: 1rem;
+}
+
+.btn-login:hover {
+    background-color: var(--primary-dark);
+}
+
+.btn-login i {
+    margin-right: 0.5rem;
+}
+
+.login-footer {
+    margin-top: 2rem;
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+.error-message {
+    background-color: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+    padding: 0.8rem;
+    border-radius: 4px;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+/* Responsividade */
+@media (max-width: 576px) {
+    .login-card {
+        padding: 1.5rem;
+    }
+}

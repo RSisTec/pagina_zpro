@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACM Etiquetas - Login</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="login-page">
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="images/logo.png" alt="ACM Etiquetas Logo" class="logo-img">
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="login-container">
+            <div class="login-card">
+                <h2>Área Administrativa</h2>
+                <p class="login-subtitle">Faça login para acessar o painel de controle</p>
+                
+                <div id="login-error" class="error-message" style="display: none;">
+                    <p>Usuário ou senha incorretos. Tente novamente.</p>
+                </div>
+                
+                <form id="login-form" class="login-form">
+                    <div class="form-group">
+                        <label for="username">Usuário</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="username" name="username" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Senha</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="password" name="password" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group remember-me">
+                        <input type="checkbox" id="remember" name="remember">
+                        <label for="remember">Lembrar-me</label>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-login">
+                        <i class="fas fa-sign-in-alt"></i> Entrar
+                    </button>
+                </form>
+                
+                <div class="login-footer">
+                    <p>ACM Etiquetas &copy; 2025</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="login.js"></script>
+</body>
+</html>

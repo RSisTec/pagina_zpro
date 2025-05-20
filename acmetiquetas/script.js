@@ -1,58 +1,98 @@
-// Dados dos produtos (simulando um banco de dados)
-const produtos = [
-    {
-        id: 1,
-        nome: "Etiquetas Adesivas Personalizadas",
-        descricao: "Etiquetas adesivas personalizadas para produtos e embalagens.",
-        descricaoCompleta: "Nossas etiquetas adesivas personalizadas são ideais para identificação de produtos, embalagens e materiais promocionais. Produzidas com materiais de alta qualidade, garantem durabilidade e excelente acabamento. Disponíveis em diversos tamanhos, formatos e materiais, como papel couché, vinil, BOPP transparente e metalizado.",
-        preco: 45.90,
-        imagem: "images/etiqueta_adesiva.jpg"
-    },
-    {
-        id: 2,
-        nome: "Etiquetas para Roupas",
-        descricao: "Etiquetas de tecido para roupas e produtos têxteis.",
-        descricaoCompleta: "Etiquetas de tecido para identificação de peças de vestuário e produtos têxteis. Produzidas com materiais de alta qualidade, são confortáveis ao contato com a pele e resistentes a múltiplas lavagens. Personalizáveis com sua marca, tamanhos, composição e instruções de lavagem, atendendo às normas do INMETRO.",
-        preco: 39.90,
-        imagem: "images/etiqueta_roupa.jpg"
-    },
-    {
-        id: 3,
-        nome: "Etiquetas para Alimentos",
-        descricao: "Etiquetas específicas para embalagens de alimentos.",
-        descricaoCompleta: "Etiquetas para embalagens de alimentos, produzidas com materiais seguros e atóxicos, adequados para contato indireto com alimentos. Resistentes à umidade e variações de temperatura. Ideais para identificação de produtos alimentícios, com espaço para informações nutricionais, data de validade e código de barras, em conformidade com as normas da ANVISA.",
-        preco: 52.50,
-        imagem: "images/etiqueta_alimento.jpg"
-    },
-    {
-        id: 4,
-        nome: "Etiquetas de Código de Barras",
-        descricao: "Etiquetas com código de barras para controle de estoque.",
-        descricaoCompleta: "Etiquetas com código de barras para controle de estoque e identificação de produtos. Impressão de alta definição que garante a leitura precisa por scanners e leitores. Disponíveis em diversos formatos e padrões (EAN-13, CODE 128, QR Code, entre outros). Material resistente a manuseio frequente, ideal para uso em comércio, indústria e logística.",
-        preco: 35.00,
-        imagem: "images/etiqueta_codigo_barras.jpg"
-    },
-    {
-        id: 5,
-        nome: "Etiquetas de Patrimônio",
-        descricao: "Etiquetas para identificação de patrimônio empresarial.",
-        descricaoCompleta: "Etiquetas para identificação e controle de patrimônio empresarial. Produzidas com materiais ultra-resistentes e adesivos de alta fixação, são ideais para identificação de equipamentos, móveis e outros bens. Personalizáveis com numeração sequencial, código de barras e logotipo da empresa. Resistentes a tentativas de remoção, garantindo maior segurança para seus ativos.",
-        preco: 65.80,
-        imagem: "images/etiqueta_patrimonio.jpg"
-    },
-    {
-        id: 6,
-        nome: "Etiquetas RFID",
-        descricao: "Etiquetas com tecnologia RFID para rastreamento.",
-        descricaoCompleta: "Etiquetas com tecnologia RFID (Identificação por Radiofrequência) para rastreamento e controle avançado de produtos e ativos. Permitem leitura à distância e sem contato visual, agilizando processos de inventário e logística. Disponíveis em diversos formatos e frequências, adequadas para diferentes aplicações como controle de acesso, rastreamento de produtos, gestão de estoque e muito mais.",
-        preco: 89.90,
-        imagem: "images/etiqueta_rfid.jpg"
+// URL da API para buscar produtos (substitua pela URL real da sua API)
+const API_URL = 'https://api.exemplo.com/produtos';
+
+// Número de WhatsApp para contato (substitua pelo número real)
+const WHATSAPP_NUMBER = '5500000000000';
+
+// Array para armazenar os produtos carregados da API
+let produtos = [];
+
+// Função para buscar produtos da API
+async function buscarProdutos() {
+    try {
+        // Exibir indicador de carregamento
+        const produtosContainer = document.getElementById('produtos-container');
+        produtosContainer.innerHTML = '<div class="loading">Carregando produtos...</div>';
+        
+        // Em um ambiente real, descomentar a linha abaixo para buscar da API real
+        // const response = await fetch(API_URL);
+        
+        // Para fins de demonstração, simulamos uma resposta da API
+        // Em produção, remova este bloco e use o fetch real acima
+        const mockResponse = {
+            ok: true,
+            json: async () => {
+                // Simulando um pequeno atraso como em uma API real
+                await new Promise(resolve => setTimeout(resolve, 800));
+                
+                return [
+                    {
+                        id: 1,
+                        nome: "Etiquetas Adesivas Personalizadas",
+                        descricao: "Etiquetas adesivas personalizadas para produtos e embalagens.",
+                        descricaoCompleta: "Nossas etiquetas adesivas personalizadas são ideais para identificação de produtos, embalagens e materiais promocionais. Produzidas com materiais de alta qualidade, garantem durabilidade e excelente acabamento.",
+                        preco: 45.90,
+                        imagem: "https://via.placeholder.com/300x200?text=Etiqueta+Adesiva"
+                    },
+                    {
+                        id: 2,
+                        nome: "Etiquetas para Roupas",
+                        descricao: "Etiquetas de tecido para roupas e produtos têxteis.",
+                        descricaoCompleta: "Etiquetas de tecido para identificação de peças de vestuário e produtos têxteis. Produzidas com materiais de alta qualidade, são confortáveis ao contato com a pele e resistentes a múltiplas lavagens.",
+                        preco: 39.90,
+                        imagem: "https://via.placeholder.com/300x200?text=Etiqueta+Roupa"
+                    },
+                    {
+                        id: 3,
+                        nome: "Etiquetas para Alimentos",
+                        descricao: "Etiquetas específicas para embalagens de alimentos.",
+                        descricaoCompleta: "Etiquetas para embalagens de alimentos, produzidas com materiais seguros e atóxicos, adequados para contato indireto com alimentos. Resistentes à umidade e variações de temperatura.",
+                        preco: 52.50,
+                        imagem: "https://via.placeholder.com/300x200?text=Etiqueta+Alimento"
+                    }
+                ];
+            }
+        };
+        
+        // Usar a resposta simulada para demonstração
+        const response = mockResponse;
+        
+        if (!response.ok) {
+            throw new Error('Falha ao buscar produtos da API');
+        }
+        
+        // Obter os dados da resposta
+        const data = await response.json();
+        
+        // Armazenar os produtos no array global
+        produtos = data;
+        
+        // Criar os cards de produtos
+        criarCardsProdutos();
+        
+    } catch (error) {
+        console.error('Erro ao buscar produtos:', error);
+        const produtosContainer = document.getElementById('produtos-container');
+        produtosContainer.innerHTML = `
+            <div class="error-message">
+                <p>Não foi possível carregar os produtos.</p>
+                <button class="btn btn-retry" onclick="buscarProdutos()">Tentar novamente</button>
+            </div>
+        `;
     }
-];
+}
 
 // Função para criar os cards de produtos
 function criarCardsProdutos() {
     const produtosContainer = document.getElementById('produtos-container');
+    
+    // Limpar o container antes de adicionar os novos cards
+    produtosContainer.innerHTML = '';
+    
+    if (produtos.length === 0) {
+        produtosContainer.innerHTML = '<div class="no-products">Nenhum produto encontrado</div>';
+        return;
+    }
     
     produtos.forEach(produto => {
         // Criar elementos
@@ -71,7 +111,7 @@ function criarCardsProdutos() {
                 <div class="produto-preco">R$ ${produto.preco.toFixed(2)}</div>
                 <div class="produto-botoes">
                     <div class="btn btn-detalhes" data-id="${produto.id}">Ver Detalhes</div>
-                    <a href="https://wa.me/5500000000000?text=Olá! Tenho interesse no produto: ${encodeURIComponent(produto.nome)}" class="btn btn-whatsapp" target="_blank">
+                    <a href="https://wa.me/${WHATSAPP_NUMBER}?text=Olá! Tenho interesse no produto: ${encodeURIComponent(produto.nome)}" class="btn btn-whatsapp" target="_blank">
                         <i class="fab fa-whatsapp"></i> WhatsApp
                     </a>
                 </div>
@@ -105,7 +145,7 @@ function abrirModalDetalhes(produtoId) {
         <h2 class="modal-produto-titulo">${produto.nome}</h2>
         <p class="modal-produto-descricao">${produto.descricaoCompleta}</p>
         <div class="modal-produto-preco">R$ ${produto.preco.toFixed(2)}</div>
-        <a href="https://wa.me/5500000000000?text=Olá! Tenho interesse no produto: ${encodeURIComponent(produto.nome)}" class="modal-produto-botao" target="_blank">
+        <a href="https://wa.me/${WHATSAPP_NUMBER}?text=Olá! Tenho interesse no produto: ${encodeURIComponent(produto.nome)}" class="modal-produto-botao" target="_blank">
             <i class="fab fa-whatsapp"></i> Entrar em contato
         </a>
     `;
@@ -130,11 +170,5 @@ function abrirModalDetalhes(produtoId) {
 
 // Inicializar o site quando o DOM estiver carregado
 document.addEventListener('DOMContentLoaded', () => {
-    criarCardsProdutos();
+    buscarProdutos();
 });
-
-// Função para criar imagens de placeholder para desenvolvimento
-function criarImagensPlaceholder() {
-    // Esta função seria usada apenas durante o desenvolvimento
-    // para criar imagens de exemplo se necessário
-}

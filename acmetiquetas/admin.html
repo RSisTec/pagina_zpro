@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACM Etiquetas - Administração</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="admin-page">
+    <header class="admin-header">
+        <div class="container">
+            <div class="admin-header-content">
+                <div class="logo">
+                    <img src="images/logo.png" alt="ACM Etiquetas Logo" class="logo-img">
+                </div>
+                <div class="admin-user-info">
+                    <span id="admin-username">Administrador</span>
+                    <button id="btn-logout" class="btn btn-logout">
+                        <i class="fas fa-sign-out-alt"></i> Sair
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="admin-main">
+        <div class="container">
+            <div class="admin-title-bar">
+                <h1>Gerenciamento de Produtos</h1>
+                <button id="btn-add-product" class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Novo Produto
+                </button>
+            </div>
+
+            <div class="admin-search-bar">
+                <div class="search-input">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search-products" placeholder="Pesquisar produtos...">
+                </div>
+            </div>
+
+            <div class="admin-content">
+                <div id="products-loading" class="loading">
+                    <i class="fas fa-spinner fa-spin"></i> Carregando produtos...
+                </div>
+                
+                <div id="products-error" class="error-message" style="display: none;">
+                    <p>Não foi possível carregar os produtos.</p>
+                    <button class="btn btn-retry" onclick="buscarProdutos()">Tentar novamente</button>
+                </div>
+                
+                <div id="products-empty" class="empty-message" style="display: none;">
+                    <p>Nenhum produto encontrado.</p>
+                </div>
+                
+                <div id="products-table-container" style="display: none;">
+                    <table class="products-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Imagem</th>
+                                <th>Nome</th>
+                                <th>Descrição</th>
+                                <th>Preço</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="products-table-body">
+                            <!-- Os produtos serão inseridos aqui via JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal para adicionar/editar produto -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 id="modal-title">Adicionar Novo Produto</h2>
+            
+            <form id="product-form">
+                <input type="hidden" id="product-id">
+                
+                <div class="form-group">
+                    <label for="product-name">Nome do Produto</label>
+                    <input type="text" id="product-name" name="nome" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="product-description">Descrição Curta</label>
+                    <input type="text" id="product-description" name="descricao" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="product-full-description">Descrição Completa</label>
+                    <textarea id="product-full-description" name="descricaoCompleta" rows="4" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="product-price">Preço (R$)</label>
+                    <input type="number" id="product-price" name="preco" step="0.01" min="0" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="product-image">URL da Imagem</label>
+                    <input type="url" id="product-image" name="imagem" required>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-cancel" id="btn-cancel">Cancelar</button>
+                    <button type="submit" class="btn btn-save">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de confirmação para excluir produto -->
+    <div id="confirm-modal" class="modal">
+        <div class="modal-content confirm-content">
+            <h2>Confirmar Exclusão</h2>
+            <p>Tem certeza que deseja excluir este produto?</p>
+            <div class="confirm-actions">
+                <button class="btn btn-cancel" id="btn-cancel-delete">Cancelar</button>
+                <button class="btn btn-delete" id="btn-confirm-delete">Excluir</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
