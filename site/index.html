@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RSisTec</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(to bottom, #001f4d, #003366);
+            color: white;
+            text-align: center;
+        }
+
+        nav {
+            background: #001a33;
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav .nav-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 1200px;
+            margin: auto;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav ul li a:hover,
+        nav .acessar a:hover {
+            color: #00bfff;
+        }
+
+        nav .acessar a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            padding: 0.5rem 1rem;
+            border: 1px solid #00bfff;
+            border-radius: 5px;
+        }
+
+        nav .acessar {
+            margin-left: auto;
+        }
+
+        header {
+            padding: 2rem 1rem;
+        }
+
+        header img {
+            max-width: 240px;
+            margin-bottom: 1rem;
+        }
+
+        .planos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .plano {
+            background: #00264d;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .preco {
+            font-size: 1.5rem;
+            margin: 0.5rem 0;
+        }
+
+        .recursos-comuns {
+            background: linear-gradient(135deg, #003366, #004080);
+            padding: 3rem 1rem;
+        }
+
+        .recursos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .conexoes {
+            background: #00264d;
+            padding: 2rem 1rem;
+        }
+
+        .conexoes-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .conexao-item {
+            background: #003366;
+            border-radius: 8px;
+            padding: 1rem;
+            width: 160px;
+        }
+
+        .user-roles {
+            background: linear-gradient(135deg, #001a33, #00264d);
+            padding: 3rem 1rem;
+        }
+
+        .roles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .role-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        footer {
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            color: #ccc;
+            padding: 1rem;
+        }
+
+        /* Estilo para seção contato */
+        .contato {
+            background: #001a33;
+            padding: 2rem 1rem;
+            color: white;
+        }
+
+        .contato h2 {
+            margin-bottom: 1rem;
+        }
+
+        #contatoForm {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 400px;
+            margin: auto;
+        }
+
+        #contatoForm input,
+        #contatoForm button {
+            padding: 0.8rem;
+            border-radius: 5px;
+            border: none;
+            font-size: 1rem;
+        }
+
+        #contatoForm input {
+            background: #fff;
+            color: #000;
+        }
+
+        #contatoForm button {
+            background: #00bfff;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #contatoForm button:hover {
+            background: #0099cc;
+        }
+
+        @media (max-width: 768px) {
+            nav .acessar {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                margin-top: 1rem;
+            }
+        }
+
+        .grid-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            /* Duas colunas iguais */
+            gap: 1rem;
+            /* Espaçamento entre os campos */
+        }
+
+        .grid-form input {
+            width: 100%;
+            padding: 0.75rem;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+
+<meta property="og:title" content="RSisTec - Soluções em Atendimento via WhatsApp" />
+<meta property="og:description"
+    content="Conheça nossos planos e serviços de chatbots que vendem, atendem e encantam." />
+<meta property="og:image" content="https://seusite.com.br/imagens/preview.jpg" />
+<meta property="og:url" content="https://rsistec.com.br" />
+
+<body>
+    <nav>
+        <div class="nav-container">
+            <ul>
+                <li><a href="#planos">Planos</a></li>
+                <li><a href="#recursos">Recursos</a></li>
+                <li><a href="#conexoes">Conexões</a></li>
+                <li><a href="#contato">Entrar em contato</a></li>
+            </ul>
+            <div class="acessar">
+                <a href="https://app.rsistec.com.br" target="_blank">Acessar</a>
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        <img src="logo2.png" alt="Logo RSisTec">
+        <h1>Conheça nossos planos</h1>
+        <p class="subtitulo">Soluções com chatbots que vendem, atendem e encantam</p>
+    </header>
+
+    <section class="planos" id="planos">
+        <div class="plano">
+            <h2>Plano Start</h2>
+            <p class="preco">R$ 299/mês</p>
+            <ul>
+                <li>1 conexão WhatsApp</li>
+                <li>3 usuários</li>
+                <li>Todos os recursos incluídos</li>
+            </ul>
+        </div>
+        <div class="plano">
+            <h2>Plano Smart</h2>
+            <p class="preco">R$ 499/mês</p>
+            <ul>
+                <li>3 conexões WhatsApp</li>
+                <li>10 usuários</li>
+                <li>Todos os recursos incluídos</li>
+            </ul>
+        </div>
+        <div class="plano">
+            <h2>Plano Pro</h2>
+            <p class="preco">R$ 699/mês</p>
+            <ul>
+                <li>5 conexões WhatsApp</li>
+                <li>20 usuários</li>
+                <li>Todos os recursos incluídos</li>
+            </ul>
+        </div>
+        <div class="plano">
+            <h2>Plano Corporativo</h2>
+            <p class="preco">R$ 899/mês</p>
+            <ul>
+                <li>10 conexões WhatsApp</li>
+                <li>50 usuários</li>
+                <li>Todos os recursos incluídos</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="recursos-comuns" id="recursos">
+        <h2>Todos os planos incluem</h2>
+        <div class="recursos-grid">
+            <div class="item">✅ Canais</div>
+            <div class="item">✅ Painel de Atendimentos</div>
+            <div class="item">✅ Relatórios</div>
+            <div class="item">✅ Usuários</div>
+            <div class="item">✅ Filas</div>
+            <div class="item">✅ Equipes</div>
+            <div class="item">✅ Mensagens Rápidas</div>
+            <div class="item">✅ ChatBot</div>
+            <div class="item">✅ Agendamentos</div>
+            <div class="item">✅ Aniversários</div>
+            <div class="item">✅ Fechamentos</div>
+            <div class="item">✅ Etiquetas</div>
+            <div class="item">✅ Notas</div>
+            <div class="item">✅ Wavoip</div>
+            <div class="item">✅ Protocolos</div>
+            <div class="item">✅ Avaliações</div>
+            <div class="item">✅ Horário de Atendimento</div>
+            <div class="item">✅ Campanha</div>
+        </div>
+    </section>
+
+    <section class="conexoes" id="conexoes">
+        <h2>Conexões Disponíveis</h2>
+        <div class="conexoes-grid">
+            <div class="conexao-item">📱 WhatsApp Não Oficial</div>
+            <div class="conexao-item">✅ WhatsApp Oficial</div>
+            <div class="conexao-item">✈️ Telegram</div>
+            <div class="conexao-item">🔗 HubNotifica-me</div>
+            <div class="conexao-item">💬 WebChat</div>
+        </div>
+    </section>
+
+    <section class="user-roles">
+        <h2>Perfis de Usuário por Plano</h2>
+        <div class="roles-grid">
+            <div class="role-item">
+                <h3>Administradores</h3>
+                <p>Acesso total a configurações e relatórios.</p>
+            </div>
+            <div class="role-item">
+                <h3>Supervisores</h3>
+                <p>Gerenciam filas, acompanham atendentes e relatórios.</p>
+            </div>
+            <div class="role-item">
+                <h3>Atendentes</h3>
+                <p>Responsáveis pelo atendimento direto ao cliente.</p>
+            </div>
+        </div>
+        <p>Em cada plano, você pode dividir seus usuários entre esses perfis conforme sua necessidade.</p>
+    </section>
+
+    <section class="contato" id="contato">
+        <h2>Entre em Contato</h2>
+        <form id="contatoForm">
+            <div class="grid-form">
+                <input type="text" name="nome" placeholder="Seu nome" required />
+                <input type="email" name="email" placeholder="Seu e-mail" required />
+                <input type="tel" name="telefone" placeholder="Telefone" />
+                <input type="text" name="whatsapp" placeholder="WhatsApp" required />
+            </div>
+
+            <div style="margin-top: 1rem;">
+                <label>
+                    <input type="checkbox" name="novidades_email" id="novidades_email" checked />
+                    Aceito receber novidades e atualizações por <strong>e-mail</strong>
+                </label>
+                <br />
+                <label>
+                    <input type="checkbox" name="novidades_whatsapp" id="novidades_whatsapp" checked />
+                    Aceito receber novidades e atualizações por <strong>WhatsApp</strong>
+                </label>
+            </div>
+
+            <button type="submit" style="margin-top: 1rem;">Enviar</button>
+        </form>
+        <p id="respostaContato" style="margin-top: 1rem;"></p>
+    </section>
+
+
+
+
+    <footer>
+        &copy; 2025 RSisTec. Todos os direitos reservados.
+    </footer>
+
+    <script>
+        document.getElementById('contatoForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const form = e.target;
+            const dados = {
+                nome: form.nome.value,
+                email: form.email.value,
+                telefone: form.telefone.value,
+                whatsapp: form.whatsapp.value,
+                novidades_email: form.novidades_email.checked,      // true ou false
+                novidades_whatsapp: form.novidades_whatsapp.checked // true ou false
+            };
+
+            fetch('https://webhook.rsistec.com.br/webhook/site/recebecontato', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dados)
+            })
+                .then(async res => {
+                    const data = await res.json();
+
+                    if (!res.ok) {
+                        const erro = data.message || 'Erro desconhecido ao enviar';
+                        throw new Error(erro);
+                    }
+
+                    document.getElementById('respostaContato').textContent = "Mensagem enviada com sucesso!";
+                    form.reset();
+                })
+                .catch(err => {
+                    console.error(err);
+                    document.getElementById('respostaContato').textContent = err.message || "Erro ao enviar. Tente novamente.";
+                });
+        });
+    </script>
+
+
+
+</body>
+
+</html>
