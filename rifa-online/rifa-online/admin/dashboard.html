@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - RifaOnline</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+    <div class="admin-wrapper">
+        <aside class="admin-sidebar">
+            <div class="sidebar-header">
+                <h2>RifaOnline</h2>
+            </div>
+            <nav class="sidebar-menu">
+                <a href="dashboard.html" class="menu-item active">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="rifas.html" class="menu-item">
+                    <i class="fas fa-ticket-alt"></i>
+                    <span>Rifas</span>
+                </a>
+                <a href="criar-rifa.html" class="menu-item">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>Nova Rifa</span>
+                </a>
+                <a href="vendas.html" class="menu-item">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Vendas</span>
+                </a>
+                <a href="clientes.html" class="menu-item">
+                    <i class="fas fa-users"></i>
+                    <span>Clientes</span>
+                </a>
+                <a href="configuracoes.html" class="menu-item">
+                    <i class="fas fa-cog"></i>
+                    <span>Configurações</span>
+                </a>
+            </nav>
+        </aside>
+
+        <main class="admin-content">
+            <header class="admin-header">
+                <div class="header-left">
+                    <button class="toggle-sidebar">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1>Dashboard</h1>
+                </div>
+                <div class="admin-user dropdown">
+                    <div class="dropdown-toggle">
+                        <div class="user-info">
+                            <div class="user-name">Admin</div>
+                            <div class="user-role">Administrador</div>
+                        </div>
+                        <div class="user-avatar">A</div>
+                    </div>
+                    <div class="dropdown-menu">
+                        <a href="perfil.html" class="dropdown-item">
+                            <i class="fas fa-user"></i>
+                            Meu Perfil
+                        </a>
+                        <a href="configuracoes.html" class="dropdown-item">
+                            <i class="fas fa-cog"></i>
+                            Configurações
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item btn-logout">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Sair
+                        </a>
+                    </div>
+                </div>
+            </header>
+
+            <div class="admin-main">
+                <h2 class="page-title">Visão Geral</h2>
+
+                <div class="dashboard-cards">
+                    <div class="dashboard-card">
+                        <div class="card-icon icon-primary">
+                            <i class="fas fa-ticket-alt"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3 id="total-rifas">6</h3>
+                            <p>Rifas Ativas</p>
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="card-icon icon-success">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3 id="total-vendas">124</h3>
+                            <p>Vendas Realizadas</p>
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="card-icon icon-warning">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3 id="total-clientes">87</h3>
+                            <p>Clientes</p>
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <div class="card-icon icon-danger">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <div class="card-info">
+                            <h3 id="total-faturamento">R$ 3.450,00</h3>
+                            <p>Faturamento Total</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h3 class="admin-card-title">Rifas Recentes</h3>
+                        <a href="rifas.html" class="btn-secondary">Ver Todas</a>
+                    </div>
+                    <div class="admin-card-body">
+                        <div class="table-responsive">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Título</th>
+                                        <th>Data do Sorteio</th>
+                                        <th>Valor</th>
+                                        <th>Vendidos</th>
+                                        <th>Status</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabela-rifas">
+                                    <tr>
+                                        <td>iPhone 15 Pro Max</td>
+                                        <td>15/06/2025</td>
+                                        <td>R$ 10,00</td>
+                                        <td>37/100</td>
+                                        <td><span class="status-badge badge-success">Ativa</span></td>
+                                        <td>
+                                            <div class="action-buttons">
+                                                <a href="gerenciar-rifa.html?id=rifa1" class="btn-action btn-view" title="Visualizar">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <a href="editar-rifa.html?id=rifa1" class="btn-action btn-edit" title="Editar">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <button class="btn-action btn-delete" title="Excluir" data-id="rifa1">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>PlayStation 5 + 3 Jogos</td>
+                                        <td>30/05/2025</td>
+                                        <td>R$ 5,00</td>
+                                        <td>142/200</td>
+                                        <td><span class="status-badge badge-success">Ativa</span></td>
+                                        <td>
+                                            <div class="action-buttons">
+                                                <a href="gerenciar-rifa.html?id=rifa2" class="btn-action btn-view" title="Visualizar">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <a href="editar-rifa.html?id=rifa2" class="btn-action btn-edit" title="Editar">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <button class="btn-action btn-delete" title="Excluir" data-id="rifa2">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Smart TV 65" 4K</td>
+                                        <td>05/06/2025</td>
+                                        <td>R$ 8,00</td>
+                                        <td>98/150</td>
+                                        <td><span class="status-badge badge-success">Ativa</span></td>
+                                        <td>
+                                            <div class="action-buttons">
+                                                <a href="gerenciar-rifa.html?id=rifa3" class="btn-action btn-view" title="Visualizar">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <a href="editar-rifa.html?id=rifa3" class="btn-action btn-edit" title="Editar">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <button class="btn-action btn-delete" title="Excluir" data-id="rifa3">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Vale Compras R$ 1.000</td>
+                                        <td>25/05/2025</td>
+                                        <td>R$ 2,50</td>
+                                        <td>321/500</td>
+                                        <td><span class="status-badge badge-warning">Aguardando Sorteio</span></td>
+                                        <td>
+                                            <div class="action-buttons">
+                                                <a href="gerenciar-rifa.html?id=rifa5" class="btn-action btn-view" title="Visualizar">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                                <a href="editar-rifa.html?id=rifa5" class="btn-action btn-edit" title="Editar">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <button class="btn-action btn-delete" title="Excluir" data-id="rifa5">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <h3 class="admin-card-title">Vendas Recentes</h3>
+                        <a href="vendas.html" class="btn-secondary">Ver Todas</a>
+                    </div>
+                    <div class="admin-card-body">
+                        <div class="table-responsive">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Cliente</th>
+                                        <th>Rifa</th>
+                                        <th>Números</th>
+                                        <th>Data</th>
+                                        <th>Valor</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabela-vendas">
+                                    <tr>
+                                        <td>João Silva</td>
+                                        <td>iPhone 15 Pro Max</td>
+                                        <td>12, 34, 56</td>
+                                        <td>18/05/2025</td>
+                                        <td>R$ 30,00</td>
+                                        <td><span class="status-badge badge-success">Confirmado</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Maria Oliveira</td>
+                                        <td>PlayStation 5 + 3 Jogos</td>
+                                        <td>07, 21, 42, 65</td>
+                                        <td>17/05/2025</td>
+                                        <td>R$ 20,00</td>
+                                        <td><span class="status-badge badge-success">Confirmado</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Pedro Santos</td>
+                                        <td>Smart TV 65" 4K</td>
+                                        <td>18, 27</td>
+                                        <td>16/05/2025</td>
+                                        <td>R$ 16,00</td>
+                                        <td><span class="status-badge badge-warning">Aguardando</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ana Costa</td>
+                                        <td>Vale Compras R$ 1.000</td>
+                                        <td>101, 102, 103, 104, 105</td>
+                                        <td>15/05/2025</td>
+                                        <td>R$ 12,50</td>
+                                        <td><span class="status-badge badge-danger">Cancelado</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/utils.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/admin.js"></script>
+</body>
+</html>

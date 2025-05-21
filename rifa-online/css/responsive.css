@@ -1,0 +1,153 @@
+/* Estilos Responsivos */
+
+/* Tablets (768px e abaixo) */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 15px;
+    }
+    
+    .hero {
+        padding: 60px 0;
+    }
+    
+    .hero h2 {
+        font-size: 2rem;
+    }
+    
+    .hero p {
+        font-size: 1rem;
+    }
+    
+    .rifas-filter {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+    }
+    
+    .search-box {
+        width: 100%;
+    }
+    
+    .search-box input {
+        width: 100%;
+    }
+    
+    .steps {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    #form-newsletter {
+        flex-direction: column;
+    }
+    
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+}
+
+/* Mobile (576px e abaixo) */
+@media (max-width: 576px) {
+    .header .container {
+        padding: 10px 15px;
+    }
+    
+    .main-nav {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 80%;
+        height: 100vh;
+        background-color: white;
+        box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        transition: var(--transition);
+        z-index: 1000;
+        padding: 80px 20px 20px;
+    }
+    
+    .main-nav.active {
+        left: 0;
+    }
+    
+    .main-nav ul {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .menu-toggle {
+        display: block;
+        z-index: 1001;
+    }
+    
+    .menu-toggle.active i:before {
+        content: "\f00d";
+    }
+    
+    .hero {
+        padding: 40px 0;
+    }
+    
+    .hero h2 {
+        font-size: 1.8rem;
+    }
+    
+    .section-title {
+        font-size: 1.6rem;
+    }
+    
+    .rifas-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .steps {
+        grid-template-columns: 1fr;
+    }
+    
+    .step {
+        padding: 15px;
+    }
+    
+    .step-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.2rem;
+    }
+}
+
+/* Overlay para menu mobile */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition);
+}
+
+.overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Ajustes para telas grandes (acima de 1200px) */
+@media (min-width: 1201px) {
+    .container {
+        padding: 0 30px;
+    }
+    
+    .hero-content {
+        max-width: 900px;
+    }
+    
+    .hero h2 {
+        font-size: 3rem;
+    }
+    
+    .rifas-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}

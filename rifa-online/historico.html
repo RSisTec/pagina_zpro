@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Histórico de Rifas - RifaOnline</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1>RifaOnline</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="historico.html" class="active">Histórico</a></li>
+                    <li><a href="admin/index.html" class="btn-admin">Área do Admin</a></li>
+                </ul>
+            </nav>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <div class="overlay"></div>
+
+    <section class="historico-section">
+        <div class="container">
+            <h2 class="section-title">Histórico de Rifas</h2>
+            
+            <div class="historico-filtros">
+                <div class="filtro-grupo">
+                    <label>Filtrar por:</label>
+                    <select id="filtro-status">
+                        <option value="todas">Todas as rifas</option>
+                        <option value="encerradas">Encerradas</option>
+                        <option value="sorteadas">Sorteadas</option>
+                    </select>
+                </div>
+                <div class="search-box">
+                    <input type="text" id="busca-historico" placeholder="Buscar rifas...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+            
+            <div class="historico-lista" id="historico-lista">
+                <!-- Os itens de histórico serão inseridos aqui via JavaScript -->
+                <div class="loading-spinner">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Carregando histórico...</p>
+                </div>
+            </div>
+            
+            <div class="paginacao" id="paginacao">
+                <button class="btn-pagina" data-page="prev" disabled><i class="fas fa-chevron-left"></i></button>
+                <div class="paginas" id="paginas">
+                    <button class="btn-pagina active" data-page="1">1</button>
+                    <button class="btn-pagina" data-page="2">2</button>
+                    <button class="btn-pagina" data-page="3">3</button>
+                </div>
+                <button class="btn-pagina" data-page="next"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Template para item de histórico (será clonado via JavaScript) -->
+    <template id="template-item-historico">
+        <div class="historico-item">
+            <div class="historico-img">
+                <img src="" alt="">
+                <div class="historico-status"></div>
+            </div>
+            <div class="historico-info">
+                <h3 class="historico-titulo"></h3>
+                <div class="historico-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-calendar"></i>
+                        <span class="data-sorteio"></span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-users"></i>
+                        <span class="total-participantes"></span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-ticket-alt"></i>
+                        <span class="total-numeros"></span>
+                    </div>
+                </div>
+                <div class="historico-resultado">
+                    <h4>Resultado:</h4>
+                    <div class="ganhadores">
+                        <!-- Os ganhadores serão inseridos aqui via JavaScript -->
+                    </div>
+                </div>
+                <a href="#" class="btn-secondary btn-ver-rifa">Ver Detalhes</a>
+            </div>
+        </div>
+    </template>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>RifaOnline</h2>
+                    <p>A melhor plataforma de rifas online do Brasil.</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Links Rápidos</h3>
+                    <ul>
+                        <li><a href="index.html">Início</a></li>
+                        <li><a href="historico.html">Histórico</a></li>
+                        <li><a href="#">Termos de Uso</a></li>
+                        <li><a href="#">Política de Privacidade</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contato</h3>
+                    <p><i class="fas fa-envelope"></i> contato@rifaonline.com.br</p>
+                    <p><i class="fas fa-phone"></i> (11) 99999-9999</p>
+                    <div class="social-media">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 RifaOnline - Todos os direitos reservados</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/historico.js"></script>
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RifaOnline - Rifas digitais fáceis e seguras</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <h1>RifaOnline</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html" class="active">Início</a></li>
+                    <li><a href="historico.html">Histórico</a></li>
+                    <li><a href="admin/index.html" class="btn-admin">Área do Admin</a></li>
+                </ul>
+            </nav>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h2>Participe de rifas online de forma fácil e segura</h2>
+                <p>Escolha seus números da sorte e concorra a prêmios incríveis!</p>
+                <a href="#rifas-ativas" class="btn-primary">Ver Rifas Disponíveis</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="rifas-ativas" class="rifas-section">
+        <div class="container">
+            <h2 class="section-title">Rifas Ativas</h2>
+            <div class="rifas-filter">
+                <select id="filtro-rifas">
+                    <option value="todas">Todas as rifas</option>
+                    <option value="ativas">Rifas ativas</option>
+                    <option value="aguardando">Aguardando sorteio</option>
+                </select>
+                <div class="search-box">
+                    <input type="text" id="busca-rifa" placeholder="Buscar rifas...">
+                    <button><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+            
+            <div class="rifas-grid" id="lista-rifas">
+                <!-- Os cards de rifas serão inseridos aqui via JavaScript -->
+                <div class="loading-spinner">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Carregando rifas...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="como-funciona">
+        <div class="container">
+            <h2 class="section-title">Como Funciona</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>1. Escolha uma rifa</h3>
+                    <p>Navegue pelas rifas disponíveis e escolha a que mais lhe interessa.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-ticket-alt"></i>
+                    </div>
+                    <h3>2. Selecione seus números</h3>
+                    <p>Escolha quantos números desejar para aumentar suas chances.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <h3>3. Faça o pagamento</h3>
+                    <p>Realize o pagamento de forma rápida e segura.</p>
+                </div>
+                <div class="step">
+                    <div class="step-icon">
+                        <i class="fas fa-trophy"></i>
+                    </div>
+                    <h3>4. Aguarde o sorteio</h3>
+                    <p>Fique atento à data do sorteio e boa sorte!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="newsletter">
+        <div class="container">
+            <div class="newsletter-content">
+                <h2>Fique por dentro das novidades!</h2>
+                <p>Cadastre-se para receber notificações sobre novas rifas e resultados.</p>
+                <form id="form-newsletter">
+                    <input type="email" placeholder="Seu melhor e-mail" required>
+                    <button type="submit" class="btn-primary">Cadastrar</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>RifaOnline</h2>
+                    <p>A melhor plataforma de rifas online do Brasil.</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Links Rápidos</h3>
+                    <ul>
+                        <li><a href="index.html">Início</a></li>
+                        <li><a href="historico.html">Histórico</a></li>
+                        <li><a href="#">Termos de Uso</a></li>
+                        <li><a href="#">Política de Privacidade</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contato</h3>
+                    <p><i class="fas fa-envelope"></i> contato@rifaonline.com.br</p>
+                    <p><i class="fas fa-phone"></i> (11) 99999-9999</p>
+                    <div class="social-media">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 RifaOnline - Todos os direitos reservados</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Template para card de rifa (será clonado via JavaScript) -->
+    <template id="template-card-rifa">
+        <div class="rifa-card">
+            <div class="rifa-img">
+                <img src="" alt="">
+                <div class="rifa-status"></div>
+            </div>
+            <div class="rifa-info">
+                <h3 class="rifa-titulo"></h3>
+                <p class="rifa-descricao"></p>
+                <div class="rifa-detalhes">
+                    <div class="rifa-preco">
+                        <i class="fas fa-tag"></i>
+                        <span></span>
+                    </div>
+                    <div class="rifa-data">
+                        <i class="fas fa-calendar"></i>
+                        <span></span>
+                    </div>
+                </div>
+                <div class="rifa-progresso">
+                    <div class="progresso-barra">
+                        <div class="progresso-preenchimento"></div>
+                    </div>
+                    <div class="progresso-info">
+                        <span class="numeros-vendidos"></span>
+                        <span class="total-numeros"></span>
+                    </div>
+                </div>
+                <a href="#" class="btn-secondary btn-ver-rifa">Ver Detalhes</a>
+            </div>
+        </div>
+    </template>
+
+    <script src="js/utils.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

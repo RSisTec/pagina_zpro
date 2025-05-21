@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rifas - RifaOnline</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+    <div class="admin-wrapper">
+        <aside class="admin-sidebar">
+            <div class="sidebar-header">
+                <h2>RifaOnline</h2>
+            </div>
+            <nav class="sidebar-menu">
+                <a href="dashboard.html" class="menu-item">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="rifas.html" class="menu-item active">
+                    <i class="fas fa-ticket-alt"></i>
+                    <span>Rifas</span>
+                </a>
+                <a href="criar-rifa.html" class="menu-item">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>Nova Rifa</span>
+                </a>
+                <a href="vendas.html" class="menu-item">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Vendas</span>
+                </a>
+                <a href="clientes.html" class="menu-item">
+                    <i class="fas fa-users"></i>
+                    <span>Clientes</span>
+                </a>
+                <a href="configuracoes.html" class="menu-item">
+                    <i class="fas fa-cog"></i>
+                    <span>Configurações</span>
+                </a>
+            </nav>
+        </aside>
+
+        <main class="admin-content">
+            <header class="admin-header">
+                <div class="header-left">
+                    <button class="toggle-sidebar">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1>Rifas</h1>
+                </div>
+                <div class="admin-user dropdown">
+                    <div class="dropdown-toggle">
+                        <div class="user-info">
+                            <div class="user-name">Admin</div>
+                            <div class="user-role">Administrador</div>
+                        </div>
+                        <div class="user-avatar">A</div>
+                    </div>
+                    <div class="dropdown-menu">
+                        <a href="perfil.html" class="dropdown-item">
+                            <i class="fas fa-user"></i>
+                            Meu Perfil
+                        </a>
+                        <a href="configuracoes.html" class="dropdown-item">
+                            <i class="fas fa-cog"></i>
+                            Configurações
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" class="dropdown-item btn-logout">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Sair
+                        </a>
+                    </div>
+                </div>
+            </header>
+
+            <div class="admin-main">
+                <div class="page-header">
+                    <h2 class="page-title">Gerenciar Rifas</h2>
+                    <a href="criar-rifa.html" class="btn-primary">
+                        <i class="fas fa-plus"></i> Nova Rifa
+                    </a>
+                </div>
+
+                <div class="admin-card">
+                    <div class="admin-card-header">
+                        <div class="filtro-grupo">
+                            <select id="filtro-status">
+                                <option value="todas">Todas as rifas</option>
+                                <option value="ativa">Ativas</option>
+                                <option value="aguardando">Aguardando Sorteio</option>
+                                <option value="encerrada">Encerradas</option>
+                            </select>
+                            <div class="search-box">
+                                <input type="text" id="busca-rifa" placeholder="Buscar rifas...">
+                                <button><i class="fas fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="admin-card-body">
+                        <div class="table-responsive">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Título</th>
+                                        <th>Data do Sorteio</th>
+                                        <th>Valor</th>
+                                        <th>Vendidos</th>
+                                        <th>Status</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabela-rifas-completa">
+                                    <tr>
+                                        <td colspan="6" class="text-center">
+                                            <div class="loading-spinner">
+                                                <i class="fas fa-spinner fa-spin"></i>
+                                                <p>Carregando rifas...</p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../js/utils.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/admin.js"></script>
+</body>
+</html>

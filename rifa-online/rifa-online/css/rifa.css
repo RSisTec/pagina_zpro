@@ -1,0 +1,743 @@
+/* Estilos específicos para a página de rifa */
+
+/* Cabeçalho da Rifa */
+.rifa-detalhe {
+    padding: 40px 0;
+}
+
+.rifa-header {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.rifa-header-img {
+    position: relative;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.rifa-header-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.rifa-header-info h1 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    color: var(--text-color);
+}
+
+.rifa-header-info p {
+    color: var(--text-light);
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.rifa-meta {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.rifa-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--text-light);
+}
+
+.rifa-meta-item i {
+    color: var(--primary-color);
+    font-size: 1.2rem;
+}
+
+.rifa-meta-item strong {
+    color: var(--text-color);
+}
+
+/* Tabs de Conteúdo */
+.rifa-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 30px;
+}
+
+.tab-btn {
+    padding: 15px 25px;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.tab-btn.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Filtro de Números */
+.numeros-filtro {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.filtro-grupo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.filtro-opcoes {
+    display: flex;
+    gap: 10px;
+}
+
+.filtro-btn {
+    padding: 8px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    background: white;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.filtro-btn.active {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.busca-numero {
+    display: flex;
+    overflow: hidden;
+    border-radius: var(--radius);
+}
+
+.busca-numero input {
+    padding: 8px 15px;
+    border: 1px solid var(--border-color);
+    border-right: none;
+    border-radius: var(--radius) 0 0 var(--radius);
+    width: 150px;
+}
+
+.busca-numero button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0 15px;
+    cursor: pointer;
+    border-radius: 0 var(--radius) var(--radius) 0;
+}
+
+/* Grid de Números */
+.numeros-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.numero-item {
+    width: 100%;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius);
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    border: 1px solid var(--border-color);
+}
+
+.numero-disponivel {
+    background-color: white;
+    color: var(--text-color);
+}
+
+.numero-disponivel:hover {
+    background-color: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.numero-selecionado {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.numero-reservado {
+    background-color: var(--warning-color);
+    color: white;
+    border-color: var(--warning-color);
+    cursor: not-allowed;
+}
+
+.numero-vendido {
+    background-color: var(--danger-color);
+    color: white;
+    border-color: var(--danger-color);
+    cursor: not-allowed;
+}
+
+/* Números Selecionados */
+.numeros-selecionados {
+    background-color: white;
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+}
+
+.numeros-selecionados h3 {
+    margin-bottom: 15px;
+    color: var(--text-color);
+}
+
+.selecionados-lista {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+    min-height: 50px;
+}
+
+.sem-numeros {
+    color: var(--text-light);
+    font-style: italic;
+}
+
+.numero-tag {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.numero-tag i {
+    cursor: pointer;
+}
+
+.selecionados-resumo {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 0;
+    border-top: 1px solid var(--border-color);
+    margin-bottom: 20px;
+}
+
+.resumo-item {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.btn-continuar {
+    width: 100%;
+}
+
+/* Informações da Rifa */
+.rifa-info-content {
+    background-color: white;
+    border-radius: var(--radius);
+    padding: 30px;
+    box-shadow: var(--shadow);
+}
+
+.rifa-info-content h3 {
+    margin-bottom: 15px;
+    color: var(--text-color);
+}
+
+.rifa-info-content p {
+    margin-bottom: 25px;
+    color: var(--text-light);
+    line-height: 1.6;
+}
+
+.rifa-regras {
+    margin-bottom: 25px;
+    padding-left: 20px;
+}
+
+.rifa-regras li {
+    margin-bottom: 10px;
+    color: var(--text-light);
+    position: relative;
+    padding-left: 15px;
+}
+
+.rifa-regras li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+}
+
+/* Ganhadores */
+.ganhadores-content {
+    background-color: white;
+    border-radius: var(--radius);
+    padding: 30px;
+    box-shadow: var(--shadow);
+}
+
+.sem-ganhadores {
+    text-align: center;
+    padding: 40px 0;
+}
+
+.sem-ganhadores i {
+    font-size: 3rem;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.sem-ganhadores h3 {
+    margin-bottom: 10px;
+    color: var(--text-color);
+}
+
+.sem-ganhadores p {
+    color: var(--text-light);
+}
+
+.ganhadores-lista {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.ganhador-card {
+    background-color: var(--bg-color);
+    border-radius: var(--radius);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.ganhador-posicao {
+    width: 40px;
+    height: 40px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
+
+.ganhador-info h4 {
+    margin-bottom: 5px;
+    color: var(--text-color);
+}
+
+.ganhador-info p {
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+/* Modal de Checkout */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    overflow-y: auto;
+}
+
+.modal-content {
+    background-color: white;
+    margin: 50px auto;
+    padding: 30px;
+    border-radius: var(--radius);
+    max-width: 800px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-light);
+}
+
+.modal h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: var(--text-color);
+}
+
+/* Etapas de Checkout */
+.checkout-steps {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.checkout-steps::before {
+    content: '';
+    position: absolute;
+    top: 25px;
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background-color: var(--border-color);
+    z-index: 1;
+}
+
+.checkout-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+.step-number {
+    width: 50px;
+    height: 50px;
+    background-color: white;
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    margin-bottom: 10px;
+    transition: var(--transition);
+}
+
+.checkout-step.active .step-number {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.step-text {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+.checkout-step.active .step-text {
+    color: var(--primary-color);
+}
+
+/* Conteúdo do Checkout */
+.checkout-page {
+    display: none;
+}
+
+.checkout-page.active {
+    display: block;
+}
+
+/* Formulário */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    font-size: 1rem;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.checkout-resumo {
+    background-color: var(--bg-color);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin: 30px 0;
+}
+
+.checkout-resumo h4 {
+    margin-bottom: 15px;
+    color: var(--text-color);
+}
+
+.resumo-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    color: var(--text-light);
+}
+
+.resumo-item.total {
+    border-top: 1px solid var(--border-color);
+    padding-top: 10px;
+    margin-top: 10px;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+/* Métodos de Pagamento */
+.metodos-pagamento h3 {
+    margin-bottom: 20px;
+    color: var(--text-color);
+}
+
+.metodo-opcoes {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.metodo-opcao {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    border: 2px solid var(--border-color);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.metodo-opcao i {
+    font-size: 1.5rem;
+    color: var(--text-light);
+}
+
+.metodo-opcao.active {
+    border-color: var(--primary-color);
+    background-color: rgba(78, 84, 200, 0.05);
+}
+
+.metodo-opcao.active i {
+    color: var(--primary-color);
+}
+
+.metodo-conteudo {
+    display: none;
+}
+
+.metodo-conteudo.active {
+    display: block;
+}
+
+/* PIX */
+.pix-info {
+    text-align: center;
+}
+
+.pix-qrcode {
+    margin: 20px auto;
+    max-width: 200px;
+}
+
+.pix-codigo {
+    display: flex;
+    margin: 0 auto 20px;
+    max-width: 400px;
+}
+
+.pix-codigo input {
+    flex: 1;
+    padding: 12px 15px;
+    border: 1px solid var(--border-color);
+    border-right: none;
+    border-radius: var(--radius) 0 0 var(--radius);
+    font-size: 0.9rem;
+    background-color: var(--bg-color);
+}
+
+.pix-aviso, .boleto-aviso {
+    font-size: 0.9rem;
+    color: var(--text-light);
+    font-style: italic;
+}
+
+/* Boleto */
+.boleto-info {
+    text-align: center;
+    padding: 30px 0;
+}
+
+.boleto-info p {
+    margin-bottom: 20px;
+}
+
+#btn-gerar-boleto {
+    margin-bottom: 20px;
+}
+
+/* Confirmação */
+.confirmacao-content {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.confirmacao-icon {
+    font-size: 4rem;
+    color: var(--success-color);
+    margin-bottom: 20px;
+}
+
+.confirmacao-content h3 {
+    margin-bottom: 15px;
+    color: var(--text-color);
+}
+
+.confirmacao-content p {
+    margin-bottom: 30px;
+    color: var(--text-light);
+}
+
+.confirmacao-detalhes {
+    background-color: var(--bg-color);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.confirmacao-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.confirmacao-acoes {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+/* Responsividade para a página de rifa */
+@media (max-width: 768px) {
+    .rifa-header {
+        grid-template-columns: 1fr;
+    }
+    
+    .rifa-header-img {
+        height: 250px;
+    }
+    
+    .numeros-filtro {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+    }
+    
+    .filtro-grupo {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .filtro-opcoes {
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 10px;
+    }
+    
+    .busca-numero {
+        width: 100%;
+    }
+    
+    .modal-content {
+        margin: 20px;
+        padding: 20px;
+    }
+    
+    .checkout-steps::before {
+        left: 15%;
+        right: 15%;
+    }
+    
+    .step-text {
+        font-size: 0.8rem;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .metodo-opcoes {
+        flex-direction: column;
+    }
+    
+    .confirmacao-acoes {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 576px) {
+    .rifa-tabs {
+        overflow-x: auto;
+        padding-bottom: 5px;
+    }
+    
+    .tab-btn {
+        padding: 10px 15px;
+        white-space: nowrap;
+    }
+    
+    .numeros-grid {
+        grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+    }
+}
