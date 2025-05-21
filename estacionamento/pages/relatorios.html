@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatórios - Sistema de Estacionamento</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+    <!-- Container principal -->
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <span>EstacionaFácil</span>
+                </div>
+                <button class="sidebar-toggle" id="sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            <ul class="sidebar-menu">
+                <li class="sidebar-item">
+                    <a href="admin.html" class="sidebar-link">
+                        <i class="fas fa-tachometer-alt sidebar-icon"></i>
+                        <span class="sidebar-text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="mensalistas.html" class="sidebar-link">
+                        <i class="fas fa-users sidebar-icon"></i>
+                        <span class="sidebar-text">Mensalistas</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="isentos.html" class="sidebar-link">
+                        <i class="fas fa-user-shield sidebar-icon"></i>
+                        <span class="sidebar-text">Isentos</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="servicos.html" class="sidebar-link">
+                        <i class="fas fa-tools sidebar-icon"></i>
+                        <span class="sidebar-text">Serviços</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="precos.html" class="sidebar-link">
+                        <i class="fas fa-dollar-sign sidebar-icon"></i>
+                        <span class="sidebar-text">Preços</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="relatorios.html" class="sidebar-link active">
+                        <i class="fas fa-chart-bar sidebar-icon"></i>
+                        <span class="sidebar-text">Relatórios</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="usuarios.html" class="sidebar-link">
+                        <i class="fas fa-user-cog sidebar-icon"></i>
+                        <span class="sidebar-text">Usuários</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" id="logout-link">
+                        <i class="fas fa-sign-out-alt sidebar-icon"></i>
+                        <span class="sidebar-text">Sair</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Conteúdo principal -->
+        <main class="main-content">
+            <div class="page-header">
+                <h1 class="page-title">Relatórios</h1>
+                <button class="btn btn-primary" id="btn-exportar-relatorio">
+                    <i class="fas fa-download"></i> Exportar
+                </button>
+            </div>
+
+            <!-- Filtros de relatório -->
+            <div class="filter-container">
+                <div class="filter-group">
+                    <label for="filtro-data-inicio" class="form-label">Data Inicial</label>
+                    <input type="date" id="filtro-data-inicio" class="form-control">
+                </div>
+                <div class="filter-group">
+                    <label for="filtro-data-fim" class="form-label">Data Final</label>
+                    <input type="date" id="filtro-data-fim" class="form-control">
+                </div>
+                <div class="filter-group">
+                    <label for="filtro-tipo" class="form-label">Tipo</label>
+                    <select id="filtro-tipo" class="form-control">
+                        <option value="todos">Todos</option>
+                        <option value="estacionamento">Estacionamento</option>
+                        <option value="servicos">Serviços</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="filtro-cliente" class="form-label">Cliente</label>
+                    <select id="filtro-cliente" class="form-control">
+                        <option value="todos">Todos</option>
+                        <option value="normal">Normal</option>
+                        <option value="mensalista">Mensalista</option>
+                        <option value="isento">Isento</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <button class="btn btn-outline" id="btn-filtrar">
+                        <i class="fas fa-filter"></i> Filtrar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Resumo do relatório -->
+            <div class="report-summary">
+                <div class="summary-card">
+                    <div class="summary-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <div class="summary-content">
+                        <div class="summary-title">Total de Veículos</div>
+                        <div class="summary-value" id="total-veiculos">0</div>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <div class="summary-content">
+                        <div class="summary-title">Total de Serviços</div>
+                        <div class="summary-value" id="total-servicos">0</div>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="summary-content">
+                        <div class="summary-title">Faturamento</div>
+                        <div class="summary-value" id="total-faturamento">R$ 0,00</div>
+                    </div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="summary-content">
+                        <div class="summary-title">Tempo Médio</div>
+                        <div class="summary-value" id="tempo-medio">0h</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gráficos -->
+            <div class="charts-container">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3 class="chart-title">Faturamento por Dia</h3>
+                    </div>
+                    <div class="chart-body">
+                        <canvas id="chart-faturamento"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3 class="chart-title">Distribuição por Tipo</h3>
+                    </div>
+                    <div class="chart-body">
+                        <canvas id="chart-distribuicao"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabela de detalhes -->
+            <div class="table-container">
+                <h3 class="section-title">Detalhes</h3>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Ticket</th>
+                                <th>Placa</th>
+                                <th>Tipo</th>
+                                <th>Entrada</th>
+                                <th>Saída</th>
+                                <th>Tempo</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabela-detalhes">
+                            <!-- Os detalhes serão carregados dinamicamente aqui -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Notificação -->
+    <div class="notification" id="notification">
+        <div class="notification-header">
+            <h4 class="notification-title">Notificação</h4>
+            <button class="notification-close" id="close-notification">&times;</button>
+        </div>
+        <div class="notification-body" id="notification-message">
+            Mensagem de notificação
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/relatorios.js"></script>
+</body>
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mensalistas - Sistema de Estacionamento</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+    <!-- Container principal -->
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <span>EstacionaFácil</span>
+                </div>
+                <button class="sidebar-toggle" id="sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            <ul class="sidebar-menu">
+                <li class="sidebar-item">
+                    <a href="admin.html" class="sidebar-link">
+                        <i class="fas fa-tachometer-alt sidebar-icon"></i>
+                        <span class="sidebar-text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="mensalistas.html" class="sidebar-link active">
+                        <i class="fas fa-users sidebar-icon"></i>
+                        <span class="sidebar-text">Mensalistas</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="isentos.html" class="sidebar-link">
+                        <i class="fas fa-user-shield sidebar-icon"></i>
+                        <span class="sidebar-text">Isentos</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="servicos.html" class="sidebar-link">
+                        <i class="fas fa-tools sidebar-icon"></i>
+                        <span class="sidebar-text">Serviços</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="precos.html" class="sidebar-link">
+                        <i class="fas fa-dollar-sign sidebar-icon"></i>
+                        <span class="sidebar-text">Preços</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="relatorios.html" class="sidebar-link">
+                        <i class="fas fa-chart-bar sidebar-icon"></i>
+                        <span class="sidebar-text">Relatórios</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="usuarios.html" class="sidebar-link">
+                        <i class="fas fa-user-cog sidebar-icon"></i>
+                        <span class="sidebar-text">Usuários</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" id="logout-link">
+                        <i class="fas fa-sign-out-alt sidebar-icon"></i>
+                        <span class="sidebar-text">Sair</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Conteúdo principal -->
+        <main class="main-content">
+            <div class="page-header">
+                <h1 class="page-title">Mensalistas</h1>
+                <button class="btn btn-primary" id="btn-novo-mensalista">
+                    <i class="fas fa-plus"></i> Novo Mensalista
+                </button>
+            </div>
+
+            <!-- Lista de mensalistas -->
+            <div id="mensalistas-list">
+                <!-- Os mensalistas serão carregados dinamicamente aqui -->
+                <div class="loader-container">
+                    <div class="loader"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal de Mensalista -->
+    <div class="modal-overlay" id="mensalista-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="mensalista-modal-title">Novo Mensalista</h3>
+                <button class="modal-close" id="close-mensalista-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="mensalista-form">
+                    <input type="hidden" id="mensalista-id">
+                    <div class="form-group">
+                        <label for="mensalista-nome" class="form-label">Nome</label>
+                        <input type="text" id="mensalista-nome" class="form-control" placeholder="Nome completo">
+                    </div>
+                    <div class="form-group">
+                        <label for="mensalista-documento" class="form-label">CPF/CNPJ</label>
+                        <input type="text" id="mensalista-documento" class="form-control" placeholder="CPF ou CNPJ">
+                    </div>
+                    <div class="form-group">
+                        <label for="mensalista-telefone" class="form-label">Telefone</label>
+                        <input type="tel" id="mensalista-telefone" class="form-control" placeholder="(XX) XXXXX-XXXX">
+                    </div>
+                    <div class="form-group">
+                        <label for="mensalista-email" class="form-label">Email</label>
+                        <input type="email" id="mensalista-email" class="form-control" placeholder="email@exemplo.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="mensalista-endereco" class="form-label">Endereço</label>
+                        <input type="text" id="mensalista-endereco" class="form-control" placeholder="Endereço completo">
+                    </div>
+                    <div class="form-group">
+                        <label for="mensalista-plano" class="form-label">Plano</label>
+                        <select id="mensalista-plano" class="form-control">
+                            <option value="">Selecione o plano</option>
+                            <option value="Diário">Diário</option>
+                            <option value="Semanal">Semanal</option>
+                            <option value="Mensal">Mensal</option>
+                            <option value="Trimestral">Trimestral</option>
+                            <option value="Semestral">Semestral</option>
+                            <option value="Anual">Anual</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="mensalista-data-inicio" class="form-label">Data de Início</label>
+                        <input type="date" id="mensalista-data-inicio" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="mensalista-data-fim" class="form-label">Data de Término</label>
+                        <input type="date" id="mensalista-data-fim" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Veículos</label>
+                        <div id="mensalista-veiculos-container">
+                            <div class="d-flex mb-2">
+                                <input type="text" class="form-control mensalista-veiculo" placeholder="Placa do veículo">
+                                <button type="button" class="btn btn-sm btn-danger ml-2 btn-remover-veiculo">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-outline" id="btn-adicionar-veiculo">
+                            <i class="fas fa-plus"></i> Adicionar Veículo
+                        </button>
+                    </div>
+                    <div class="text-right mt-4">
+                        <button type="submit" class="btn btn-primary" id="btn-salvar-mensalista">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmação -->
+    <div class="modal-overlay" id="confirmacao-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Confirmação</h3>
+                <button class="modal-close" id="close-confirmacao-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="confirmacao-mensagem">Tem certeza que deseja excluir este mensalista?</p>
+                <div class="text-right mt-4">
+                    <button class="btn btn-outline" id="btn-cancelar-confirmacao">Cancelar</button>
+                    <button class="btn btn-danger" id="btn-confirmar">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notificação -->
+    <div class="notification" id="notification">
+        <div class="notification-header">
+            <h4 class="notification-title">Notificação</h4>
+            <button class="notification-close" id="close-notification">&times;</button>
+        </div>
+        <div class="notification-body" id="notification-message">
+            Mensagem de notificação
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/main.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/mensalistas.js"></script>
+</body>
+</html>

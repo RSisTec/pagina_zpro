@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Serviços - Sistema de Estacionamento</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+    <!-- Container principal -->
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <span>EstacionaFácil</span>
+                </div>
+                <button class="sidebar-toggle" id="sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            <ul class="sidebar-menu">
+                <li class="sidebar-item">
+                    <a href="admin.html" class="sidebar-link">
+                        <i class="fas fa-tachometer-alt sidebar-icon"></i>
+                        <span class="sidebar-text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="mensalistas.html" class="sidebar-link">
+                        <i class="fas fa-users sidebar-icon"></i>
+                        <span class="sidebar-text">Mensalistas</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="isentos.html" class="sidebar-link">
+                        <i class="fas fa-user-shield sidebar-icon"></i>
+                        <span class="sidebar-text">Isentos</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="servicos.html" class="sidebar-link active">
+                        <i class="fas fa-tools sidebar-icon"></i>
+                        <span class="sidebar-text">Serviços</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="precos.html" class="sidebar-link">
+                        <i class="fas fa-dollar-sign sidebar-icon"></i>
+                        <span class="sidebar-text">Preços</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="relatorios.html" class="sidebar-link">
+                        <i class="fas fa-chart-bar sidebar-icon"></i>
+                        <span class="sidebar-text">Relatórios</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="usuarios.html" class="sidebar-link">
+                        <i class="fas fa-user-cog sidebar-icon"></i>
+                        <span class="sidebar-text">Usuários</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" id="logout-link">
+                        <i class="fas fa-sign-out-alt sidebar-icon"></i>
+                        <span class="sidebar-text">Sair</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Conteúdo principal -->
+        <main class="main-content">
+            <div class="page-header">
+                <h1 class="page-title">Serviços</h1>
+                <button class="btn btn-primary" id="btn-novo-servico">
+                    <i class="fas fa-plus"></i> Novo Serviço
+                </button>
+            </div>
+
+            <!-- Lista de serviços -->
+            <div class="service-list" id="servicos-list">
+                <!-- Os serviços serão carregados dinamicamente aqui -->
+                <div class="loader-container">
+                    <div class="loader"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal de Serviço -->
+    <div class="modal-overlay" id="servico-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title" id="servico-modal-title">Novo Serviço</h3>
+                <button class="modal-close" id="close-servico-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="servico-form">
+                    <input type="hidden" id="servico-id">
+                    <div class="form-group">
+                        <label for="servico-nome" class="form-label">Nome do Serviço</label>
+                        <input type="text" id="servico-nome" class="form-control" placeholder="Nome do serviço">
+                    </div>
+                    <div class="form-group">
+                        <label for="servico-descricao" class="form-label">Descrição</label>
+                        <textarea id="servico-descricao" class="form-control" rows="3" placeholder="Descrição do serviço"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="servico-valor" class="form-label">Valor (R$)</label>
+                        <input type="number" id="servico-valor" class="form-control" placeholder="0.00" step="0.01" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="servico-tempo" class="form-label">Tempo Estimado (minutos)</label>
+                        <input type="number" id="servico-tempo" class="form-control" placeholder="30" min="1">
+                    </div>
+                    <div class="text-right mt-4">
+                        <button type="submit" class="btn btn-primary" id="btn-salvar-servico">Salvar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmação -->
+    <div class="modal-overlay" id="confirmacao-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Confirmação</h3>
+                <button class="modal-close" id="close-confirmacao-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="confirmacao-mensagem">Tem certeza que deseja excluir este serviço?</p>
+                <div class="text-right mt-4">
+                    <button class="btn btn-outline" id="btn-cancelar-confirmacao">Cancelar</button>
+                    <button class="btn btn-danger" id="btn-confirmar">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notificação -->
+    <div class="notification" id="notification">
+        <div class="notification-header">
+            <h4 class="notification-title">Notificação</h4>
+            <button class="notification-close" id="close-notification">&times;</button>
+        </div>
+        <div class="notification-body" id="notification-message">
+            Mensagem de notificação
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/main.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/servicos.js"></script>
+</body>
+</html>

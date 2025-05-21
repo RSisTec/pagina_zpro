@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Sistema de Estacionamento</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+    <!-- Container principal -->
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <span>EstacionaFácil</span>
+                </div>
+                <button class="sidebar-toggle" id="sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            <ul class="sidebar-menu">
+                <li class="sidebar-item">
+                    <a href="admin.html" class="sidebar-link active">
+                        <i class="fas fa-tachometer-alt sidebar-icon"></i>
+                        <span class="sidebar-text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="mensalistas.html" class="sidebar-link">
+                        <i class="fas fa-users sidebar-icon"></i>
+                        <span class="sidebar-text">Mensalistas</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="isentos.html" class="sidebar-link">
+                        <i class="fas fa-user-shield sidebar-icon"></i>
+                        <span class="sidebar-text">Isentos</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="servicos.html" class="sidebar-link">
+                        <i class="fas fa-tools sidebar-icon"></i>
+                        <span class="sidebar-text">Serviços</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="precos.html" class="sidebar-link">
+                        <i class="fas fa-dollar-sign sidebar-icon"></i>
+                        <span class="sidebar-text">Preços</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="relatorios.html" class="sidebar-link">
+                        <i class="fas fa-chart-bar sidebar-icon"></i>
+                        <span class="sidebar-text">Relatórios</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="usuarios.html" class="sidebar-link">
+                        <i class="fas fa-user-cog sidebar-icon"></i>
+                        <span class="sidebar-text">Usuários</span>
+                    </a>
+                </li>
+                <li class="sidebar-item">
+                    <a href="#" class="sidebar-link" id="logout-link">
+                        <i class="fas fa-sign-out-alt sidebar-icon"></i>
+                        <span class="sidebar-text">Sair</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Conteúdo principal -->
+        <main class="main-content">
+            <div class="page-header">
+                <h1 class="page-title">Dashboard</h1>
+                <div>
+                    <span id="user-name">Administrador</span>
+                    <span class="badge badge-primary ml-2" id="user-level">Admin</span>
+                </div>
+            </div>
+
+            <!-- Cards de estatísticas -->
+            <div class="dashboard-stats">
+                <div class="stat-card">
+                    <div class="stat-icon bg-primary">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="total-veiculos">0</div>
+                        <div class="stat-label">Veículos no Pátio</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon bg-secondary">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="total-mensalistas">0</div>
+                        <div class="stat-label">Mensalistas</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon bg-accent">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="total-servicos">0</div>
+                        <div class="stat-label">Serviços Hoje</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon bg-danger">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="total-faturamento">R$ 0,00</div>
+                        <div class="stat-label">Faturamento Hoje</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Veículos no Pátio -->
+            <div class="vehicles-header">
+                <h2>Veículos no Pátio</h2>
+                <div class="vehicles-actions">
+                    <button class="btn btn-primary" id="btn-entrada">
+                        <i class="fas fa-plus"></i> Entrada
+                    </button>
+                    <button class="btn btn-secondary" id="btn-saida">
+                        <i class="fas fa-minus"></i> Saída
+                    </button>
+                    <button class="btn btn-accent" id="btn-servico">
+                        <i class="fas fa-tools"></i> Serviço
+                    </button>
+                </div>
+            </div>
+
+            <div id="vehicles-list">
+                <!-- Os veículos serão carregados dinamicamente aqui -->
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal de Entrada de Veículo -->
+    <div class="modal-overlay" id="entrada-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Entrada de Veículo</h3>
+                <button class="modal-close" id="close-entrada-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-steps">
+                    <div class="form-step active" id="step-placa">
+                        <div class="step-number">1</div>
+                        <div class="step-title">Placa</div>
+                    </div>
+                    <div class="form-step" id="step-dados">
+                        <div class="step-number">2</div>
+                        <div class="step-title">Dados</div>
+                    </div>
+                    <div class="form-step" id="step-contato">
+                        <div class="step-number">3</div>
+                        <div class="step-title">Contato</div>
+                    </div>
+                </div>
+
+                <form id="entrada-form">
+                    <!-- Step 1: Placa -->
+                    <div class="form-step-content" id="step-placa-content">
+                        <div class="form-group">
+                            <label for="entrada-placa" class="form-label">Placa do Veículo</label>
+                            <input type="text" id="entrada-placa" class="form-control" placeholder="Digite a placa (ABC1234)" maxlength="7">
+                            <small class="form-text">Digite a placa e pressione Enter para consultar</small>
+                        </div>
+                        <div class="text-right">
+                            <button type="button" class="btn btn-primary" id="btn-consultar-placa">Consultar</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Dados do Veículo -->
+                    <div class="form-step-content" id="step-dados-content" style="display: none;">
+                        <div id="alerta-veiculo-patio" class="alert alert-warning" style="display: none;">
+                            Este veículo já está no pátio!
+                        </div>
+                        <div id="alerta-mensalista" class="alert alert-info" style="display: none;">
+                            Este veículo pertence a um mensalista.
+                        </div>
+                        <div id="alerta-isento" class="alert alert-info" style="display: none;">
+                            Este veículo está isento de pagamento.
+                        </div>
+                        <div class="form-group">
+                            <label for="entrada-modelo" class="form-label">Modelo</label>
+                            <input type="text" id="entrada-modelo" class="form-control" placeholder="Modelo do veículo">
+                        </div>
+                        <div class="form-group">
+                            <label for="entrada-cor" class="form-label">Cor</label>
+                            <input type="text" id="entrada-cor" class="form-control" placeholder="Cor do veículo">
+                        </div>
+                        <div class="text-right">
+                            <button type="button" class="btn btn-outline" id="btn-voltar-placa">Voltar</button>
+                            <button type="button" class="btn btn-primary" id="btn-avancar-contato">Avançar</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Contato -->
+                    <div class="form-step-content" id="step-contato-content" style="display: none;">
+                        <div class="form-group">
+                            <label for="entrada-telefone" class="form-label">Telefone</label>
+                            <input type="tel" id="entrada-telefone" class="form-control" placeholder="(XX) XXXXX-XXXX">
+                            <small class="form-text">Será enviada uma mensagem para este número</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="entrada-observacoes" class="form-label">Observações (opcional)</label>
+                            <textarea id="entrada-observacoes" class="form-control" rows="3" placeholder="Observações sobre o veículo"></textarea>
+                        </div>
+                        <div class="text-right">
+                            <button type="button" class="btn btn-outline" id="btn-voltar-dados">Voltar</button>
+                            <button type="submit" class="btn btn-primary">Finalizar Entrada</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Saída de Veículo -->
+    <div class="modal-overlay" id="saida-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Saída de Veículo</h3>
+                <button class="modal-close" id="close-saida-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-steps">
+                    <div class="form-step active" id="step-ticket">
+                        <div class="step-number">1</div>
+                        <div class="step-title">Ticket</div>
+                    </div>
+                    <div class="form-step" id="step-pagamento">
+                        <div class="step-number">2</div>
+                        <div class="step-title">Pagamento</div>
+                    </div>
+                    <div class="form-step" id="step-finalizar">
+                        <div class="step-number">3</div>
+                        <div class="step-title">Finalizar</div>
+                    </div>
+                </div>
+
+                <form id="saida-form">
+                    <!-- Step 1: Ticket -->
+                    <div class="form-step-content" id="step-ticket-content">
+                        <div class="form-group">
+                            <label for="saida-ticket" class="form-label">Número do Ticket</label>
+                            <input type="text" id="saida-ticket" class="form-control" placeholder="Digite o número do ticket">
+                            <small class="form-text">Digite o número do ticket e pressione Enter para consultar</small>
+                        </div>
+                        <div class="text-right">
+                            <button type="button" class="btn btn-primary" id="btn-consultar-ticket">Consultar</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Pagamento -->
+                    <div class="form-step-content" id="step-pagamento-content" style="display: none;">
+                        <div class="vehicle-result mb-3">
+                            <div class="result-header">
+                                <h4 class="result-title">Dados do Veículo</h4>
+                                <span class="result-status active" id="saida-status">No Pátio</span>
+                            </div>
+                            <div class="result-grid">
+                                <div class="result-item">
+                                    <div class="result-label">Placa</div>
+                                    <div class="result-value" id="saida-placa">ABC1234</div>
+                                </div>
+                                <div class="result-item">
+                                    <div class="result-label">Modelo</div>
+                                    <div class="result-value" id="saida-modelo">Gol G6</div>
+                                </div>
+                                <div class="result-item">
+                                    <div class="result-label">Entrada</div>
+                                    <div class="result-value" id="saida-entrada">21/05/2025 10:30</div>
+                                </div>
+                                <div class="result-item">
+                                    <div class="result-label">Tempo</div>
+                                    <div class="result-value" id="saida-tempo">2h 15min</div>
+                                </div>
+                            </div>
+                            <div class="result-price" id="saida-valor">R$ 25,00</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="saida-pagamento" class="form-label">Forma de Pagamento</label>
+                            <select id="saida-pagamento" class="form-control">
+                                <option value="">Selecione a forma de pagamento</option>
+                                <option value="dinheiro">Dinheiro</option>
+                                <option value="cartao">Cartão de Crédito/Débito</option>
+                                <option value="pix">PIX</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="d-flex align-items-center mb-2">
+                                <input type="checkbox" id="saida-cpf-check" class="mr-2">
+                                <label for="saida-cpf-check" class="form-label mb-0">Incluir CPF na nota?</label>
+                            </div>
+                            <div id="saida-cpf-container" style="display: none;">
+                                <input type="text" id="saida-cpf" class="form-control" placeholder="Digite o CPF">
+                            </div>
+                        </div>
+
+                        <div class="text-right">
+                            <button type="button" class="btn btn-outline" id="btn-voltar-ticket">Voltar</button>
+                            <button type="button" class="btn btn-primary" id="btn-avancar-finalizar">Avançar</button>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Finalizar -->
+                    <div class="form-step-content" id="step-finalizar-content" style="display: none;">
+                        <div class="alert alert-success">
+                            <i class="fas fa-check-circle"></i> Pagamento confirmado!
+                        </div>
+                        <p>Uma mensagem será enviada para o cliente com os dados da saída do veículo.</p>
+                        <div class="text-right">
+                            <button type="submit" class="btn btn-primary">Finalizar Saída</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Serviço -->
+    <div class="modal-overlay" id="servico-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Adicionar Serviço</h3>
+                <button class="modal-close" id="close-servico-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="servico-form">
+                    <div class="form-group">
+                        <label for="servico-placa" class="form-label">Placa do Veículo</label>
+                        <input type="text" id="servico-placa" class="form-control" placeholder="Digite a placa (ABC1234)" maxlength="7">
+                    </div>
+                    <div class="form-group">
+                        <label for="servico-tipo" class="form-label">Tipo de Serviço</label>
+                        <select id="servico-tipo" class="form-control">
+                            <option value="">Selecione o serviço</option>
+                            <!-- Opções serão carregadas dinamicamente -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="servico-telefone" class="form-label">Telefone</label>
+                        <input type="tel" id="servico-telefone" class="form-control" placeholder="(XX) XXXXX-XXXX">
+                    </div>
+                    <div class="form-group">
+                        <label for="servico-observacoes" class="form-label">Observações (opcional)</label>
+                        <textarea id="servico-observacoes" class="form-control" rows="3" placeholder="Observações sobre o serviço"></textarea>
+                    </div>
+                    <div class="text-right">
+                        <button type="submit" class="btn btn-primary">Registrar Serviço</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notificação -->
+    <div class="notification" id="notification">
+        <div class="notification-header">
+            <h4 class="notification-title">Notificação</h4>
+            <button class="notification-close" id="close-notification">&times;</button>
+        </div>
+        <div class="notification-body" id="notification-message">
+            Mensagem de notificação
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/main.js"></script>
+    <script src="../js/admin.js"></script>
+</body>
+</html>

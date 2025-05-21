@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Sistema de Estacionamento</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/components.css">
+</head>
+<body>
+    <!-- Cabeçalho -->
+    <header class="header">
+        <div class="container header-container">
+            <div class="logo">
+                <img src="../img/logo.png" alt="Logo Estacionamento" id="logo-placeholder">
+                <span>EstacionaFácil</span>
+            </div>
+            <button class="nav-toggle" id="nav-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav class="nav">
+                <ul class="nav-list" id="nav-list">
+                    <li class="nav-item">
+                        <a href="../index.html" class="nav-link">Início</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="login.html" class="nav-link active">Área Administrativa</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Login Container -->
+    <div class="container">
+        <div class="login-container">
+            <div class="login-logo">
+                <img src="../img/logo.png" alt="Logo Estacionamento" id="login-logo-placeholder">
+            </div>
+            <h2 class="login-title">Acesso Administrativo</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="usuario" class="form-label">Usuário</label>
+                    <input type="text" id="usuario" class="form-control" placeholder="Digite seu usuário">
+                </div>
+                <div class="form-group">
+                    <label for="senha" class="form-label">Senha</label>
+                    <input type="password" id="senha" class="form-control" placeholder="Digite sua senha">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+                </div>
+            </form>
+            <div id="login-error" class="alert alert-danger" style="display: none;">
+                Usuário ou senha incorretos. Tente novamente.
+            </div>
+        </div>
+    </div>
+
+    <!-- Notificação -->
+    <div class="notification" id="notification">
+        <div class="notification-header">
+            <h4 class="notification-title">Notificação</h4>
+            <button class="notification-close" id="close-notification">&times;</button>
+        </div>
+        <div class="notification-body" id="notification-message">
+            Mensagem de notificação
+        </div>
+    </div>
+
+    <!-- Rodapé -->
+    <footer class="footer">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <p>&copy; 2025 EstacionaFácil. Todos os direitos reservados.</p>
+                </div>
+                <div>
+                    <a href="#" class="mr-3"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="mr-3"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Placeholder para o logo
+            const logoPlaceholder = document.getElementById('logo-placeholder');
+            logoPlaceholder.onerror = function() {
+                this.src = 'https://via.placeholder.com/150x50?text=EstacionaFacil';
+            };
+            
+            const loginLogoPlaceholder = document.getElementById('login-logo-placeholder');
+            loginLogoPlaceholder.onerror = function() {
+                this.src = 'https://via.placeholder.com/150x50?text=EstacionaFacil';
+            };
+            
+            // Toggle do menu mobile
+            const navToggle = document.getElementById('nav-toggle');
+            const navList = document.getElementById('nav-list');
+            
+            navToggle.addEventListener('click', function() {
+                navList.classList.toggle('active');
+            });
+            
+            // Formulário de login
+            const loginForm = document.getElementById('login-form');
+            const loginError = document.getElementById('login-error');
+            
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const usuario = document.getElementById('usuario').value;
+                const senha = document.getElementById('senha').value;
+                
+                if (!usuario || !senha) {
+                    showNotification('Por favor, preencha todos os campos', 'error');
+                    return;
+                }
+                
+                // Verificar se é o primeiro acesso (usuário admin/admin)
+                if (usuario === 'admin' && senha === 'admin') {
+                    // Salvar usuário no localStorage
+                    const adminUser = {
+                        id: '1',
+                        nome: 'Administrador',
+                        usuario: 'admin',
+                        senha: 'admin', // Em produção, isso seria um hash
+                        nivel: 'admin',
+                        ativo: true
+                    };
+                    
+                    // Inicializar o localStorage se for o primeiro acesso
+                    if (!localStorage.getItem('usuarios')) {
+                        localStorage.setItem('usuarios', JSON.stringify([adminUser]));
+                    }
+                    
+                    // Salvar sessão
+                    const session = {
+                        userId: '1',
+                        nome: 'Administrador',
+                        nivel: 'admin',
+                        expiresAt: new Date().getTime() + (8 * 60 * 60 * 1000) // 8 horas
+                    };
+                    
+                    localStorage.setItem('session', JSON.stringify(session));
+                    
+                    // Redirecionar para o dashboard
+                    window.location.href = 'admin.html';
+                    return;
+                }
+                
+                // Verificar usuários cadastrados
+                const usuarios = JSON.parse(localStorage.getItem('usuarios') || '[]');
+                const usuarioEncontrado = usuarios.find(u => u.usuario === usuario && u.senha === senha && u.ativo);
+                
+                if (usuarioEncontrado) {
+                    // Salvar sessão
+                    const session = {
+                        userId: usuarioEncontrado.id,
+                        nome: usuarioEncontrado.nome,
+                        nivel: usuarioEncontrado.nivel,
+                        expiresAt: new Date().getTime() + (8 * 60 * 60 * 1000) // 8 horas
+                    };
+                    
+                    localStorage.setItem('session', JSON.stringify(session));
+                    
+                    // Redirecionar para o dashboard
+                    window.location.href = 'admin.html';
+                } else {
+                    loginError.style.display = 'block';
+                    setTimeout(() => {
+                        loginError.style.display = 'none';
+                    }, 3000);
+                }
+            });
+            
+            // Notificações
+            const notification = document.getElementById('notification');
+            const closeNotification = document.getElementById('close-notification');
+            const notificationMessage = document.getElementById('notification-message');
+            
+            function showNotification(message, type = 'info') {
+                notificationMessage.textContent = message;
+                notification.className = 'notification notification-' + type + ' show';
+                
+                setTimeout(function() {
+                    hideNotification();
+                }, 5000);
+            }
+            
+            function hideNotification() {
+                notification.classList.remove('show');
+            }
+            
+            closeNotification.addEventListener('click', hideNotification);
+        });
+    </script>
+</body>
+</html>

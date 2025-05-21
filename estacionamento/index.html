@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Estacionamento</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+    <!-- Cabeçalho -->
+    <header class="header">
+        <div class="container header-container">
+            <div class="logo">
+                <img src="img/logo.png" alt="Logo Estacionamento" id="logo-placeholder">
+                <span>EstacionaFácil</span>
+            </div>
+            <button class="nav-toggle" id="nav-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav class="nav">
+                <ul class="nav-list" id="nav-list">
+                    <li class="nav-item">
+                        <a href="index.html" class="nav-link active">Início</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="pages/login.html" class="nav-link">Área Administrativa</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Estacionamento Seguro e Prático</h1>
+                <p class="hero-subtitle">Consulte seu veículo pelo número do ticket ou telefone</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Consulta Section -->
+    <section class="features">
+        <div class="container">
+            <div class="search-container">
+                <h2 class="search-title text-center">Consulta de Veículo</h2>
+                <div class="search-tabs">
+                    <div class="search-tab active" data-tab="ticket">Por Ticket</div>
+                    <div class="search-tab" data-tab="telefone">Por Telefone</div>
+                </div>
+                
+                <div class="search-content" id="ticket-tab">
+                    <form class="search-form" id="ticket-form">
+                        <div class="form-group">
+                            <label for="ticket" class="form-label">Número do Ticket</label>
+                            <input type="text" id="ticket" class="form-control" placeholder="Digite o número do ticket">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Consultar</button>
+                    </form>
+                </div>
+                
+                <div class="search-content" id="telefone-tab" style="display: none;">
+                    <form class="search-form" id="telefone-form">
+                        <div class="form-group">
+                            <label for="telefone" class="form-label">Número de Telefone</label>
+                            <input type="tel" id="telefone" class="form-control" placeholder="Digite o telefone cadastrado">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Consultar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features bg-light">
+        <div class="container">
+            <h2 class="section-title">Nossos Serviços</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <h3 class="feature-title">Estacionamento Seguro</h3>
+                    <p class="feature-description">Seu veículo protegido com monitoramento 24 horas e equipe treinada.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-soap"></i>
+                    </div>
+                    <h3 class="feature-title">Lavagem Completa</h3>
+                    <p class="feature-description">Serviços de lavagem e polimento com produtos de alta qualidade.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h3 class="feature-title">Manutenção Rápida</h3>
+                    <p class="feature-description">Serviços de manutenção básica enquanto seu carro está estacionado.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal de Resultado -->
+    <div class="modal-overlay" id="result-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Informações do Veículo</h3>
+                <button class="modal-close" id="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="vehicle-result">
+                    <div class="result-header">
+                        <h4 class="result-title">Dados do Veículo</h4>
+                        <span class="result-status active">No Pátio</span>
+                    </div>
+                    <div class="result-grid">
+                        <div class="result-item">
+                            <div class="result-label">Placa</div>
+                            <div class="result-value" id="result-placa">ABC1234</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">Modelo</div>
+                            <div class="result-value" id="result-modelo">Gol G6</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">Cor</div>
+                            <div class="result-value" id="result-cor">Prata</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">Entrada</div>
+                            <div class="result-value" id="result-entrada">21/05/2025 10:30</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">Tempo de Permanência</div>
+                            <div class="result-value" id="result-tempo">2h 15min</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">Ticket</div>
+                            <div class="result-value" id="result-ticket">#12345</div>
+                        </div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-label">Localização</div>
+                        <div class="result-value" id="result-localizacao">Estacionamento Central - Rua das Flores, 123</div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="close-result">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notificação -->
+    <div class="notification" id="notification">
+        <div class="notification-header">
+            <h4 class="notification-title">Notificação</h4>
+            <button class="notification-close" id="close-notification">&times;</button>
+        </div>
+        <div class="notification-body" id="notification-message">
+            Mensagem de notificação
+        </div>
+    </div>
+
+    <!-- Rodapé -->
+    <footer class="footer">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <p>&copy; 2025 EstacionaFácil. Todos os direitos reservados.</p>
+                </div>
+                <div>
+                    <a href="#" class="mr-3"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="mr-3"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+    <script>
+        // Script para a página inicial
+        document.addEventListener('DOMContentLoaded', function() {
+            // Placeholder para o logo
+            const logoPlaceholder = document.getElementById('logo-placeholder');
+            logoPlaceholder.onerror = function() {
+                this.src = 'https://via.placeholder.com/150x50?text=EstacionaFacil';
+            };
+            
+            // Toggle do menu mobile
+            const navToggle = document.getElementById('nav-toggle');
+            const navList = document.getElementById('nav-list');
+            
+            navToggle.addEventListener('click', function() {
+                navList.classList.toggle('active');
+            });
+            
+            // Tabs de consulta
+            const tabs = document.querySelectorAll('.search-tab');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    tabs.forEach(t => t.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // Hide all tab contents
+                    document.getElementById('ticket-tab').style.display = 'none';
+                    document.getElementById('telefone-tab').style.display = 'none';
+                    
+                    // Show selected tab content
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId + '-tab').style.display = 'block';
+                });
+            });
+            
+            // Modal de resultado
+            const resultModal = document.getElementById('result-modal');
+            const closeModal = document.getElementById('close-modal');
+            const closeResult = document.getElementById('close-result');
+            
+            function showModal() {
+                resultModal.classList.add('active');
+            }
+            
+            function hideModal() {
+                resultModal.classList.remove('active');
+            }
+            
+            closeModal.addEventListener('click', hideModal);
+            closeResult.addEventListener('click', hideModal);
+            
+            // Fechar modal ao clicar fora
+            resultModal.addEventListener('click', function(e) {
+                if (e.target === resultModal) {
+                    hideModal();
+                }
+            });
+            
+            // Formulários de consulta
+            const ticketForm = document.getElementById('ticket-form');
+            const telefoneForm = document.getElementById('telefone-form');
+            
+            ticketForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const ticket = document.getElementById('ticket').value;
+                
+                if (!ticket) {
+                    showNotification('Por favor, digite o número do ticket', 'error');
+                    return;
+                }
+                
+                // Aqui seria feita a consulta à API
+                // Por enquanto, apenas mostra o modal com dados de exemplo
+                showModal();
+            });
+            
+            telefoneForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const telefone = document.getElementById('telefone').value;
+                
+                if (!telefone) {
+                    showNotification('Por favor, digite o número de telefone', 'error');
+                    return;
+                }
+                
+                // Aqui seria feita a consulta à API
+                // Por enquanto, apenas mostra o modal com dados de exemplo
+                showModal();
+            });
+            
+            // Notificações
+            const notification = document.getElementById('notification');
+            const closeNotification = document.getElementById('close-notification');
+            const notificationMessage = document.getElementById('notification-message');
+            
+            function showNotification(message, type = 'info') {
+                notificationMessage.textContent = message;
+                notification.className = 'notification notification-' + type + ' show';
+                
+                setTimeout(function() {
+                    hideNotification();
+                }, 5000);
+            }
+            
+            function hideNotification() {
+                notification.classList.remove('show');
+            }
+            
+            closeNotification.addEventListener('click', hideNotification);
+        });
+    </script>
+</body>
+</html>
