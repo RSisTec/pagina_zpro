@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Booth</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Photo Booth</h1>
+        
+        <div class="photo-container">
+            <!-- Área da câmera com moldura -->
+            <div class="camera-container" id="camera-container">
+                <div class="frame-container">
+                    <div class="frame"></div>
+                    <video id="camera" autoplay playsinline></video>
+                </div>
+                
+                <!-- Contagem regressiva -->
+                <div id="countdown" class="countdown"></div>
+                
+                <!-- Canvas para processamento da imagem -->
+                <canvas id="canvas" style="display: none;"></canvas>
+            </div>
+            
+            <!-- Área de resultado -->
+            <div class="result-container" id="result-container" style="display: none;">
+                <div class="photo-result">
+                    <img id="captured-photo" src="" alt="Foto capturada">
+                </div>
+                <div class="qrcode-container">
+                    <h3>Escaneie para acessar sua foto</h3>
+                    <div id="qrcode"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button id="capture-btn" class="btn primary-btn">Tirar Foto</button>
+            <button id="new-photo-btn" class="btn secondary-btn" style="display: none;">Nova Foto</button>
+            <a href="admin.html" class="btn admin-btn">Área Administrativa</a>
+        </div>
+        
+        <div id="status-message" class="status-message"></div>
+    </div>
+
+    <!-- Incluir biblioteca QR Code -->
+    <script src="js/qrcode.min.js"></script>
+    <script src="js/camera.js"></script>
+</body>
+</html>

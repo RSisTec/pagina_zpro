@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Jogo da Memória</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .tabuleiro {
+      display: grid;
+      grid-template-columns: repeat(4, 100px);
+      gap: 10px;
+    }
+    .carta {
+      width: 100px;
+      height: 100px;
+      background: #2196F3;
+      color: white;
+      font-size: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border-radius: 10px;
+      user-select: none;
+    }
+    .carta.virada {
+      background: #fff;
+      color: #000;
+      cursor: default;
+    }
+  </style>
+</head>
+<body>
+  <div class="tabuleiro" id="tabuleiro"></div>
+
+  <script>
+    const emojis = ['🐶','🐱','🐭','🦊','🐸','🐵','🐼','🐷'];
+    const cartas = [...emojis, ...emojis].sort(() => 0.5 - Math.random());
+
+    const tabuleiro = document.getElementById('tabuleiro');
+    let primeira = null;
+    let bloqueado = false;
+
+    cartas.forEach((emoji, i) => {
+      const carta = document.createElement('div');
+      carta.classList.add('carta');
+      carta.dataset.valor = emoji;
+      carta.dataset.index = i;
+      carta.addEventListener('click', () => virarCarta(carta));
+      tabuleiro.appendChild(carta);
+    });
+
+    function virarCarta(carta) {
+      if (bloqueado || carta.classList.contains('virada')) return;
+
+      carta.textContent = carta.dataset.valor;
+      carta.classList.add('virada');
+
+      if (!primeira) {
+        primeira = carta;
+      } else {
+        if (primeira.dataset.valor === carta.dataset.valor) {
+          primeira = null;
+        } else {
+          bloqueado = true;
+          setTimeout(() => {
+            carta.textContent = '';
+            carta.classList.remove('virada');
+            primeira.textContent = '';
+            primeira.classList.remove('virada');
+            primeira = null;
+            bloqueado = false;
+          }, 1000);
+        }
+      }
+    }
+  </script>
+</body>
+</html>

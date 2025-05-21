@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Galeria de Fotos</title>
+  <style>
+    /* Imagem de fundo da página */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1470&q=80'); /* troque para sua imagem */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #fff;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      text-shadow: 0 0 8px rgba(0,0,0,0.7);
+    }
+
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      justify-content: center; /* Centraliza horizontalmente */
+      width: 100%;
+      max-width: 960px; /* Limita a largura da galeria */
+    }
+
+    .photo {
+      cursor: pointer;
+      width: calc(25% - 12px); /* 4 fotos por linha, considerando gap */
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+      overflow: hidden;
+      transition: transform 0.2s;
+      background-color: rgba(255,255,255,0.9);
+    }
+
+    .photo:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.7);
+    }
+
+    .photo img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 8px;
+      user-select: none;
+    }
+
+    /* Modal */
+    .modal {
+      display: none; /* escondido por padrão */
+      position: fixed;
+      z-index: 999;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0,0,0,0.85);
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .modal-content {
+      max-width: 90vw;
+      max-height: 80vh;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(255,255,255,0.3);
+      background-color: #111;
+    }
+
+    .modal-content img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      display: block;
+      user-select: none;
+    }
+
+    .modal-buttons {
+      margin-top: 12px;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .btn-close, .btn-download {
+      padding: 8px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 0.3s;
+      color: white;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-close {
+      background-color: #e74c3c;
+    }
+
+    .btn-close:hover {
+      background-color: #c0392b;
+    }
+
+    .btn-download {
+      background-color: #2ecc71;
+    }
+
+    .btn-download:hover {
+      background-color: #27ae60;
+    }
+
+    @media (max-width: 900px) {
+      .photo {
+        width: calc(33.33% - 12px); /* 3 fotos por linha em telas menores */
+      }
+    }
+
+    @media (max-width: 600px) {
+      .photo {
+        width: calc(50% - 12px); /* 2 fotos por linha no celular */
+      }
+    }
+
+    @media (max-width: 400px) {
+      .photo {
+        width: 100%; /* 1 foto por linha em telas muito pequenas */
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Galeria de Fotos</h1>
+  <div class="gallery" id="gallery"></div>
+
+  <!-- Modal -->
+  <div class="modal" id="modal">
+    <img class="modal-content" id="modalImage" src="" alt="Imagem ampliada" />
+    <div class="modal-buttons">
+      <button class="btn-close" id="btnClose">Fechar</button>
+      <a class="btn-download" id="btnDownload" href="#" download>Baixar</a>
+    </div>
+  </div>
+
+  <script>
+    const baseUrl = 'https://s3.serrafstore.com/cbm-2025/';
+    const apiUrl = 'https://webhook.serrafstore.com/webhook/cbm/fotos';
+
+    async function carregarFotos() {
+      try {
+        const response = await fetch(apiUrl);
+        const fotos = await response.json();
+
+        // Ordenar por data (mais nova primeiro)
+        fotos.sort((a, b) => new Date(b.LastModified) - new Date(a.LastModified));
+
+        const galeria = document.getElementById('gallery');
+        galeria.innerHTML = ''; // Limpa antes de preencher
+
+        fotos.forEach(foto => {
+          const div = document.createElement('div');
+          div.className = 'photo';
+
+          const img = document.createElement('img');
+          img.src = `${baseUrl}${foto.Key}`;
+          img.alt = foto.Key;
+
+          // Ao clicar na imagem, abre a modal
+          div.addEventListener('click', () => abrirModal(img.src, foto.Key));
+
+          div.appendChild(img);
+          galeria.appendChild(div);
+        });
+      } catch (error) {
+        console.error('Erro ao carregar as fotos:', error);
+      }
+    }
+
+    // Modal
+    const modal = document.getElementById('modal');
+    const modalImage = document.getElementById('modalImage');
+    const btnClose = document.getElementById('btnClose');
+    const btnDownload = document.getElementById('btnDownload');
+
+    function abrirModal(src, key) {
+      modal.style.display = 'flex';
+      modalImage.src = src;
+      btnDownload.href = src;
+      btnDownload.download = key;
+    }
+
+    function fecharModal() {
+      modal.style.display = 'none';
+      modalImage.src = '';
+      btnDownload.href = '#';
+    }
+
+    btnClose.addEventListener('click', fecharModal);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) fecharModal();
+    });
+
+    window.addEventListener('DOMContentLoaded', carregarFotos);
+  </script>
+</body>
+</html>

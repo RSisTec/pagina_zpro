@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roleta da Sorte</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Roleta da Sorte</h1>
+        
+        <div class="roleta-container">
+            <!-- Roleta SVG -->
+            <div class="roleta-wrapper">
+                <svg id="roleta" width="300" height="300" viewBox="0 0 300 300">
+                    <!-- Os setores da roleta serão criados via JavaScript -->
+                </svg>
+                <!-- Indicador fixo -->
+                <div class="indicador"></div>
+                <!-- Borda decorativa -->
+                <div class="roleta-base"></div>
+                <!-- Efeito de brilho -->
+                <div class="brilho"></div>
+            </div>
+        </div>
+        
+        <button id="botao-girar">Girar</button>
+        
+        <div id="resultado"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

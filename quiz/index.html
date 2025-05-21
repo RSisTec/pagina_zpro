@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Serraf</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="quiz-container">
+            <h1>Quiz Serraf</h1>
+            
+            <div id="loading">
+                <p>Carregando pergunta...</p>
+                <div class="loader"></div>
+            </div>
+            
+            <div id="quiz-content" class="hidden">
+                <div id="question-container">
+                    <h2 id="question-text"></h2>
+                    <div id="question-image-container" class="hidden">
+                        <img id="question-image" src="" alt="Imagem da pergunta">
+                    </div>
+                </div>
+                
+                <div id="options-container">
+                    <button class="option-btn" data-index="0"></button>
+                    <button class="option-btn" data-index="1"></button>
+                    <button class="option-btn" data-index="2"></button>
+                    <button class="option-btn" data-index="3"></button>
+                </div>
+                
+                <div id="result-container" class="hidden">
+                    <div id="correct-answer" class="result-message hidden">
+                        <h3>Resposta Correta!</h3>
+                        <p>Parabéns, você acertou!</p>
+                    </div>
+                    <div id="wrong-answer" class="result-message hidden">
+                        <h3>Resposta Incorreta!</h3>
+                        <p>Tente novamente na próxima pergunta.</p>
+                    </div>
+                    <div id="redirect-message">
+                        <p>Redirecionando em <span id="countdown">5</span> segundos...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

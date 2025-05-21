@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Abra a Caixa Certa</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f8f9fa;
+      padding-top: 50px;
+    }
+    h1 {
+      margin-bottom: 30px;
+    }
+    .caixas {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+    }
+    .caixa {
+      width: 100px;
+      height: 100px;
+      background-color: #007bff;
+      border-radius: 10px;
+      color: white;
+      font-size: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      user-select: none;
+      transition: background-color 0.3s;
+    }
+    .caixa.aberta {
+      background-color: #28a745;
+    }
+    #mensagem {
+      margin-top: 30px;
+      font-size: 22px;
+      color: #333;
+      height: 30px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Abra a Caixa Certa</h1>
+  <div class="caixas">
+    <div class="caixa" data-index="0">🎁</div>
+    <div class="caixa" data-index="1">🎁</div>
+    <div class="caixa" data-index="2">🎁</div>
+  </div>
+  <div id="mensagem"></div>
+
+  <script>
+    const caixas = document.querySelectorAll('.caixa');
+    const caixaPremiada = Math.floor(Math.random() * caixas.length);
+    let jogoFinalizado = false;
+
+    caixas.forEach(caixa => {
+      caixa.addEventListener('click', () => {
+        if (jogoFinalizado) return;
+
+        const index = parseInt(caixa.dataset.index);
+        caixa.classList.add('aberta');
+
+        if (index === caixaPremiada) {
+          caixa.textContent = '🎉';
+          document.getElementById('mensagem').textContent = 'Parabéns! Você encontrou o prêmio!';
+        } else {
+          caixa.textContent = '💨';
+          document.getElementById('mensagem').textContent = 'Essa não é a caixa premiada.';
+        }
+
+        jogoFinalizado = true;
+      });
+    });
+  </script>
+</body>
+</html>

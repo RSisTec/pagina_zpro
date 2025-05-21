@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Área Administrativa - Photo Booth</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="admin-header">
+            <h1>Área Administrativa</h1>
+            <p>Gerencie todas as fotos capturadas no Photo Booth</p>
+        </div>
+        
+        <div class="controls">
+            <a href="index.html" class="btn primary-btn">Voltar para Captura</a>
+            <button id="refresh-btn" class="btn secondary-btn">Atualizar Lista</button>
+            <button id="clear-btn" class="btn delete-btn">Limpar Todas as Fotos</button>
+        </div>
+        
+        <div id="status-message" class="status-message"></div>
+        
+        <div id="loading" class="loading">Carregando fotos...</div>
+        
+        <div id="photos-container" class="photos-grid" style="display: none;"></div>
+        
+        <div id="no-photos" class="no-photos" style="display: none;">
+            Nenhuma foto encontrada. Capture algumas fotos primeiro!
+        </div>
+    </div>
+
+    <script>
+        // Variáveis globais
+        const photosContainer = document.getElementById('photos-container');
+        const loadingElement = document.getElementById('loading');
+        const noPhotosElement = document.getElementById('no-photos');
+        const refreshBtn = document.getElementById('refresh-btn');
+        const clearBtn = document.getElementById('clear-btn');
+        const statusMessage = document.getElementById('status-message');
+        let photoData = [];
+        
+        // Inicialização quando o DOM estiver carregado
+        document.addEventListener('DOMContentLoaded', () => {
+            // Carregar fotos
+            loadPhotos();
+            
+            // Event listeners
+            refreshBtn.addEventListener('click', loadPhotos);
+            clearBtn.addEventListener('click', confirmClearPhotos);
+        });
+        
+        // Função para carregar as fotos do localStorage
+        function loadPhotos() {
+            try {
+                // Mostrar loading e esconder outros elementos
+                loadingElement.style.display = 'block';
+                photosContainer.style.display = 'none';
+                noPhotosElement.style.display = 'none';
+                
+                // Carregar lista de IDs
+                const photoIds = JSON.parse(localStorage.getItem('photoBoothPhotos')) || [];
+                
+                // Limpar array atual
+                photoData = [];
+                
+                // Carregar cada foto individualmente
+                for (const id of photoIds) {
+                    const photoObj = JSON.parse(localStorage.getItem(`photo_${id}`));
+                    if (photoObj) {
+                        photoData.push(photoObj);
+                    }
+                }
+                
+                // Ordenar por timestamp (mais recente primeiro)
+                photoData.sort((a, b) => parseInt(b.id) - parseInt(a.id));
+                
+                // Verificar se há fotos
+                if (photoData.length > 0) {
+                    // Limpar o container
+                    photosContainer.innerHTML = '';
+                    
+                    // Adicionar cada foto ao grid
+                    photoData.forEach(photo => {
+                        const photoCard = createPhotoCard(photo);
+                        photosContainer.appendChild(photoCard);
+                    });
+                    
+                    // Mostrar o grid de fotos
+                    photosContainer.style.display = 'grid';
+                    noPhotosElement.style.display = 'none';
+                    
+                    showStatus(`${photoData.length} fotos carregadas.`, 'success');
+                } else {
+                    // Mostrar mensagem de nenhuma foto
+                    photosContainer.style.display = 'none';
+                    noPhotosElement.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Erro ao carregar fotos:', error);
+                showStatus('Erro ao carregar fotos do armazenamento local.', 'error');
+                noPhotosElement.style.display = 'block';
+            } finally {
+                // Esconder o loading
+                loadingElement.style.display = 'none';
+            }
+        }
+        
+        // Função para criar um card de foto
+        function createPhotoCard(photo) {
+            const card = document.createElement('div');
+            card.className = 'photo-card';
+            
+            // Criar URL para visualização da foto
+            const photoUrl = `index.html?view=${photo.id}`;
+            
+            card.innerHTML = `
+                <img src="${photo.imageData}" alt="Foto ${photo.id}">
+                <div class="photo-info">
+                    <div class="photo-date">${photo.timestamp}</div>
+                    <div class="photo-actions">
+                        <a href="${photoUrl}" target="_blank" class="view-btn">Ver Foto</a>
+                        <button class="delete-btn" data-id="${photo.id}">Excluir</button>
+                    </div>
+                </div>
+            `;
+            
+            // Adicionar event listener para o botão de excluir
+            const deleteBtn = card.querySelector('.delete-btn');
+            deleteBtn.addEventListener('click', () => deletePhoto(photo.id));
+            
+            return card;
+        }
+        
+        // Função para excluir uma foto
+        function deletePhoto(id) {
+            try {
+                // Remover do array
+                photoData = photoData.filter(photo => photo.id !== id);
+                
+                // Atualizar localStorage
+                localStorage.setItem('photoBoothPhotos', JSON.stringify(photoData.map(p => p.id)));
+                
+                // Remover a foto individual
+                localStorage.removeItem(`photo_${id}`);
+                
+                // Recarregar a lista
+                loadPhotos();
+                
+                showStatus('Foto excluída com sucesso!', 'success');
+            } catch (error) {
+                console.error('Erro ao excluir foto:', error);
+                showStatus('Erro ao excluir foto.', 'error');
+            }
+        }
+        
+        // Função para confirmar a limpeza de todas as fotos
+        function confirmClearPhotos() {
+            if (confirm('Tem certeza que deseja excluir todas as fotos? Esta ação não pode ser desfeita.')) {
+                clearAllPhotos();
+            }
+        }
+        
+        // Função para limpar todas as fotos
+        function clearAllPhotos() {
+            try {
+                // Obter lista de IDs
+                const photoIds = JSON.parse(localStorage.getItem('photoBoothPhotos')) || [];
+                
+                // Remover cada foto individual
+                for (const id of photoIds) {
+                    localStorage.removeItem(`photo_${id}`);
+                }
+                
+                // Limpar a lista principal
+                localStorage.removeItem('photoBoothPhotos');
+                
+                // Limpar o array
+                photoData = [];
+                
+                // Recarregar a lista
+                loadPhotos();
+                
+                showStatus('Todas as fotos foram excluídas.', 'success');
+            } catch (error) {
+                console.error('Erro ao limpar fotos:', error);
+                showStatus('Erro ao limpar fotos.', 'error');
+            }
+        }
+        
+        // Função para exibir mensagens de status
+        function showStatus(message, type) {
+            statusMessage.textContent = message;
+            statusMessage.className = `status-message ${type}`;
+            
+            // Limpar a mensagem após alguns segundos (exceto para erros)
+            if (type !== 'error') {
+                setTimeout(() => {
+                    statusMessage.textContent = '';
+                    statusMessage.className = 'status-message';
+                }, 5000);
+            }
+        }
+    </script>
+</body>
+</html>
