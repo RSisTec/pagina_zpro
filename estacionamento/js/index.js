@@ -1,174 +1,135 @@
-// Arquivo específico para a página inicial
-// Contém funções para consulta de veículos e exibição de resultados
+// Adaptação do arquivo index.js para usar a API PHP/PostgreSQL
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Inicializar tabs de consulta
-    initializeTabs();
+    // Elementos do formulário de consulta
+    const consultaForm = document.getElementById('consulta-form');
+    const tipoConsultaSelect = document.getElementById('tipo-consulta');
+    const valorConsultaInput = document.getElementById('valor-consulta');
+    const resultadoConsulta = document.getElementById('resultado-consulta');
     
-    // Inicializar formulários de consulta
-    initializeSearchForms();
-    
-    // Inicializar modal de resultado
-    initializeResultModal();
-});
-
-// Inicializar tabs de consulta
-function initializeTabs() {
-    const tabs = document.querySelectorAll('.search-tab');
-    
-    tabs.forEach(tab => {
-        tab.addEventListener('click', function() {
-            // Remove active class from all tabs
-            tabs.forEach(t => t.classList.remove('active'));
-            
-            // Add active class to clicked tab
-            this.classList.add('active');
-            
-            // Hide all tab contents
-            document.getElementById('ticket-tab').style.display = 'none';
-            document.getElementById('telefone-tab').style.display = 'none';
-            
-            // Show selected tab content
-            const tabId = this.getAttribute('data-tab');
-            document.getElementById(tabId + '-tab').style.display = 'block';
-        });
-    });
-}
-
-// Inicializar formulários de consulta
-function initializeSearchForms() {
-    const ticketForm = document.getElementById('ticket-form');
-    const telefoneForm = document.getElementById('telefone-form');
-    
-    // Formulário de consulta por ticket
-    if (ticketForm) {
-        ticketForm.addEventListener('submit', function(e) {
+    // Configurar formulário de consulta
+    if (consultaForm) {
+        consultaForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            const ticket = document.getElementById('ticket').value.trim();
             
-            if (!ticket) {
-                showNotification('Por favor, digite o número do ticket', 'error');
+            const tipoConsulta = tipoConsultaSelect.value;
+            const valorConsulta = valorConsultaInput.value.trim();
+            
+            if (!valorConsulta) {
+                Utils.mostrarNotificacao('Por favor, informe o valor para consulta', 'error');
                 return;
             }
             
-            // Consultar veículo por ticket
-            const veiculo = utils.buscarVeiculoPorTicket(ticket);
+            // Mostrar carregamento
+            Utils.mostrarCarregamento('Consultando veículo...');
             
-            if (!veiculo) {
-                showNotification('Veículo não encontrado. Verifique o número do ticket.', 'error');
-                return;
-            }
-            
-            // Exibir resultado
-            exibirResultadoVeiculo(veiculo);
-        });
-    }
-    
-    // Formulário de consulta por telefone
-    if (telefoneForm) {
-        telefoneForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const telefone = document.getElementById('telefone').value.trim();
-            
-            if (!telefone) {
-                showNotification('Por favor, digite o número de telefone', 'error');
-                return;
-            }
-            
-            if (!utils.validarTelefone(telefone)) {
-                showNotification('Formato de telefone inválido. Use (XX) XXXXX-XXXX ou XXXXXXXXXXX.', 'error');
-                return;
-            }
-            
-            // Consultar veículos por telefone
-            const veiculos = utils.buscarVeiculosPorTelefone(telefone);
-            
-            if (veiculos.length === 0) {
-                showNotification('Nenhum veículo encontrado para este telefone.', 'error');
-                return;
-            }
-            
-            // Se houver mais de um veículo, exibir o mais recente no pátio
-            const veiculosNoPatio = veiculos.filter(v => v.status === 'no_patio');
-            
-            if (veiculosNoPatio.length > 0) {
-                // Ordenar por data de entrada (mais recente primeiro)
-                veiculosNoPatio.sort((a, b) => b.entrada - a.entrada);
-                exibirResultadoVeiculo(veiculosNoPatio[0]);
+            // Consultar veículo
+            if (tipoConsulta === 'telefone') {
+                // Consultar por telefone
+                API.Veiculo.listar({ busca: valorConsulta })
+                    .then(response => {
+                        Utils.esconderCarregamento();
+                        
+                        const veiculos = response.data.filter(v => v.telefone === valorConsulta && v.status === 'no-patio');
+                        
+                        if (veiculos.length === 0) {
+                            resultadoConsulta.innerHTML = `
+                                <div class="alerta alerta-info">
+                                    <p>Nenhum veículo encontrado com este telefone.</p>
+                                </div>
+                            `;
+                            return;
+                        }
+                        
+                        // Exibir resultados
+                        exibirResultadosConsulta(veiculos);
+                    })
+                    .catch(error => {
+                        Utils.esconderCarregamento();
+                        Utils.mostrarNotificacao('Erro ao consultar veículo: ' + error.message, 'error');
+                    });
             } else {
-                // Se não houver veículos no pátio, exibir o último finalizado
-                veiculos.sort((a, b) => b.saida - a.saida);
-                exibirResultadoVeiculo(veiculos[0]);
+                // Consultar por ticket
+                API.Veiculo.consultarTicket(valorConsulta)
+                    .then(response => {
+                        Utils.esconderCarregamento();
+                        
+                        if (!response.data) {
+                            resultadoConsulta.innerHTML = `
+                                <div class="alerta alerta-info">
+                                    <p>Nenhum veículo encontrado com este ticket.</p>
+                                </div>
+                            `;
+                            return;
+                        }
+                        
+                        // Exibir resultados
+                        exibirResultadosConsulta([response.data]);
+                    })
+                    .catch(error => {
+                        Utils.esconderCarregamento();
+                        Utils.mostrarNotificacao('Erro ao consultar veículo: ' + error.message, 'error');
+                    });
             }
         });
     }
-}
-
-// Inicializar modal de resultado
-function initializeResultModal() {
-    const resultModal = document.getElementById('result-modal');
-    const closeModal = document.getElementById('close-modal');
-    const closeResult = document.getElementById('close-result');
     
-    if (resultModal) {
-        // Função para mostrar modal
-        window.showResultModal = function() {
-            resultModal.classList.add('active');
-        };
+    // Função para exibir resultados da consulta
+    function exibirResultadosConsulta(veiculos) {
+        let html = '';
         
-        // Função para esconder modal
-        window.hideResultModal = function() {
-            resultModal.classList.remove('active');
-        };
-        
-        // Eventos de fechamento
-        if (closeModal) {
-            closeModal.addEventListener('click', hideResultModal);
-        }
-        
-        if (closeResult) {
-            closeResult.addEventListener('click', hideResultModal);
-        }
-        
-        // Fechar modal ao clicar fora
-        resultModal.addEventListener('click', function(e) {
-            if (e.target === resultModal) {
-                hideResultModal();
-            }
+        veiculos.forEach(veiculo => {
+            // Calcular tempo de permanência
+            const entrada = new Date(veiculo.entrada);
+            const agora = new Date();
+            const permanencia = agora - entrada;
+            
+            // Obter tabela de preços ativa
+            API.Preco.listar({ ativo: true })
+                .then(response => {
+                    const tabelaPreco = response.data[0];
+                    
+                    // Calcular valor
+                    let valor = 0;
+                    const horasDecorridas = permanencia / (1000 * 60 * 60);
+                    
+                    if (horasDecorridas <= 1) {
+                        valor = tabelaPreco.valor_primeira_hora;
+                    } else {
+                        valor = tabelaPreco.valor_primeira_hora + 
+                                Math.ceil(horasDecorridas - 1) * tabelaPreco.valor_hora_adicional;
+                    }
+                    
+                    // Se ultrapassar o valor da diária, cobrar a diária
+                    if (valor > tabelaPreco.valor_diaria) {
+                        valor = tabelaPreco.valor_diaria;
+                    }
+                    
+                    // Formatar informações
+                    const tempoPermanencia = Utils.formatarTempoPermanencia(permanencia);
+                    const valorFormatado = Utils.formatarValor(valor);
+                    
+                    html += `
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>Veículo: ${veiculo.placa}</h3>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Modelo:</strong> ${veiculo.modelo}</p>
+                                <p><strong>Cor:</strong> ${veiculo.cor}</p>
+                                <p><strong>Entrada:</strong> ${Utils.formatarData(veiculo.entrada)}</p>
+                                <p><strong>Tempo de permanência:</strong> ${tempoPermanencia}</p>
+                                <p><strong>Valor atual:</strong> ${valorFormatado}</p>
+                                <p><strong>Ticket:</strong> ${veiculo.ticket}</p>
+                            </div>
+                        </div>
+                    `;
+                    
+                    resultadoConsulta.innerHTML = html;
+                })
+                .catch(error => {
+                    Utils.mostrarNotificacao('Erro ao obter tabela de preços: ' + error.message, 'error');
+                });
         });
     }
-}
-
-// Exibir resultado da consulta de veículo
-function exibirResultadoVeiculo(veiculo) {
-    // Atualizar status
-    const resultStatus = document.querySelector('.result-status');
-    if (resultStatus) {
-        if (veiculo.status === 'no_patio') {
-            resultStatus.textContent = 'No Pátio';
-            resultStatus.className = 'result-status active';
-        } else {
-            resultStatus.textContent = 'Finalizado';
-            resultStatus.className = 'result-status completed';
-        }
-    }
-    
-    // Atualizar dados do veículo
-    document.getElementById('result-placa').textContent = veiculo.placa;
-    document.getElementById('result-modelo').textContent = veiculo.modelo;
-    document.getElementById('result-cor').textContent = veiculo.cor;
-    document.getElementById('result-entrada').textContent = utils.formatarData(veiculo.entrada);
-    
-    // Calcular e exibir tempo de permanência
-    const tempoPermanencia = utils.calcularTempoPermanencia(veiculo.entrada, veiculo.saida);
-    document.getElementById('result-tempo').textContent = tempoPermanencia;
-    
-    // Exibir número do ticket
-    document.getElementById('result-ticket').textContent = '#' + veiculo.ticket;
-    
-    // Exibir localização do estacionamento
-    document.getElementById('result-localizacao').textContent = 'Estacionamento Central - Rua das Flores, 123';
-    
-    // Mostrar modal com resultado
-    showResultModal();
-}
+});

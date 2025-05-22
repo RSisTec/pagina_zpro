@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testes de Integração - Sistema de Estacionamento</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="cabecalho">
+            <h1>Testes de Integração</h1>
+            <p>Validação da integração frontend-backend com PostgreSQL</p>
+        </header>
+
+        <main class="conteudo">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Testes de Integração</h2>
+                </div>
+                <div class="card-body">
+                    <p>Esta página executa testes automatizados para validar a integração entre o frontend e o backend com PostgreSQL.</p>
+                    <p>Os testes verificam:</p>
+                    <ul>
+                        <li>Conexão com a API</li>
+                        <li>Autenticação (login/logout)</li>
+                        <li>CRUD de Veículos</li>
+                        <li>CRUD de Mensalistas</li>
+                        <li>CRUD de Isentos</li>
+                        <li>CRUD de Serviços</li>
+                        <li>CRUD de Preços</li>
+                        <li>Geração de Relatórios</li>
+                        <li>CRUD de Usuários</li>
+                    </ul>
+                    
+                    <div class="acoes">
+                        <button id="btn-iniciar-testes" class="btn btn-primary">Iniciar Testes</button>
+                    </div>
+                    
+                    <div id="resultados-testes" class="mt-4"></div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="rodape">
+            <p>&copy; 2025 Sistema de Estacionamento</p>
+        </footer>
+    </div>
+
+    <!-- Notificações -->
+    <div id="notificacoes" class="notificacoes"></div>
+
+    <!-- Scripts -->
+    <script src="../js/utils.js"></script>
+    <script src="../js/api-postgres.js"></script>
+    <script src="../js/api-adapter.js"></script>
+    <script src="../js/testes.js"></script>
+</body>
+</html>

@@ -1,466 +1,379 @@
-// Arquivo específico para a página de isentos
-// Contém funções para gerenciamento de isentos
+// Adaptação do arquivo isentos.js para usar a API PHP/PostgreSQL
 
 document.addEventListener('DOMContentLoaded', function() {
     // Verificar autenticação
-    const session = utils.protegerRota();
-    if (!session) return;
+    if (!API.Auth.isAuthenticated()) {
+        window.location.href = '/pages/login.html';
+        return;
+    }
+
+    // Elementos da página
+    const isentosContainer = document.getElementById('isentos-container');
+    const btnNovoIsento = document.getElementById('btn-novo-isento');
+    const modalIsento = document.getElementById('modal-isento');
+    const formIsento = document.getElementById('form-isento');
+    const modalVeiculo = document.getElementById('modal-veiculo');
+    const formVeiculo = document.getElementById('form-veiculo');
     
-    // Inicializar componentes
-    initializeSidebar();
-    initializeLogout();
-    initializeModals();
-    initializeIsentoForm();
+    // Variáveis globais
+    let isentoAtual = null;
+    let modoEdicao = false;
     
     // Carregar isentos
     carregarIsentos();
-});
-
-// Inicializar sidebar
-function initializeSidebar() {
-    const sidebarToggle = document.getElementById('sidebar-toggle');
-    const sidebar = document.getElementById('sidebar');
     
-    if (sidebarToggle && sidebar) {
-        sidebarToggle.addEventListener('click', function() {
-            sidebar.classList.toggle('sidebar-collapsed');
+    // Configurar botões de ação
+    if (btnNovoIsento) {
+        btnNovoIsento.addEventListener('click', function() {
+            // Limpar formulário
+            formIsento.reset();
+            document.getElementById('isento-id').value = '';
+            
+            // Definir modo de cadastro
+            modoEdicao = false;
+            document.getElementById('modal-titulo').textContent = 'Novo Isento';
+            
+            // Mostrar modal
+            modalIsento.classList.add('mostrar');
         });
     }
     
-    // Em telas menores, fechar sidebar ao clicar em um link
-    const sidebarLinks = document.querySelectorAll('.sidebar-link');
-    
-    sidebarLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            if (window.innerWidth < 992) {
-                sidebar.classList.remove('active');
+    // Fechar modais ao clicar fora
+    document.querySelectorAll('.modal').forEach(modal => {
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.classList.remove('mostrar');
             }
         });
     });
-}
-
-// Inicializar logout
-function initializeLogout() {
-    const logoutLink = document.getElementById('logout-link');
     
-    if (logoutLink) {
-        logoutLink.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            // Remover sessão
-            localStorage.removeItem('session');
-            
-            // Redirecionar para login
-            window.location.href = 'login.html';
-        });
-    }
-}
-
-// Inicializar modais
-function initializeModals() {
-    // Modal de Isento
-    const isentoModal = document.getElementById('isento-modal');
-    const btnNovoIsento = document.getElementById('btn-novo-isento');
-    const closeIsentoModal = document.getElementById('close-isento-modal');
-    
-    if (isentoModal && btnNovoIsento && closeIsentoModal) {
-        btnNovoIsento.addEventListener('click', function() {
-            // Limpar formulário
-            document.getElementById('isento-form').reset();
-            document.getElementById('isento-id').value = '';
-            document.getElementById('isento-modal-title').textContent = 'Novo Isento';
-            document.getElementById('outro-motivo-container').style.display = 'none';
-            
-            // Limpar veículos
-            const veiculosContainer = document.getElementById('isento-veiculos-container');
-            veiculosContainer.innerHTML = `
-                <div class="d-flex mb-2">
-                    <input type="text" class="form-control isento-veiculo" placeholder="Placa do veículo">
-                    <button type="button" class="btn btn-sm btn-danger ml-2 btn-remover-veiculo">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-            `;
-            
-            // Adicionar evento ao botão de remover
-            adicionarEventoRemoverVeiculo();
-            
-            // Mostrar modal
-            isentoModal.classList.add('active');
-        });
-        
-        closeIsentoModal.addEventListener('click', function() {
-            isentoModal.classList.remove('active');
-        });
-        
-        isentoModal.addEventListener('click', function(e) {
-            if (e.target === isentoModal) {
-                isentoModal.classList.remove('active');
-            }
-        });
-    }
-    
-    // Modal de Confirmação
-    const confirmacaoModal = document.getElementById('confirmacao-modal');
-    const closeConfirmacaoModal = document.getElementById('close-confirmacao-modal');
-    const btnCancelarConfirmacao = document.getElementById('btn-cancelar-confirmacao');
-    
-    if (confirmacaoModal && closeConfirmacaoModal && btnCancelarConfirmacao) {
-        closeConfirmacaoModal.addEventListener('click', function() {
-            confirmacaoModal.classList.remove('active');
-        });
-        
-        btnCancelarConfirmacao.addEventListener('click', function() {
-            confirmacaoModal.classList.remove('active');
-        });
-        
-        confirmacaoModal.addEventListener('click', function(e) {
-            if (e.target === confirmacaoModal) {
-                confirmacaoModal.classList.remove('active');
-            }
-        });
-    }
-}
-
-// Inicializar formulário de isento
-function initializeIsentoForm() {
-    const isentoForm = document.getElementById('isento-form');
-    const btnAdicionarVeiculo = document.getElementById('btn-adicionar-veiculo');
-    const isentoMotivo = document.getElementById('isento-motivo');
-    const outroMotivoContainer = document.getElementById('outro-motivo-container');
-    
-    // Mostrar/esconder campo de outro motivo
-    if (isentoMotivo) {
-        isentoMotivo.addEventListener('change', function() {
-            if (this.value === 'Outro') {
-                outroMotivoContainer.style.display = 'block';
-            } else {
-                outroMotivoContainer.style.display = 'none';
-            }
-        });
-    }
-    
-    // Adicionar veículo
-    if (btnAdicionarVeiculo) {
-        btnAdicionarVeiculo.addEventListener('click', function() {
-            const veiculosContainer = document.getElementById('isento-veiculos-container');
-            
-            // Criar novo campo de veículo
-            const novoVeiculo = document.createElement('div');
-            novoVeiculo.className = 'd-flex mb-2';
-            novoVeiculo.innerHTML = `
-                <input type="text" class="form-control isento-veiculo" placeholder="Placa do veículo">
-                <button type="button" class="btn btn-sm btn-danger ml-2 btn-remover-veiculo">
-                    <i class="fas fa-times"></i>
-                </button>
-            `;
-            
-            // Adicionar ao container
-            veiculosContainer.appendChild(novoVeiculo);
-            
-            // Adicionar evento ao botão de remover
-            adicionarEventoRemoverVeiculo();
-        });
-    }
-    
-    // Adicionar evento ao botão de remover veículo
-    adicionarEventoRemoverVeiculo();
-    
-    // Submeter formulário
-    if (isentoForm) {
-        isentoForm.addEventListener('submit', function(e) {
+    // Configurar formulário de isento
+    if (formIsento) {
+        formIsento.addEventListener('submit', function(e) {
             e.preventDefault();
             
             // Obter dados do formulário
             const id = document.getElementById('isento-id').value;
-            const nome = document.getElementById('isento-nome').value.trim();
-            const documento = document.getElementById('isento-documento').value.trim();
-            const motivo = document.getElementById('isento-motivo').value;
-            const outroMotivo = document.getElementById('isento-outro-motivo').value.trim();
+            const nome = document.getElementById('nome').value.trim();
+            const documento = document.getElementById('documento').value.trim();
+            const motivo = document.getElementById('motivo').value.trim();
             
             // Validar campos obrigatórios
-            if (!nome) {
-                showNotification('Por favor, digite o nome do isento', 'error');
+            if (!nome || !documento || !motivo) {
+                Utils.mostrarNotificacao('Por favor, preencha todos os campos obrigatórios', 'error');
                 return;
             }
             
-            if (!documento) {
-                showNotification('Por favor, digite o CPF ou CNPJ do isento', 'error');
-                return;
-            }
-            
-            if (!motivo) {
-                showNotification('Por favor, selecione o motivo da isenção', 'error');
-                return;
-            }
-            
-            if (motivo === 'Outro' && !outroMotivo) {
-                showNotification('Por favor, especifique o motivo da isenção', 'error');
-                return;
-            }
-            
-            // Obter veículos
-            const veiculosInputs = document.querySelectorAll('.isento-veiculo');
-            const veiculos = [];
-            
-            veiculosInputs.forEach(input => {
-                const placa = input.value.trim().toUpperCase();
-                if (placa) {
-                    if (!utils.validarPlaca(placa)) {
-                        showNotification(`Placa inválida: ${placa}. Use o formato ABC1234 ou ABC1D23.`, 'error');
-                        return;
-                    }
-                    veiculos.push(placa);
-                }
-            });
-            
-            if (veiculos.length === 0) {
-                showNotification('Por favor, adicione pelo menos um veículo', 'error');
-                return;
-            }
-            
-            // Criar objeto isento
-            const isento = {
+            // Preparar dados
+            const dados = {
                 nome,
                 documento,
-                motivo: motivo === 'Outro' ? outroMotivo : motivo,
-                veiculos
+                motivo
             };
             
-            // Salvar isento
-            if (id) {
-                // Atualizar isento existente
-                API.Isento.atualizar(id, isento)
-                    .then(response => {
-                        if (response.success) {
-                            showNotification('Isento atualizado com sucesso', 'success');
-                            document.getElementById('isento-modal').classList.remove('active');
-                            carregarIsentos();
-                        } else {
-                            showNotification('Erro ao atualizar isento: ' + response.message, 'error');
-                        }
-                    });
-            } else {
-                // Adicionar novo isento
-                API.Isento.adicionar(isento)
-                    .then(response => {
-                        if (response.success) {
-                            showNotification('Isento adicionado com sucesso', 'success');
-                            document.getElementById('isento-modal').classList.remove('active');
-                            carregarIsentos();
-                        } else {
-                            showNotification('Erro ao adicionar isento: ' + response.message, 'error');
-                        }
-                    });
-            }
+            // Mostrar carregamento
+            Utils.mostrarCarregamento(modoEdicao ? 'Atualizando isento...' : 'Cadastrando isento...');
+            
+            // Cadastrar ou atualizar isento
+            const promise = modoEdicao
+                ? API.Isento.atualizar(id, dados)
+                : API.Isento.cadastrar(dados);
+            
+            promise
+                .then(response => {
+                    Utils.esconderCarregamento();
+                    
+                    if (response.success) {
+                        Utils.mostrarNotificacao(
+                            modoEdicao ? 'Isento atualizado com sucesso!' : 'Isento cadastrado com sucesso!',
+                            'success'
+                        );
+                        
+                        // Fechar modal
+                        modalIsento.classList.remove('mostrar');
+                        
+                        // Recarregar isentos
+                        carregarIsentos();
+                    } else {
+                        Utils.mostrarNotificacao(response.message || 'Erro ao processar isento', 'error');
+                    }
+                })
+                .catch(error => {
+                    Utils.esconderCarregamento();
+                    Utils.mostrarNotificacao('Erro ao processar isento: ' + error.message, 'error');
+                });
         });
     }
-}
-
-// Adicionar evento ao botão de remover veículo
-function adicionarEventoRemoverVeiculo() {
-    const botoesRemover = document.querySelectorAll('.btn-remover-veiculo');
     
-    botoesRemover.forEach(botao => {
-        botao.addEventListener('click', function() {
-            // Verificar se é o único campo de veículo
-            if (document.querySelectorAll('.isento-veiculo').length > 1) {
-                // Remover o campo
-                this.parentElement.remove();
-            } else {
-                // Limpar o campo
-                this.parentElement.querySelector('.isento-veiculo').value = '';
+    // Configurar formulário de veículo
+    if (formVeiculo) {
+        formVeiculo.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Verificar se há um isento selecionado
+            if (!isentoAtual) {
+                Utils.mostrarNotificacao('Nenhum isento selecionado', 'error');
+                return;
             }
+            
+            // Obter dados do formulário
+            const placa = document.getElementById('placa').value.trim().toUpperCase();
+            const modelo = document.getElementById('modelo').value.trim();
+            const cor = document.getElementById('cor').value.trim();
+            
+            // Validar campos obrigatórios
+            if (!placa || !modelo || !cor) {
+                Utils.mostrarNotificacao('Por favor, preencha todos os campos obrigatórios', 'error');
+                return;
+            }
+            
+            // Preparar dados
+            const dados = {
+                placa,
+                modelo,
+                cor
+            };
+            
+            // Mostrar carregamento
+            Utils.mostrarCarregamento('Adicionando veículo...');
+            
+            // Adicionar veículo ao isento
+            API.Isento.adicionarVeiculo(isentoAtual.id, dados)
+                .then(response => {
+                    Utils.esconderCarregamento();
+                    
+                    if (response.success) {
+                        Utils.mostrarNotificacao('Veículo adicionado com sucesso!', 'success');
+                        
+                        // Fechar modal
+                        modalVeiculo.classList.remove('mostrar');
+                        
+                        // Limpar formulário
+                        formVeiculo.reset();
+                        
+                        // Recarregar isentos
+                        carregarIsentos();
+                    } else {
+                        Utils.mostrarNotificacao(response.message || 'Erro ao adicionar veículo', 'error');
+                    }
+                })
+                .catch(error => {
+                    Utils.esconderCarregamento();
+                    Utils.mostrarNotificacao('Erro ao adicionar veículo: ' + error.message, 'error');
+                });
         });
-    });
-}
-
-// Carregar isentos
-function carregarIsentos() {
-    const isentosList = document.getElementById('isentos-list');
+    }
     
-    if (!isentosList) return;
-    
-    // Mostrar loader
-    isentosList.innerHTML = `
-        <div class="loader-container">
-            <div class="loader"></div>
-        </div>
-    `;
-    
-    // Buscar isentos
-    API.Isento.listar()
-        .then(response => {
-            if (response.success) {
+    // Função para carregar isentos
+    function carregarIsentos() {
+        // Mostrar carregamento
+        Utils.mostrarCarregamento('Carregando isentos...');
+        
+        // Consultar isentos
+        API.Isento.listar()
+            .then(response => {
+                Utils.esconderCarregamento();
+                
                 const isentos = response.data;
                 
-                // Verificar se há isentos
                 if (isentos.length === 0) {
-                    isentosList.innerHTML = '<div class="alert alert-info">Não há isentos cadastrados.</div>';
-                    return;
-                }
-                
-                // Limpar lista
-                isentosList.innerHTML = '';
-                
-                // Adicionar isentos à lista
-                isentos.forEach(isento => {
-                    const isentoCard = document.createElement('div');
-                    isentoCard.className = 'client-card';
-                    isentoCard.innerHTML = `
-                        <div class="client-header">
-                            <div class="client-name">${isento.nome}</div>
-                            <span class="client-type isento">${isento.motivo}</span>
-                        </div>
-                        <div class="client-info">
-                            <div class="result-item">
-                                <div class="result-label">Documento</div>
-                                <div class="result-value">${isento.documento}</div>
-                            </div>
-                        </div>
-                        <div class="client-vehicles">
-                            <div class="result-label">Veículos</div>
-                            <div class="vehicle-tags">
-                                ${isento.veiculos.map(placa => `
-                                    <span class="vehicle-tag"><i class="fas fa-car"></i> ${placa}</span>
-                                `).join('')}
-                            </div>
-                        </div>
-                        <div class="text-right mt-3">
-                            <button class="btn btn-sm btn-outline btn-editar" data-id="${isento.id}">
-                                <i class="fas fa-edit"></i> Editar
-                            </button>
-                            <button class="btn btn-sm btn-danger btn-excluir" data-id="${isento.id}">
-                                <i class="fas fa-trash"></i> Excluir
-                            </button>
+                    isentosContainer.innerHTML = `
+                        <div class="alerta alerta-info">
+                            <p>Não há isentos cadastrados.</p>
                         </div>
                     `;
-                    
-                    // Adicionar à lista
-                    isentosList.appendChild(isentoCard);
-                    
-                    // Adicionar eventos aos botões
-                    const btnEditar = isentoCard.querySelector('.btn-editar');
-                    const btnExcluir = isentoCard.querySelector('.btn-excluir');
-                    
-                    btnEditar.addEventListener('click', function() {
-                        const id = this.getAttribute('data-id');
-                        editarIsento(id);
-                    });
-                    
-                    btnExcluir.addEventListener('click', function() {
-                        const id = this.getAttribute('data-id');
-                        confirmarExclusao(id);
-                    });
-                });
-            } else {
-                isentosList.innerHTML = `<div class="alert alert-danger">Erro ao carregar isentos: ${response.message}</div>`;
-            }
-        });
-}
-
-// Editar isento
-function editarIsento(id) {
-    // Buscar isento
-    API.Isento.listar()
-        .then(response => {
-            if (response.success) {
-                const isentos = response.data;
-                const isento = isentos.find(i => i.id === id);
-                
-                if (!isento) {
-                    showNotification('Isento não encontrado', 'error');
                     return;
                 }
+                
+                // Exibir isentos
+                let html = '';
+                
+                isentos.forEach(isento => {
+                    html += `
+                        <div class="card">
+                            <div class="card-header">
+                                <h3>${isento.nome}</h3>
+                                <span class="badge isento">${isento.motivo}</span>
+                            </div>
+                            <div class="card-body">
+                                <p><strong>Documento:</strong> ${isento.documento}</p>
+                                
+                                <div class="secao-veiculos">
+                                    <h4>Veículos</h4>
+                                    <div class="lista-veiculos" id="veiculos-${isento.id}">
+                                        ${carregarVeiculosIsento(isento)}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button class="btn btn-primary" onclick="editarIsento('${isento.id}')">Editar</button>
+                                <button class="btn btn-secondary" onclick="adicionarVeiculo('${isento.id}')">Adicionar Veículo</button>
+                                <button class="btn btn-danger" onclick="excluirIsento('${isento.id}')">Excluir</button>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                isentosContainer.innerHTML = html;
+            })
+            .catch(error => {
+                Utils.esconderCarregamento();
+                Utils.mostrarNotificacao('Erro ao carregar isentos: ' + error.message, 'error');
+            });
+    }
+    
+    // Função para carregar veículos de um isento
+    function carregarVeiculosIsento(isento) {
+        if (!isento.veiculos || isento.veiculos.length === 0) {
+            return '<p>Nenhum veículo cadastrado.</p>';
+        }
+        
+        let html = '<ul class="lista-veiculos-item">';
+        
+        isento.veiculos.forEach(veiculo => {
+            html += `
+                <li>
+                    <span>${veiculo.placa} - ${veiculo.modelo} (${veiculo.cor})</span>
+                    <button class="btn-icon" onclick="excluirVeiculo('${isento.id}', '${veiculo.id}')">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </li>
+            `;
+        });
+        
+        html += '</ul>';
+        
+        return html;
+    }
+    
+    // Função global para editar isento
+    window.editarIsento = function(id) {
+        // Mostrar carregamento
+        Utils.mostrarCarregamento('Carregando dados do isento...');
+        
+        // Consultar isento
+        API.Isento.obter(id)
+            .then(response => {
+                Utils.esconderCarregamento();
+                
+                if (!response.data) {
+                    Utils.mostrarNotificacao('Isento não encontrado', 'error');
+                    return;
+                }
+                
+                const isento = response.data;
                 
                 // Preencher formulário
                 document.getElementById('isento-id').value = isento.id;
-                document.getElementById('isento-nome').value = isento.nome;
-                document.getElementById('isento-documento').value = isento.documento;
+                document.getElementById('nome').value = isento.nome;
+                document.getElementById('documento').value = isento.documento;
+                document.getElementById('motivo').value = isento.motivo;
                 
-                // Verificar se o motivo é um dos padrões
-                const motivosPadroes = ['Funcionário', 'Parceiro', 'Autoridade', 'Convênio'];
-                if (motivosPadroes.includes(isento.motivo)) {
-                    document.getElementById('isento-motivo').value = isento.motivo;
-                    document.getElementById('outro-motivo-container').style.display = 'none';
-                } else {
-                    document.getElementById('isento-motivo').value = 'Outro';
-                    document.getElementById('isento-outro-motivo').value = isento.motivo;
-                    document.getElementById('outro-motivo-container').style.display = 'block';
-                }
-                
-                // Preencher veículos
-                const veiculosContainer = document.getElementById('isento-veiculos-container');
-                veiculosContainer.innerHTML = '';
-                
-                isento.veiculos.forEach(placa => {
-                    const veiculoDiv = document.createElement('div');
-                    veiculoDiv.className = 'd-flex mb-2';
-                    veiculoDiv.innerHTML = `
-                        <input type="text" class="form-control isento-veiculo" placeholder="Placa do veículo" value="${placa}">
-                        <button type="button" class="btn btn-sm btn-danger ml-2 btn-remover-veiculo">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    `;
-                    
-                    veiculosContainer.appendChild(veiculoDiv);
-                });
-                
-                // Adicionar evento aos botões de remover
-                adicionarEventoRemoverVeiculo();
-                
-                // Atualizar título do modal
-                document.getElementById('isento-modal-title').textContent = 'Editar Isento';
+                // Definir modo de edição
+                modoEdicao = true;
+                document.getElementById('modal-titulo').textContent = 'Editar Isento';
                 
                 // Mostrar modal
-                document.getElementById('isento-modal').classList.add('active');
-            } else {
-                showNotification('Erro ao buscar isento: ' + response.message, 'error');
-            }
-        });
-}
-
-// Confirmar exclusão
-function confirmarExclusao(id) {
-    // Buscar isento
-    API.Isento.listar()
-        .then(response => {
-            if (response.success) {
-                const isentos = response.data;
-                const isento = isentos.find(i => i.id === id);
+                modalIsento.classList.add('mostrar');
+            })
+            .catch(error => {
+                Utils.esconderCarregamento();
+                Utils.mostrarNotificacao('Erro ao carregar isento: ' + error.message, 'error');
+            });
+    };
+    
+    // Função global para excluir isento
+    window.excluirIsento = function(id) {
+        // Confirmar exclusão
+        Utils.confirmar('Tem certeza que deseja excluir este isento? Esta ação não pode ser desfeita.')
+            .then(confirmado => {
+                if (!confirmado) return;
                 
-                if (!isento) {
-                    showNotification('Isento não encontrado', 'error');
+                // Mostrar carregamento
+                Utils.mostrarCarregamento('Excluindo isento...');
+                
+                // Excluir isento
+                API.Isento.excluir(id)
+                    .then(response => {
+                        Utils.esconderCarregamento();
+                        
+                        if (response.success) {
+                            Utils.mostrarNotificacao('Isento excluído com sucesso!', 'success');
+                            
+                            // Recarregar isentos
+                            carregarIsentos();
+                        } else {
+                            Utils.mostrarNotificacao(response.message || 'Erro ao excluir isento', 'error');
+                        }
+                    })
+                    .catch(error => {
+                        Utils.esconderCarregamento();
+                        Utils.mostrarNotificacao('Erro ao excluir isento: ' + error.message, 'error');
+                    });
+            });
+    };
+    
+    // Função global para adicionar veículo
+    window.adicionarVeiculo = function(isentoId) {
+        // Mostrar carregamento
+        Utils.mostrarCarregamento('Carregando dados do isento...');
+        
+        // Consultar isento
+        API.Isento.obter(isentoId)
+            .then(response => {
+                Utils.esconderCarregamento();
+                
+                if (!response.data) {
+                    Utils.mostrarNotificacao('Isento não encontrado', 'error');
                     return;
                 }
                 
-                // Atualizar mensagem de confirmação
-                document.getElementById('confirmacao-mensagem').textContent = `Tem certeza que deseja excluir o isento "${isento.nome}"?`;
+                // Armazenar isento atual
+                isentoAtual = response.data;
                 
-                // Configurar botão de confirmar
-                const btnConfirmar = document.getElementById('btn-confirmar');
-                btnConfirmar.onclick = function() {
-                    excluirIsento(id);
-                    document.getElementById('confirmacao-modal').classList.remove('active');
-                };
+                // Limpar formulário
+                formVeiculo.reset();
+                
+                // Atualizar título do modal
+                document.getElementById('modal-veiculo-titulo').textContent = `Adicionar Veículo para ${isentoAtual.nome}`;
                 
                 // Mostrar modal
-                document.getElementById('confirmacao-modal').classList.add('active');
-            } else {
-                showNotification('Erro ao buscar isento: ' + response.message, 'error');
-            }
-        });
-}
-
-// Excluir isento
-function excluirIsento(id) {
-    API.Isento.remover(id)
-        .then(response => {
-            if (response.success) {
-                showNotification('Isento excluído com sucesso', 'success');
-                carregarIsentos();
-            } else {
-                showNotification('Erro ao excluir isento: ' + response.message, 'error');
-            }
-        });
-}
+                modalVeiculo.classList.add('mostrar');
+            })
+            .catch(error => {
+                Utils.esconderCarregamento();
+                Utils.mostrarNotificacao('Erro ao carregar isento: ' + error.message, 'error');
+            });
+    };
+    
+    // Função global para excluir veículo
+    window.excluirVeiculo = function(isentoId, veiculoId) {
+        // Confirmar exclusão
+        Utils.confirmar('Tem certeza que deseja excluir este veículo? Esta ação não pode ser desfeita.')
+            .then(confirmado => {
+                if (!confirmado) return;
+                
+                // Mostrar carregamento
+                Utils.mostrarCarregamento('Excluindo veículo...');
+                
+                // Excluir veículo
+                API.Isento.removerVeiculo(isentoId, veiculoId)
+                    .then(response => {
+                        Utils.esconderCarregamento();
+                        
+                        if (response.success) {
+                            Utils.mostrarNotificacao('Veículo excluído com sucesso!', 'success');
+                            
+                            // Recarregar isentos
+                            carregarIsentos();
+                        } else {
+                            Utils.mostrarNotificacao(response.message || 'Erro ao excluir veículo', 'error');
+                        }
+                    })
+                    .catch(error => {
+                        Utils.esconderCarregamento();
+                        Utils.mostrarNotificacao('Erro ao excluir veículo: ' + error.message, 'error');
+                    });
+            });
+    };
+});
