@@ -1,0 +1,164 @@
+✅ Objetivo
+Criar um sistema de estacionamento moderno e responsivo, 100% baseado em HTML, CSS e JavaScript puros, que será hospedado em um servidor simples (sem backend). Toda a lógica de negócios, leitura, gravação e exclusão de dados será feita por meio de uma API externa. Os cálculos de permanência e valor serão processados no frontend.
+
+O sistema terá três áreas principais:
+
+Área do SuperAdmin: Cadastro e gestão de empresas (clientes do sistema de estacionamento).
+Área do Cliente: Consulta de informações do ticket de estacionamento (pública).
+Área Administrativa: Gestão do estacionamento por parte da empresa (usuários do estacionamento).
+🔗 Integração com API
+A principal regra é que o sistema deve receber apenas uma variável com a URL base da API. Todas as rotas serão montadas dinamicamente com base nela.
+
+JavaScript
+
+const API_BASE_URL = "https://api.exemplo.com"; // Valor definido pelo administrador
+
+Exemplos de Endpoints (rotas completas):
+Ação	Método	Endpoint Completo	Detalhes da Requisição (Exemplos)
+Login (Admin/Operador)	POST	${API_BASE_URL}/auth/login	Body: { "email": "...", "password": "..." }
+Login (SuperAdmin)	POST	${API_BASE_URL}/auth/superadmin-login	Body: { "email": "...", "password": "..." }
+Listar veículos no pátio	GET	${API_BASE_URL}/patio	Headers: Authorization: Bearer <token>
+Registrar entrada	POST	${API_BASE_URL}/entrada	Body: { "placa": "...", "modelo": "...", "cor": "..." }
+Registrar saída	POST	${API_BASE_URL}/saida	Body: { "ticketId": "...", "valorPago": "...", "formaPagamento": "..." }
+Buscar ticket (público/cliente)	GET	${API_BASE_URL}/ticket?ticketId={ticketId}	Query param: ticketId ou telefone
+Verificar histórico da placa	GET	${API_BASE_URL}/historico?placa={placa}	Query param: placa
+Consultar mensalistas	GET	${API_BASE_URL}/mensalistas	
+Enviar mensagem (SMS/WhatsApp)	POST	${API_BASE_URL}/mensagem	Body: { "telefone": "...", "conteudo": "..." }
+Buscar serviços	GET	${API_BASE_URL}/servicos	
+Registrar serviço avulso	POST	${API_BASE_URL}/servicos-avulsos	Body: { "placa": "...", "servicosIds": [], "valorTotal": "..." }
+Gerar relatórios	GET	${API_BASE_URL}/relatorios?data_inicial=...	Query params: data_inicial, data_final
+Cadastrar Empresa	POST	${API_BASE_URL}/empresas	Body: { "nome": "...", "cnpj": "...", "dataValidadeLicenca": "YYYY-MM-DD" }
+Listar Empresas	GET	${API_BASE_URL}/empresas	
+Atualizar Empresa	PUT	${API_BASE_URL}/empresas/{id}	Body: { "nome": "...", "dataValidadeLicenca": "YYYY-MM-DD" }
+Deletar Empresa	DELETE	${API_BASE_URL}/empresas/{id}	
+Cadastrar Usuário (Empresa)	POST	${API_BASE_URL}/auth/register/empresa	Body: { "empresaId": "...", "email": "...", "password": "...", "nivelAcesso": "..." }
+Listar Usuários (por empresa)	GET	${API_BASE_URL}/users/empresa/{empresaId}	
+Atualizar Usuário (Empresa)	PUT	${API_BASE_URL}/users/{id}	Body: { "email": "...", "nivelAcesso": "..." }
+Deletar Usuário (Empresa)	DELETE	${API_BASE_URL}/users/{id}	
+CRUD de Preços	POST/GET/PUT/DELETE	${API_BASE_URL}/precos	GET retorna { "faixas": [...], "horaAdicional": ..., "diaria": ... }
+CRUD de Mensalistas	POST/GET/PUT/DELETE	${API_BASE_URL}/mensalistas	
+CRUD de Isentos	POST/GET/PUT/DELETE	${API_BASE_URL}/isentos	
+CRUD de Serviços	POST/GET/PUT/DELETE	${API_BASE_URL}/servicos	
+
+Exportar para as Planilhas
+🎯 Funcionalidades Obrigatórias
+Estrutura de Arquivos Sugerida
+/
+├── index.html                  (Área do Cliente/Pública)
+├── login.html                  (Login para Administradores de Empresas)
+├── superadmin-login.html       (Login para SuperAdmin)
+├── admin-dashboard.html        (Dashboard da Área Administrativa da Empresa)
+├── superadmin-dashboard.html   (Dashboard da Área do SuperAdmin)
+├── css/
+│   ├── style.css               (Estilos gerais e modais)
+│   └── responsive.css          (Estilos para responsividade)
+├── js/
+│   ├── config.js               (Onde API_BASE_URL será definido)
+│   ├── auth.js                 (Funções de autenticação, logout, verificação de token)
+│   ├── api.js                  (Funções para chamadas padronizadas à API - fetch/axios like)
+│   ├── ui.js                   (Funções para manipulação de UI - modais, alertas, loadings)
+│   ├── superadmin.js           (Lógica específica do SuperAdmin e dashboards)
+│   ├── admin.js                (Lógica específica da Área Administrativa da Empresa e dashboards)
+│   ├── common.js               (Funções JS comuns a todo o sistema - ex: formatar data, validar placa)
+│   └── calculations.js         (Lógica para cálculo de tempo de permanência e valor)
+└── assets/                     (Imagens, ícones, etc.)
+Área do Cliente (index.html)
+Consulta por número do ticket ou telefone: Campo de entrada e botão de busca.
+Exibição dos resultados: Tempo de permanência, dados do veículo (placa, modelo, cor), valor estimado (se aplicável, com base na entrada).
+Exibição de informações estáticas: Nome e localização do estacionamento.
+Autenticação
+Tela de Login do Administrador (login.html): Formulário de usuário/senha para equipes de estacionamento.
+Tela de Login do SuperAdmin (superadmin-login.html): Formulário de usuário/senha para o SuperAdmin.
+Proteção de Rotas: Redirecionamento automático para a página de login se não houver token válido no localStorage ou se o token for expirado.
+Níveis de Acesso: Token JWT retornado pela API conterá o nível de acesso (SuperAdmin, Master, Operador, Visualizador).
+Redirecionamento Pós-Login: Usuários SuperAdmin são redirecionados para superadmin-dashboard.html, outros para admin-dashboard.html.
+Logout: Botão de logout que limpa o token e redireciona para a tela de login.
+Área do SuperAdmin (superadmin-dashboard.html)
+Dashboard de Empresas:
+Tabela dinâmica com a lista de todas as empresas cadastradas: Nome, CNPJ, Data de Validade da Licença, Status (Ativa/Expirada/Próxima a expirar).
+Destaque Visual: Linhas ou células com cores diferentes para licenças expiradas ou próximas do vencimento (ex: nos próximos 30 dias).
+Botões de ação por linha: Editar Empresa (abre modal), Excluir Empresa (confirmação via modal), Gerenciar Usuários (abre modal).
+Botão "Cadastrar Nova Empresa" (abre modal de Cadastro/Edição de Empresa).
+Modal de Cadastro/Edição de Empresa:
+Formulário para: Nome da Empresa, CNPJ, Endereço, Telefone, Email de Contato, Data de Validade da Licença (input type="date").
+Validação de campos obrigatórios.
+Botões "Salvar" (envia POST /empresas ou PUT /empresas/{id}) e "Cancelar".
+Modal de Gestão de Usuários da Empresa:
+Tabela listando usuários da empresa selecionada: Email, Nível de Acesso.
+Botões de ação por linha: Editar Usuário (abre modal de edição de usuário), Excluir Usuário (confirmação via modal).
+Botão "Cadastrar Novo Usuário" (abre modal de Cadastro/Edição de Usuário).
+Modal de Cadastro/Edição de Usuário (para empresas):
+Formulário para: Email, Senha (apenas no cadastro), Nível de Acesso (dropdown: Master, Operador, Visualizador).
+Botões "Salvar" (envia POST /auth/register/empresa ou PUT /users/{id}) e "Cancelar".
+Dashboard Principal (Admin da Empresa) (admin-dashboard.html)
+Pátio Atual: Tabela dinâmica exibindo veículos atualmente no pátio: Placa, Modelo, Cor, Tempo de Permanência (calculado dinamicamente no frontend), Ticket ID.
+Botão "Nova Entrada" (abre Modal de Entrada de Veículo).
+Botão "Saída" (abre Modal de Saída de Veículo).
+Menu Lateral Fixo:
+Pátio (link para a própria página, atualiza a tabela).
+Gestão de Preços (abre Modal de Gestão de Preços).
+Mensalistas (abre Modal de Gestão de Mensalistas).
+Isentos (abre Modal de Gestão de Isentos).
+Serviços Avulsos (abre Modal de Serviços Avulsos).
+Relatórios (abre Modal de Relatórios).
+Topbar: Exibe nome do usuário logado, nível de acesso e botão de logout.
+Modais de Operação (Admin da Empresa)
+Modal de Entrada de Veículo:
+Campo para digitar Placa.
+Ao digitar a placa: Requisição GET /historico?placa={placa}. Se houver histórico, preenche Modelo e Cor automaticamente.
+Verificação visual: Se o veículo já está no pátio (evitar duplicidade), se é mensalista ou isento (com destaque).
+Opção de Telefone (campo input) ou Imprimir Ticket (checkbox).
+Botão "Confirmar Entrada" (envia POST /entrada).
+Feedback de sucesso/erro e atualização da tabela de pátio.
+Modal de Saída de Veículo:
+Campo para digitar Ticket ID.
+Ao digitar o Ticket ID: Requisição GET /ticket?ticketId={ticketId} para obter dataHoraEntrada, placa, modelo, cor.
+Cálculo Frontend: JavaScript calcula o Tempo de Permanência (diferença entre dataHoraEntrada e hora atual) e o Valor a Pagar (baseado nas regras de preços lidas da API - GET /precos).
+Exibe o tempo de permanência e o valor calculado.
+Dropdown para selecionar Forma de Pagamento.
+Campo opcional para CPF do cliente.
+Opção de Enviar Mensagem (SMS/WhatsApp) ou Imprimir Comprovante (checkbox).
+Botão "Confirmar Saída" (envia POST /saida).
+Feedback de sucesso/erro e atualização da tabela de pátio.
+Modal de Serviços Avulsos:
+Campo para digitar Placa do veículo (mesma lógica de histórico da entrada).
+Lista de Serviços cadastrados (lida de GET /servicos) com checkboxes para seleção múltipla.
+Cálculo Frontend: Valor total é calculado dinamicamente com base nos serviços selecionados.
+Botão "Confirmar Serviço" (envia POST /servicos-avulsos).
+Modal de Gestão de Preços:
+Interface para definir faixas de horário e valores (tabela editável ou formulários dinâmicos). Ex: "0-1h: R$X", "hora adicional: R$Y", "diária: R$Z".
+CRUD de preços via API (/precos).
+Modal de Gestão de Mensalistas e Isentos:
+Tabela com lista atual de mensalistas/isentos.
+Botões para Cadastro e Edição (formulários para Nome, Placa, Período de Validade).
+CRUD via API (/mensalistas, /isentos).
+Modal de Relatórios:
+Campos "Data Inicial" e "Data Final" para filtro.
+Botão "Gerar Relatório" (chama GET /relatorios).
+Tabela de resultados com: Total de Veículos (entradas/saídas), Total Arrecadado, Detalhes de Serviços Realizados.
+Dados vindos da API.
+Botão para Exportar (ex: CSV), se a API ou o frontend oferecerem.
+📱 Interface e Layout
+Totalmente responsivo utilizando Flexbox e Grid para adaptação a diferentes tamanhos de tela (celular, tablet e desktop).
+Layout limpo, moderno e direto, com foco na usabilidade e clareza das informações.
+Modais personalizados para todas as interações de cadastro/edição/operação, com overlays e animações.
+Alertas de sistema via modais específicos (sucesso, erro, confirmação).
+Menu lateral fixo (sidebar) nas áreas administrativa e SuperAdmin.
+Topbar consistente em todas as páginas autenticadas, com nome do usuário, nível de acesso e botão de logout.
+Indicadores de loading (spinners) em botões e overlays para operações assíncronas.
+🛡️ Segurança
+Armazenamento de Token: Token JWT armazenado com segurança no localStorage após o login.
+Controle de Acesso Frontend: JavaScript verifica a presença e validade do token e o nível de acesso para permitir/negar acesso a rotas e funcionalidades.
+Validação de Entrada: Validação de todos os campos obrigatórios e formato dos dados no frontend antes do envio para a API.
+Prevenção de Cliques Duplos: Desabilitar botões de submissão e mostrar loading durante requisições para evitar chamadas duplicadas.
+Tratamento de Erros de API: Exibição de mensagens amigáveis em caso de falha da API ou erros de rede.
+🔧 Tecnologias
+HTML5: Estrutura semântica das páginas.
+CSS3: Estilização, responsividade, animações.
+JavaScript (ES6+): Toda a lógica de frontend, manipulação do DOM, requisições assíncronas (Workspace API).
+Sem frameworks ou bibliotecas externas obrigatórias (ex: React, Vue, Angular, jQuery).
+📦 Observações Finais
+O sistema não possui banco de dados local. Todos os dados são gerenciados pela API externa.
+A IA deve gerar os arquivos HTML, CSS e JS separados, organizados nas pastas css/ e js/ conforme a estrutura sugerida.
+A configuração do API_BASE_URL será centralizada em js/config.js para fácil edição.
+A lógica de associação de usuários a empresas e a validade de licenças são gerenciadas pela API (apenas o frontend interage com esses dados).
