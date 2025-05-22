@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - SuperAdmin</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/components.css">
+    <link rel="stylesheet" href="../css/superadmin.css">
+</head>
+<body>
+    <!-- Container principal -->
+    <div class="superadmin-container">
+        <!-- Sidebar -->
+        <aside class="superadmin-sidebar" id="superadmin-sidebar">
+            <div class="superadmin-sidebar-header">
+                <div class="superadmin-logo">
+                    <span>SuperAdmin</span>
+                </div>
+                <button class="superadmin-sidebar-toggle" id="superadmin-sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            <ul class="superadmin-sidebar-menu">
+                <li class="superadmin-sidebar-item">
+                    <a href="dashboard.html" class="superadmin-sidebar-link active">
+                        <i class="fas fa-tachometer-alt superadmin-sidebar-icon"></i>
+                        <span class="superadmin-sidebar-text">Dashboard</span>
+                    </a>
+                </li>
+                <li class="superadmin-sidebar-item">
+                    <a href="empresas.html" class="superadmin-sidebar-link">
+                        <i class="fas fa-building superadmin-sidebar-icon"></i>
+                        <span class="superadmin-sidebar-text">Empresas</span>
+                    </a>
+                </li>
+                <li class="superadmin-sidebar-item">
+                    <a href="relatorios.html" class="superadmin-sidebar-link">
+                        <i class="fas fa-chart-bar superadmin-sidebar-icon"></i>
+                        <span class="superadmin-sidebar-text">Relatórios</span>
+                    </a>
+                </li>
+                <li class="superadmin-sidebar-item">
+                    <a href="configuracoes.html" class="superadmin-sidebar-link">
+                        <i class="fas fa-cog superadmin-sidebar-icon"></i>
+                        <span class="superadmin-sidebar-text">Configurações</span>
+                    </a>
+                </li>
+                <li class="superadmin-sidebar-item">
+                    <a href="#" class="superadmin-sidebar-link" id="logout-link">
+                        <i class="fas fa-sign-out-alt superadmin-sidebar-icon"></i>
+                        <span class="superadmin-sidebar-text">Sair</span>
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- Conteúdo principal -->
+        <main class="superadmin-main-content">
+            <div class="superadmin-page-header">
+                <h1 class="superadmin-page-title">Dashboard</h1>
+                <div class="superadmin-user-info">
+                    <span class="superadmin-user-name" id="superadmin-user-name">Administrador</span>
+                    <span class="superadmin-user-role">SuperAdmin</span>
+                </div>
+            </div>
+
+            <!-- Estatísticas -->
+            <div class="superadmin-stats-container">
+                <div class="superadmin-stat-card">
+                    <div class="superadmin-stat-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <div class="superadmin-stat-content">
+                        <h3 class="superadmin-stat-value" id="total-empresas">0</h3>
+                        <p class="superadmin-stat-label">Empresas Cadastradas</p>
+                    </div>
+                </div>
+                <div class="superadmin-stat-card">
+                    <div class="superadmin-stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="superadmin-stat-content">
+                        <h3 class="superadmin-stat-value" id="empresas-ativas">0</h3>
+                        <p class="superadmin-stat-label">Empresas Ativas</p>
+                    </div>
+                </div>
+                <div class="superadmin-stat-card">
+                    <div class="superadmin-stat-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="superadmin-stat-content">
+                        <h3 class="superadmin-stat-value" id="licencas-vencendo">0</h3>
+                        <p class="superadmin-stat-label">Licenças Vencendo</p>
+                    </div>
+                </div>
+                <div class="superadmin-stat-card">
+                    <div class="superadmin-stat-icon">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <div class="superadmin-stat-content">
+                        <h3 class="superadmin-stat-value" id="total-veiculos">0</h3>
+                        <p class="superadmin-stat-label">Total de Veículos</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Empresas Recentes -->
+            <div class="section-header">
+                <h2 class="section-title">Empresas Recentes</h2>
+                <a href="empresas.html" class="btn btn-sm btn-outline">Ver Todas</a>
+            </div>
+            <div class="superadmin-company-list" id="empresas-recentes">
+                <!-- As empresas serão carregadas dinamicamente aqui -->
+                <div class="loader-container">
+                    <div class="loader"></div>
+                </div>
+            </div>
+
+            <!-- Licenças Próximas do Vencimento -->
+            <div class="section-header mt-4">
+                <h2 class="section-title">Licenças Próximas do Vencimento</h2>
+            </div>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Empresa</th>
+                            <th>Data de Vencimento</th>
+                            <th>Dias Restantes</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="licencas-vencendo-lista">
+                        <!-- As licenças serão carregadas dinamicamente aqui -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Notificação -->
+    <div class="notification" id="notification">
+        <div class="notification-header">
+            <h4 class="notification-title">Notificação</h4>
+            <button class="notification-close" id="close-notification">&times;</button>
+        </div>
+        <div class="notification-body" id="notification-message">
+            Mensagem de notificação
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/main.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/superadmin-api.js"></script>
+    <script src="../js/superadmin-dashboard.js"></script>
+</body>
+</html>

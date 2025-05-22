@@ -1,0 +1,318 @@
+/* Estilos específicos para a área de superadmin */
+
+:root {
+    --superadmin-primary: #7b2cbf;
+    --superadmin-secondary: #5a189a;
+    --superadmin-accent: #9d4edd;
+    --superadmin-light: #e0aaff;
+    --superadmin-dark: #3c096c;
+    --superadmin-gradient: linear-gradient(135deg, var(--superadmin-primary), var(--superadmin-dark));
+}
+
+/* Estilos para o login de superadmin */
+.login-container {
+    background: var(--superadmin-gradient);
+}
+
+.login-card {
+    border-top: 4px solid var(--superadmin-accent);
+}
+
+.login-title {
+    color: var(--superadmin-primary);
+}
+
+.btn-primary {
+    background-color: var(--superadmin-primary);
+    border-color: var(--superadmin-primary);
+}
+
+.btn-primary:hover {
+    background-color: var(--superadmin-secondary);
+    border-color: var(--superadmin-secondary);
+}
+
+/* Estilos para o painel de superadmin */
+.superadmin-container {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+}
+
+.superadmin-sidebar {
+    width: 280px;
+    background: var(--superadmin-gradient);
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.superadmin-sidebar.collapsed {
+    width: 80px;
+}
+
+.superadmin-sidebar-header {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.superadmin-logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+}
+
+.superadmin-sidebar-toggle {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.superadmin-sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.superadmin-sidebar-item {
+    margin: 0;
+    padding: 0;
+}
+
+.superadmin-sidebar-link {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.superadmin-sidebar-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.superadmin-sidebar-link.active {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    border-left: 4px solid var(--superadmin-light);
+}
+
+.superadmin-sidebar-icon {
+    margin-right: 15px;
+    font-size: 1.2rem;
+    min-width: 25px;
+    text-align: center;
+}
+
+.superadmin-main-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.superadmin-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.superadmin-page-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--superadmin-dark);
+    margin: 0;
+}
+
+/* Cards para dashboard */
+.superadmin-stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.superadmin-stat-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.superadmin-stat-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: var(--superadmin-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    font-size: 1.5rem;
+    color: var(--superadmin-primary);
+}
+
+.superadmin-stat-content {
+    flex: 1;
+}
+
+.superadmin-stat-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--superadmin-dark);
+    margin: 0;
+}
+
+.superadmin-stat-label {
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin: 0;
+}
+
+/* Lista de empresas */
+.superadmin-company-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 20px;
+}
+
+.superadmin-company-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.superadmin-company-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.superadmin-company-header {
+    padding: 15px 20px;
+    background-color: var(--superadmin-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.superadmin-company-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--superadmin-dark);
+    margin: 0;
+}
+
+.superadmin-company-status {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.superadmin-company-status.active {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.superadmin-company-status.inactive {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.superadmin-company-body {
+    padding: 20px;
+}
+
+.superadmin-company-info {
+    margin-bottom: 15px;
+}
+
+.superadmin-info-item {
+    display: flex;
+    margin-bottom: 8px;
+}
+
+.superadmin-info-label {
+    font-weight: 500;
+    color: #6c757d;
+    width: 120px;
+}
+
+.superadmin-info-value {
+    flex: 1;
+    color: #343a40;
+}
+
+.superadmin-company-footer {
+    padding: 15px 20px;
+    border-top: 1px solid #e9ecef;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+/* Formulário de empresa */
+.superadmin-form-container {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.superadmin-form-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--superadmin-dark);
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.superadmin-form-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .superadmin-form-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Responsividade */
+@media (max-width: 992px) {
+    .superadmin-sidebar {
+        position: fixed;
+        left: -280px;
+        top: 0;
+        bottom: 0;
+        z-index: 1000;
+    }
+    
+    .superadmin-sidebar.active {
+        left: 0;
+    }
+    
+    .superadmin-main-content {
+        margin-left: 0;
+    }
+    
+    .superadmin-stats-container,
+    .superadmin-company-list {
+        grid-template-columns: 1fr;
+    }
+}
