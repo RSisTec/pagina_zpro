@@ -1,76 +1,231 @@
-// Adaptação do arquivo mensalistas.js para usar a API PHP/PostgreSQL
+// Arquivo específico para a página de mensalistas
+// Contém funções para gerenciamento de mensalistas
 
 document.addEventListener('DOMContentLoaded', function() {
     // Verificar autenticação
-    if (!API.Auth.isAuthenticated()) {
-        window.location.href = '/pages/login.html';
-        return;
-    }
-
-    // Elementos da página
-    const mensalistasContainer = document.getElementById('mensalistas-container');
-    const btnNovoMensalista = document.getElementById('btn-novo-mensalista');
-    const modalMensalista = document.getElementById('modal-mensalista');
-    const formMensalista = document.getElementById('form-mensalista');
-    const modalVeiculo = document.getElementById('modal-veiculo');
-    const formVeiculo = document.getElementById('form-veiculo');
+    const session = utils.protegerRota();
+    if (!session) return;
     
-    // Variáveis globais
-    let mensalistaAtual = null;
-    let modoEdicao = false;
+    // Inicializar componentes
+    initializeSidebar();
+    initializeLogout();
+    initializeModals();
+    initializeMensalistaForm();
     
     // Carregar mensalistas
     carregarMensalistas();
+});
+
+// Inicializar sidebar
+function initializeSidebar() {
+    const sidebarToggle = document.getElementById('sidebar-toggle');
+    const sidebar = document.getElementById('sidebar');
     
-    // Configurar botões de ação
-    if (btnNovoMensalista) {
-        btnNovoMensalista.addEventListener('click', function() {
-            // Limpar formulário
-            formMensalista.reset();
-            document.getElementById('mensalista-id').value = '';
-            
-            // Definir modo de cadastro
-            modoEdicao = false;
-            document.getElementById('modal-titulo').textContent = 'Novo Mensalista';
-            
-            // Mostrar modal
-            modalMensalista.classList.add('mostrar');
+    if (sidebarToggle && sidebar) {
+        sidebarToggle.addEventListener('click', function() {
+            sidebar.classList.toggle('sidebar-collapsed');
         });
     }
     
-    // Fechar modais ao clicar fora
-    document.querySelectorAll('.modal').forEach(modal => {
-        modal.addEventListener('click', function(e) {
-            if (e.target === modal) {
-                modal.classList.remove('mostrar');
+    // Em telas menores, fechar sidebar ao clicar em um link
+    const sidebarLinks = document.querySelectorAll('.sidebar-link');
+    
+    sidebarLinks.forEach(link => {
+        link.addEventListener('click', function() {
+            if (window.innerWidth < 992) {
+                sidebar.classList.remove('active');
             }
         });
     });
+}
+
+// Inicializar logout
+function initializeLogout() {
+    const logoutLink = document.getElementById('logout-link');
     
-    // Configurar formulário de mensalista
-    if (formMensalista) {
-        formMensalista.addEventListener('submit', function(e) {
+    if (logoutLink) {
+        logoutLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Remover sessão
+            localStorage.removeItem('session');
+            
+            // Redirecionar para login
+            window.location.href = 'login.html';
+        });
+    }
+}
+
+// Inicializar modais
+function initializeModals() {
+    // Modal de Mensalista
+    const mensalistaModal = document.getElementById('mensalista-modal');
+    const btnNovoMensalista = document.getElementById('btn-novo-mensalista');
+    const closeMensalistaModal = document.getElementById('close-mensalista-modal');
+    
+    if (mensalistaModal && btnNovoMensalista && closeMensalistaModal) {
+        btnNovoMensalista.addEventListener('click', function() {
+            // Limpar formulário
+            document.getElementById('mensalista-form').reset();
+            document.getElementById('mensalista-id').value = '';
+            document.getElementById('mensalista-modal-title').textContent = 'Novo Mensalista';
+            
+            // Limpar veículos
+            const veiculosContainer = document.getElementById('mensalista-veiculos-container');
+            veiculosContainer.innerHTML = `
+                <div class="d-flex mb-2">
+                    <input type="text" class="form-control mensalista-veiculo" placeholder="Placa do veículo">
+                    <button type="button" class="btn btn-sm btn-danger ml-2 btn-remover-veiculo">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            `;
+            
+            // Adicionar evento ao botão de remover
+            adicionarEventoRemoverVeiculo();
+            
+            // Mostrar modal
+            mensalistaModal.classList.add('active');
+        });
+        
+        closeMensalistaModal.addEventListener('click', function() {
+            mensalistaModal.classList.remove('active');
+        });
+        
+        mensalistaModal.addEventListener('click', function(e) {
+            if (e.target === mensalistaModal) {
+                mensalistaModal.classList.remove('active');
+            }
+        });
+    }
+    
+    // Modal de Confirmação
+    const confirmacaoModal = document.getElementById('confirmacao-modal');
+    const closeConfirmacaoModal = document.getElementById('close-confirmacao-modal');
+    const btnCancelarConfirmacao = document.getElementById('btn-cancelar-confirmacao');
+    
+    if (confirmacaoModal && closeConfirmacaoModal && btnCancelarConfirmacao) {
+        closeConfirmacaoModal.addEventListener('click', function() {
+            confirmacaoModal.classList.remove('active');
+        });
+        
+        btnCancelarConfirmacao.addEventListener('click', function() {
+            confirmacaoModal.classList.remove('active');
+        });
+        
+        confirmacaoModal.addEventListener('click', function(e) {
+            if (e.target === confirmacaoModal) {
+                confirmacaoModal.classList.remove('active');
+            }
+        });
+    }
+}
+
+// Inicializar formulário de mensalista
+function initializeMensalistaForm() {
+    const mensalistaForm = document.getElementById('mensalista-form');
+    const btnAdicionarVeiculo = document.getElementById('btn-adicionar-veiculo');
+    
+    // Adicionar veículo
+    if (btnAdicionarVeiculo) {
+        btnAdicionarVeiculo.addEventListener('click', function() {
+            const veiculosContainer = document.getElementById('mensalista-veiculos-container');
+            
+            // Criar novo campo de veículo
+            const novoVeiculo = document.createElement('div');
+            novoVeiculo.className = 'd-flex mb-2';
+            novoVeiculo.innerHTML = `
+                <input type="text" class="form-control mensalista-veiculo" placeholder="Placa do veículo">
+                <button type="button" class="btn btn-sm btn-danger ml-2 btn-remover-veiculo">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+            
+            // Adicionar ao container
+            veiculosContainer.appendChild(novoVeiculo);
+            
+            // Adicionar evento ao botão de remover
+            adicionarEventoRemoverVeiculo();
+        });
+    }
+    
+    // Adicionar evento ao botão de remover veículo
+    adicionarEventoRemoverVeiculo();
+    
+    // Submeter formulário
+    if (mensalistaForm) {
+        mensalistaForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
             // Obter dados do formulário
             const id = document.getElementById('mensalista-id').value;
-            const nome = document.getElementById('nome').value.trim();
-            const documento = document.getElementById('documento').value.trim();
-            const telefone = document.getElementById('telefone').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const endereco = document.getElementById('endereco').value.trim();
-            const plano = document.getElementById('plano').value;
-            const dataInicio = document.getElementById('data-inicio').value;
-            const dataFim = document.getElementById('data-fim').value;
+            const nome = document.getElementById('mensalista-nome').value.trim();
+            const documento = document.getElementById('mensalista-documento').value.trim();
+            const telefone = document.getElementById('mensalista-telefone').value.trim();
+            const email = document.getElementById('mensalista-email').value.trim();
+            const endereco = document.getElementById('mensalista-endereco').value.trim();
+            const plano = document.getElementById('mensalista-plano').value;
+            const dataInicio = document.getElementById('mensalista-data-inicio').value;
+            const dataFim = document.getElementById('mensalista-data-fim').value;
             
             // Validar campos obrigatórios
-            if (!nome || !documento || !telefone || !plano || !dataInicio || !dataFim) {
-                Utils.mostrarNotificacao('Por favor, preencha todos os campos obrigatórios', 'error');
+            if (!nome) {
+                showNotification('Por favor, digite o nome do mensalista', 'error');
                 return;
             }
             
-            // Preparar dados
-            const dados = {
+            if (!documento) {
+                showNotification('Por favor, digite o CPF ou CNPJ do mensalista', 'error');
+                return;
+            }
+            
+            if (!telefone) {
+                showNotification('Por favor, digite o telefone do mensalista', 'error');
+                return;
+            }
+            
+            if (!utils.validarTelefone(telefone)) {
+                showNotification('Formato de telefone inválido. Use (XX) XXXXX-XXXX ou XXXXXXXXXXX.', 'error');
+                return;
+            }
+            
+            if (!plano) {
+                showNotification('Por favor, selecione o plano do mensalista', 'error');
+                return;
+            }
+            
+            if (!dataInicio) {
+                showNotification('Por favor, selecione a data de início do plano', 'error');
+                return;
+            }
+            
+            if (!dataFim) {
+                showNotification('Por favor, selecione a data de término do plano', 'error');
+                return;
+            }
+            
+            // Obter veículos
+            const veiculosInputs = document.querySelectorAll('.mensalista-veiculo');
+            const veiculos = [];
+            
+            veiculosInputs.forEach(input => {
+                const placa = input.value.trim().toUpperCase();
+                if (placa) {
+                    if (!utils.validarPlaca(placa)) {
+                        showNotification(`Placa inválida: ${placa}. Use o formato ABC1234 ou ABC1D23.`, 'error');
+                        return;
+                    }
+                    veiculos.push(placa);
+                }
+            });
+            
+            if (veiculos.length === 0) {
+                showNotification('Por favor, adicione pelo menos um veículo', 'error');
+                return;
+            }
+            
+            // Criar objeto mensalista
+            const mensalista = {
                 nome,
                 documento,
                 telefone,
@@ -78,347 +233,256 @@ document.addEventListener('DOMContentLoaded', function() {
                 endereco,
                 plano,
                 dataInicio: new Date(dataInicio).getTime(),
-                dataFim: new Date(dataFim).getTime()
+                dataFim: new Date(dataFim).getTime(),
+                veiculos
             };
             
-            // Mostrar carregamento
-            Utils.mostrarCarregamento(modoEdicao ? 'Atualizando mensalista...' : 'Cadastrando mensalista...');
-            
-            // Cadastrar ou atualizar mensalista
-            const promise = modoEdicao
-                ? API.Mensalista.atualizar(id, dados)
-                : API.Mensalista.cadastrar(dados);
-            
-            promise
-                .then(response => {
-                    Utils.esconderCarregamento();
-                    
-                    if (response.success) {
-                        Utils.mostrarNotificacao(
-                            modoEdicao ? 'Mensalista atualizado com sucesso!' : 'Mensalista cadastrado com sucesso!',
-                            'success'
-                        );
-                        
-                        // Fechar modal
-                        modalMensalista.classList.remove('mostrar');
-                        
-                        // Recarregar mensalistas
-                        carregarMensalistas();
-                    } else {
-                        Utils.mostrarNotificacao(response.message || 'Erro ao processar mensalista', 'error');
-                    }
-                })
-                .catch(error => {
-                    Utils.esconderCarregamento();
-                    Utils.mostrarNotificacao('Erro ao processar mensalista: ' + error.message, 'error');
-                });
+            // Salvar mensalista
+            if (id) {
+                // Atualizar mensalista existente
+                API.Mensalista.atualizar(id, mensalista)
+                    .then(response => {
+                        if (response.success) {
+                            showNotification('Mensalista atualizado com sucesso', 'success');
+                            document.getElementById('mensalista-modal').classList.remove('active');
+                            carregarMensalistas();
+                        } else {
+                            showNotification('Erro ao atualizar mensalista: ' + response.message, 'error');
+                        }
+                    });
+            } else {
+                // Adicionar novo mensalista
+                API.Mensalista.adicionar(mensalista)
+                    .then(response => {
+                        if (response.success) {
+                            showNotification('Mensalista adicionado com sucesso', 'success');
+                            document.getElementById('mensalista-modal').classList.remove('active');
+                            carregarMensalistas();
+                        } else {
+                            showNotification('Erro ao adicionar mensalista: ' + response.message, 'error');
+                        }
+                    });
+            }
         });
     }
+}
+
+// Adicionar evento ao botão de remover veículo
+function adicionarEventoRemoverVeiculo() {
+    const botoesRemover = document.querySelectorAll('.btn-remover-veiculo');
     
-    // Configurar formulário de veículo
-    if (formVeiculo) {
-        formVeiculo.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Verificar se há um mensalista selecionado
-            if (!mensalistaAtual) {
-                Utils.mostrarNotificacao('Nenhum mensalista selecionado', 'error');
-                return;
+    botoesRemover.forEach(botao => {
+        botao.addEventListener('click', function() {
+            // Verificar se é o único campo de veículo
+            if (document.querySelectorAll('.mensalista-veiculo').length > 1) {
+                // Remover o campo
+                this.parentElement.remove();
+            } else {
+                // Limpar o campo
+                this.parentElement.querySelector('.mensalista-veiculo').value = '';
             }
-            
-            // Obter dados do formulário
-            const placa = document.getElementById('placa').value.trim().toUpperCase();
-            const modelo = document.getElementById('modelo').value.trim();
-            const cor = document.getElementById('cor').value.trim();
-            
-            // Validar campos obrigatórios
-            if (!placa || !modelo || !cor) {
-                Utils.mostrarNotificacao('Por favor, preencha todos os campos obrigatórios', 'error');
-                return;
-            }
-            
-            // Preparar dados
-            const dados = {
-                placa,
-                modelo,
-                cor
-            };
-            
-            // Mostrar carregamento
-            Utils.mostrarCarregamento('Adicionando veículo...');
-            
-            // Adicionar veículo ao mensalista
-            API.Mensalista.adicionarVeiculo(mensalistaAtual.id, dados)
-                .then(response => {
-                    Utils.esconderCarregamento();
-                    
-                    if (response.success) {
-                        Utils.mostrarNotificacao('Veículo adicionado com sucesso!', 'success');
-                        
-                        // Fechar modal
-                        modalVeiculo.classList.remove('mostrar');
-                        
-                        // Limpar formulário
-                        formVeiculo.reset();
-                        
-                        // Recarregar mensalistas
-                        carregarMensalistas();
-                    } else {
-                        Utils.mostrarNotificacao(response.message || 'Erro ao adicionar veículo', 'error');
-                    }
-                })
-                .catch(error => {
-                    Utils.esconderCarregamento();
-                    Utils.mostrarNotificacao('Erro ao adicionar veículo: ' + error.message, 'error');
-                });
         });
-    }
+    });
+}
+
+// Carregar mensalistas
+function carregarMensalistas() {
+    const mensalistasList = document.getElementById('mensalistas-list');
     
-    // Função para carregar mensalistas
-    function carregarMensalistas() {
-        // Mostrar carregamento
-        Utils.mostrarCarregamento('Carregando mensalistas...');
-        
-        // Consultar mensalistas
-        API.Mensalista.listar()
-            .then(response => {
-                Utils.esconderCarregamento();
-                
+    if (!mensalistasList) return;
+    
+    // Mostrar loader
+    mensalistasList.innerHTML = `
+        <div class="loader-container">
+            <div class="loader"></div>
+        </div>
+    `;
+    
+    // Buscar mensalistas
+    API.Mensalista.listar()
+        .then(response => {
+            if (response.success) {
                 const mensalistas = response.data;
                 
+                // Verificar se há mensalistas
                 if (mensalistas.length === 0) {
-                    mensalistasContainer.innerHTML = `
-                        <div class="alerta alerta-info">
-                            <p>Não há mensalistas cadastrados.</p>
-                        </div>
-                    `;
+                    mensalistasList.innerHTML = '<div class="alert alert-info">Não há mensalistas cadastrados.</div>';
                     return;
                 }
                 
-                // Exibir mensalistas
-                let html = '';
+                // Limpar lista
+                mensalistasList.innerHTML = '';
                 
+                // Adicionar mensalistas à lista
                 mensalistas.forEach(mensalista => {
-                    // Determinar status
-                    const dataFim = new Date(mensalista.data_fim);
-                    const hoje = new Date();
-                    const trintaDias = new Date();
-                    trintaDias.setDate(hoje.getDate() + 30);
-                    
-                    let status = 'vigente';
-                    let statusTexto = 'Vigente';
-                    
-                    if (dataFim < hoje) {
-                        status = 'vencido';
-                        statusTexto = 'Vencido';
-                    } else if (dataFim <= trintaDias) {
-                        status = 'vencendo';
-                        statusTexto = 'Vencendo';
-                    }
-                    
-                    // Formatar datas
-                    const dataInicio = new Date(mensalista.data_inicio).toLocaleDateString('pt-BR');
-                    const dataFimFormatada = dataFim.toLocaleDateString('pt-BR');
-                    
-                    html += `
-                        <div class="card">
-                            <div class="card-header">
-                                <h3>${mensalista.nome}</h3>
-                                <span class="badge ${status}">${statusTexto}</span>
+                    const mensalistaCard = document.createElement('div');
+                    mensalistaCard.className = 'client-card';
+                    mensalistaCard.innerHTML = `
+                        <div class="client-header">
+                            <div class="client-name">${mensalista.nome}</div>
+                            <span class="client-type mensalista">${mensalista.plano}</span>
+                        </div>
+                        <div class="client-info">
+                            <div class="result-item">
+                                <div class="result-label">Documento</div>
+                                <div class="result-value">${mensalista.documento}</div>
                             </div>
-                            <div class="card-body">
-                                <p><strong>Documento:</strong> ${mensalista.documento}</p>
-                                <p><strong>Telefone:</strong> ${mensalista.telefone}</p>
-                                <p><strong>Email:</strong> ${mensalista.email || '-'}</p>
-                                <p><strong>Plano:</strong> ${mensalista.plano}</p>
-                                <p><strong>Período:</strong> ${dataInicio} a ${dataFimFormatada}</p>
-                                
-                                <div class="secao-veiculos">
-                                    <h4>Veículos</h4>
-                                    <div class="lista-veiculos" id="veiculos-${mensalista.id}">
-                                        ${carregarVeiculosMensalista(mensalista)}
-                                    </div>
-                                </div>
+                            <div class="result-item">
+                                <div class="result-label">Telefone</div>
+                                <div class="result-value">${mensalista.telefone}</div>
                             </div>
-                            <div class="card-footer">
-                                <button class="btn btn-primary" onclick="editarMensalista('${mensalista.id}')">Editar</button>
-                                <button class="btn btn-secondary" onclick="adicionarVeiculo('${mensalista.id}')">Adicionar Veículo</button>
-                                <button class="btn btn-danger" onclick="excluirMensalista('${mensalista.id}')">Excluir</button>
+                            <div class="result-item">
+                                <div class="result-label">Email</div>
+                                <div class="result-value">${mensalista.email || 'Não informado'}</div>
+                            </div>
+                            <div class="result-item">
+                                <div class="result-label">Validade</div>
+                                <div class="result-value">${utils.formatarData(mensalista.dataInicio)} a ${utils.formatarData(mensalista.dataFim)}</div>
                             </div>
                         </div>
+                        <div class="client-vehicles">
+                            <div class="result-label">Veículos</div>
+                            <div class="vehicle-tags">
+                                ${mensalista.veiculos.map(placa => `
+                                    <span class="vehicle-tag"><i class="fas fa-car"></i> ${placa}</span>
+                                `).join('')}
+                            </div>
+                        </div>
+                        <div class="text-right mt-3">
+                            <button class="btn btn-sm btn-outline btn-editar" data-id="${mensalista.id}">
+                                <i class="fas fa-edit"></i> Editar
+                            </button>
+                            <button class="btn btn-sm btn-danger btn-excluir" data-id="${mensalista.id}">
+                                <i class="fas fa-trash"></i> Excluir
+                            </button>
+                        </div>
                     `;
+                    
+                    // Adicionar à lista
+                    mensalistasList.appendChild(mensalistaCard);
+                    
+                    // Adicionar eventos aos botões
+                    const btnEditar = mensalistaCard.querySelector('.btn-editar');
+                    const btnExcluir = mensalistaCard.querySelector('.btn-excluir');
+                    
+                    btnEditar.addEventListener('click', function() {
+                        const id = this.getAttribute('data-id');
+                        editarMensalista(id);
+                    });
+                    
+                    btnExcluir.addEventListener('click', function() {
+                        const id = this.getAttribute('data-id');
+                        confirmarExclusao(id);
+                    });
                 });
-                
-                mensalistasContainer.innerHTML = html;
-            })
-            .catch(error => {
-                Utils.esconderCarregamento();
-                Utils.mostrarNotificacao('Erro ao carregar mensalistas: ' + error.message, 'error');
-            });
-    }
-    
-    // Função para carregar veículos de um mensalista
-    function carregarVeiculosMensalista(mensalista) {
-        if (!mensalista.veiculos || mensalista.veiculos.length === 0) {
-            return '<p>Nenhum veículo cadastrado.</p>';
-        }
-        
-        let html = '<ul class="lista-veiculos-item">';
-        
-        mensalista.veiculos.forEach(veiculo => {
-            html += `
-                <li>
-                    <span>${veiculo.placa} - ${veiculo.modelo} (${veiculo.cor})</span>
-                    <button class="btn-icon" onclick="excluirVeiculo('${mensalista.id}', '${veiculo.id}')">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </li>
-            `;
+            } else {
+                mensalistasList.innerHTML = `<div class="alert alert-danger">Erro ao carregar mensalistas: ${response.message}</div>`;
+            }
         });
-        
-        html += '</ul>';
-        
-        return html;
-    }
-    
-    // Função global para editar mensalista
-    window.editarMensalista = function(id) {
-        // Mostrar carregamento
-        Utils.mostrarCarregamento('Carregando dados do mensalista...');
-        
-        // Consultar mensalista
-        API.Mensalista.obter(id)
-            .then(response => {
-                Utils.esconderCarregamento();
+}
+
+// Editar mensalista
+function editarMensalista(id) {
+    // Buscar mensalista
+    API.Mensalista.listar()
+        .then(response => {
+            if (response.success) {
+                const mensalistas = response.data;
+                const mensalista = mensalistas.find(m => m.id === id);
                 
-                if (!response.data) {
-                    Utils.mostrarNotificacao('Mensalista não encontrado', 'error');
+                if (!mensalista) {
+                    showNotification('Mensalista não encontrado', 'error');
                     return;
                 }
-                
-                const mensalista = response.data;
                 
                 // Preencher formulário
                 document.getElementById('mensalista-id').value = mensalista.id;
-                document.getElementById('nome').value = mensalista.nome;
-                document.getElementById('documento').value = mensalista.documento;
-                document.getElementById('telefone').value = mensalista.telefone;
-                document.getElementById('email').value = mensalista.email || '';
-                document.getElementById('endereco').value = mensalista.endereco || '';
-                document.getElementById('plano').value = mensalista.plano;
+                document.getElementById('mensalista-nome').value = mensalista.nome;
+                document.getElementById('mensalista-documento').value = mensalista.documento;
+                document.getElementById('mensalista-telefone').value = mensalista.telefone;
+                document.getElementById('mensalista-email').value = mensalista.email || '';
+                document.getElementById('mensalista-endereco').value = mensalista.endereco || '';
+                document.getElementById('mensalista-plano').value = mensalista.plano;
                 
                 // Formatar datas
-                const dataInicio = new Date(mensalista.data_inicio);
-                const dataFim = new Date(mensalista.data_fim);
+                const dataInicio = new Date(mensalista.dataInicio);
+                const dataFim = new Date(mensalista.dataFim);
                 
-                document.getElementById('data-inicio').value = dataInicio.toISOString().split('T')[0];
-                document.getElementById('data-fim').value = dataFim.toISOString().split('T')[0];
+                document.getElementById('mensalista-data-inicio').value = dataInicio.toISOString().split('T')[0];
+                document.getElementById('mensalista-data-fim').value = dataFim.toISOString().split('T')[0];
                 
-                // Definir modo de edição
-                modoEdicao = true;
-                document.getElementById('modal-titulo').textContent = 'Editar Mensalista';
+                // Preencher veículos
+                const veiculosContainer = document.getElementById('mensalista-veiculos-container');
+                veiculosContainer.innerHTML = '';
+                
+                mensalista.veiculos.forEach(placa => {
+                    const veiculoDiv = document.createElement('div');
+                    veiculoDiv.className = 'd-flex mb-2';
+                    veiculoDiv.innerHTML = `
+                        <input type="text" class="form-control mensalista-veiculo" placeholder="Placa do veículo" value="${placa}">
+                        <button type="button" class="btn btn-sm btn-danger ml-2 btn-remover-veiculo">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+                    
+                    veiculosContainer.appendChild(veiculoDiv);
+                });
+                
+                // Adicionar evento aos botões de remover
+                adicionarEventoRemoverVeiculo();
+                
+                // Atualizar título do modal
+                document.getElementById('mensalista-modal-title').textContent = 'Editar Mensalista';
                 
                 // Mostrar modal
-                modalMensalista.classList.add('mostrar');
-            })
-            .catch(error => {
-                Utils.esconderCarregamento();
-                Utils.mostrarNotificacao('Erro ao carregar mensalista: ' + error.message, 'error');
-            });
-    };
-    
-    // Função global para excluir mensalista
-    window.excluirMensalista = function(id) {
-        // Confirmar exclusão
-        Utils.confirmar('Tem certeza que deseja excluir este mensalista? Esta ação não pode ser desfeita.')
-            .then(confirmado => {
-                if (!confirmado) return;
+                document.getElementById('mensalista-modal').classList.add('active');
+            } else {
+                showNotification('Erro ao buscar mensalista: ' + response.message, 'error');
+            }
+        });
+}
+
+// Confirmar exclusão
+function confirmarExclusao(id) {
+    // Buscar mensalista
+    API.Mensalista.listar()
+        .then(response => {
+            if (response.success) {
+                const mensalistas = response.data;
+                const mensalista = mensalistas.find(m => m.id === id);
                 
-                // Mostrar carregamento
-                Utils.mostrarCarregamento('Excluindo mensalista...');
-                
-                // Excluir mensalista
-                API.Mensalista.excluir(id)
-                    .then(response => {
-                        Utils.esconderCarregamento();
-                        
-                        if (response.success) {
-                            Utils.mostrarNotificacao('Mensalista excluído com sucesso!', 'success');
-                            
-                            // Recarregar mensalistas
-                            carregarMensalistas();
-                        } else {
-                            Utils.mostrarNotificacao(response.message || 'Erro ao excluir mensalista', 'error');
-                        }
-                    })
-                    .catch(error => {
-                        Utils.esconderCarregamento();
-                        Utils.mostrarNotificacao('Erro ao excluir mensalista: ' + error.message, 'error');
-                    });
-            });
-    };
-    
-    // Função global para adicionar veículo
-    window.adicionarVeiculo = function(mensalistaId) {
-        // Mostrar carregamento
-        Utils.mostrarCarregamento('Carregando dados do mensalista...');
-        
-        // Consultar mensalista
-        API.Mensalista.obter(mensalistaId)
-            .then(response => {
-                Utils.esconderCarregamento();
-                
-                if (!response.data) {
-                    Utils.mostrarNotificacao('Mensalista não encontrado', 'error');
+                if (!mensalista) {
+                    showNotification('Mensalista não encontrado', 'error');
                     return;
                 }
                 
-                // Armazenar mensalista atual
-                mensalistaAtual = response.data;
+                // Atualizar mensagem de confirmação
+                document.getElementById('confirmacao-mensagem').textContent = `Tem certeza que deseja excluir o mensalista "${mensalista.nome}"?`;
                 
-                // Limpar formulário
-                formVeiculo.reset();
-                
-                // Atualizar título do modal
-                document.getElementById('modal-veiculo-titulo').textContent = `Adicionar Veículo para ${mensalistaAtual.nome}`;
+                // Configurar botão de confirmar
+                const btnConfirmar = document.getElementById('btn-confirmar');
+                btnConfirmar.onclick = function() {
+                    excluirMensalista(id);
+                    document.getElementById('confirmacao-modal').classList.remove('active');
+                };
                 
                 // Mostrar modal
-                modalVeiculo.classList.add('mostrar');
-            })
-            .catch(error => {
-                Utils.esconderCarregamento();
-                Utils.mostrarNotificacao('Erro ao carregar mensalista: ' + error.message, 'error');
-            });
-    };
-    
-    // Função global para excluir veículo
-    window.excluirVeiculo = function(mensalistaId, veiculoId) {
-        // Confirmar exclusão
-        Utils.confirmar('Tem certeza que deseja excluir este veículo? Esta ação não pode ser desfeita.')
-            .then(confirmado => {
-                if (!confirmado) return;
-                
-                // Mostrar carregamento
-                Utils.mostrarCarregamento('Excluindo veículo...');
-                
-                // Excluir veículo
-                API.Mensalista.removerVeiculo(mensalistaId, veiculoId)
-                    .then(response => {
-                        Utils.esconderCarregamento();
-                        
-                        if (response.success) {
-                            Utils.mostrarNotificacao('Veículo excluído com sucesso!', 'success');
-                            
-                            // Recarregar mensalistas
-                            carregarMensalistas();
-                        } else {
-                            Utils.mostrarNotificacao(response.message || 'Erro ao excluir veículo', 'error');
-                        }
-                    })
-                    .catch(error => {
-                        Utils.esconderCarregamento();
-                        Utils.mostrarNotificacao('Erro ao excluir veículo: ' + error.message, 'error');
-                    });
-            });
-    };
-});
+                document.getElementById('confirmacao-modal').classList.add('active');
+            } else {
+                showNotification('Erro ao buscar mensalista: ' + response.message, 'error');
+            }
+        });
+}
+
+// Excluir mensalista
+function excluirMensalista(id) {
+    API.Mensalista.remover(id)
+        .then(response => {
+            if (response.success) {
+                showNotification('Mensalista excluído com sucesso', 'success');
+                carregarMensalistas();
+            } else {
+                showNotification('Erro ao excluir mensalista: ' + response.message, 'error');
+            }
+        });
+}

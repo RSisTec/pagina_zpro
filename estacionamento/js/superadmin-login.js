@@ -2,9 +2,6 @@
 // Contém funções para autenticação e redirecionamento
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Criar superadmin padrão imediatamente
-    criarSuperadminPadrao();
-    
     // Verificar se já está logado
     verificarSessao();
     
@@ -14,30 +11,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Inicializar notificação
     initializeNotification();
 });
-
-// Criar superadmin padrão
-function criarSuperadminPadrao() {
-    // Buscar superadmins
-    const superadmins = JSON.parse(localStorage.getItem('superadmins') || '[]');
-    
-    // Se não existir nenhum superadmin, criar o padrão
-    if (superadmins.length === 0) {
-        const superadminPadrao = {
-            id: 'super_' + Date.now().toString(36),
-            nome: 'Super Admin',
-            email: 'admin@sistema.com',
-            login: 'superadmin',
-            senha: 'super123',
-            dataCriacao: new Date().getTime()
-        };
-        
-        superadmins.push(superadminPadrao);
-        localStorage.setItem('superadmins', JSON.stringify(superadmins));
-        console.log('Superadmin padrão criado:', superadminPadrao);
-    } else {
-        console.log('Superadmins existentes:', superadmins);
-    }
-}
 
 // Verificar sessão
 function verificarSessao() {
@@ -81,26 +54,7 @@ function initializeLoginForm() {
             btnSubmit.innerHTML = '<div class="loader-sm"></div>';
             btnSubmit.disabled = true;
             
-            // Verificar se é o superadmin padrão
-            if (login === 'superadmin' && senha === 'super123') {
-                // Forçar criação da sessão diretamente
-                const session = {
-                    id: 'super_default',
-                    nome: 'Super Admin',
-                    email: 'admin@sistema.com',
-                    login: 'superadmin',
-                    dataLogin: new Date().getTime()
-                };
-                
-                // Salvar sessão
-                localStorage.setItem('superadmin_session', JSON.stringify(session));
-                
-                // Redirecionar para dashboard
-                window.location.href = 'dashboard.html';
-                return;
-            }
-            
-            // Autenticar via API
+            // Autenticar
             superadminAPI.autenticarSuperadmin(login, senha)
                 .then(session => {
                     // Redirecionar para dashboard
