@@ -1,0 +1,170 @@
+/* Estilos Responsivos */
+
+/* Tablets e dispositivos menores */
+@media (max-width: 992px) {
+    .pricing-cards {
+        gap: 20px;
+    }
+    
+    .pricing-card {
+        min-width: 250px;
+    }
+    
+    .pricing-card.popular {
+        transform: scale(1.03);
+    }
+    
+    .pricing-card.popular:hover {
+        transform: scale(1.03) translateY(-10px);
+    }
+    
+    .hero-content h2 {
+        font-size: 2.5rem;
+    }
+}
+
+/* Dispositivos móveis */
+@media (max-width: 768px) {
+    .header .container {
+        flex-wrap: wrap;
+    }
+    
+    .main-nav {
+        display: none;
+        width: 100%;
+        margin-top: 15px;
+    }
+    
+    .main-nav.active {
+        display: block;
+    }
+    
+    .main-nav ul {
+        flex-direction: column;
+    }
+    
+    .main-nav ul li {
+        margin: 0;
+        text-align: center;
+    }
+    
+    .main-nav ul li a {
+        display: block;
+        padding: 10px;
+    }
+    
+    .auth-buttons {
+        margin-left: auto;
+    }
+    
+    .menu-toggle {
+        display: block;
+        margin-left: 15px;
+    }
+    
+    .hero {
+        padding: 60px 0;
+    }
+    
+    .hero-content h2 {
+        font-size: 2rem;
+    }
+    
+    .hero-content p {
+        font-size: 1.1rem;
+    }
+    
+    .section-header h2 {
+        font-size: 2rem;
+    }
+    
+    .pricing-cards {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .pricing-card {
+        width: 100%;
+        max-width: 400px;
+        margin-bottom: 30px;
+    }
+    
+    .pricing-card.popular {
+        transform: none;
+    }
+    
+    .pricing-card.popular:hover {
+        transform: translateY(-10px);
+    }
+    
+    .steps {
+        flex-direction: column;
+    }
+    
+    .step {
+        margin-bottom: 30px;
+    }
+    
+    .footer-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    .footer-logo, .footer-links, .footer-contact, .footer-social {
+        margin-bottom: 30px;
+    }
+    
+    .footer-contact ul li {
+        justify-content: center;
+    }
+    
+    .social-icons {
+        justify-content: center;
+    }
+    
+    .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .footer-legal {
+        justify-content: center;
+    }
+}
+
+/* Dispositivos muito pequenos */
+@media (max-width: 480px) {
+    .auth-buttons {
+        display: none;
+    }
+    
+    .auth-buttons.active {
+        display: flex;
+        width: 100%;
+        justify-content: center;
+        margin-top: 15px;
+    }
+    
+    .hero-content h2 {
+        font-size: 1.8rem;
+    }
+    
+    .btn-large {
+        padding: 12px 20px;
+        font-size: 1rem;
+    }
+    
+    .modal {
+        width: 95%;
+    }
+    
+    .code-input {
+        gap: 5px;
+    }
+    
+    .code-digit {
+        width: 35px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+}
